@@ -1,0 +1,33 @@
+﻿export class User {
+  constructor(
+    public username: string,
+    public password: string,
+    public userId: string,
+    public email: string,
+    public firstName: string,
+    public lastName: string,
+    public phone: string,
+    public organization: string,
+    public parentOrganization: string,
+    public sponsorOrganization: string,
+    public sponsorName: string,
+    public sponsorId: string,
+    public sponsorEmail: string,
+    public sponsorPhone: string,
+    public nationality: string,
+    public mil_service: string,
+    public remote_addr: string,
+    public publicKey: string,
+    public privateKey: string,
+    public ssl_client_fingerprint: string,
+    public ssl_client_raw_cert: string,
+    public ssl_client_serial: string,
+    public ssl_client_s_dn: string,
+    public ssl_client_i_dn: string,
+    public ssl_client_v_start: string,
+    public ssl_client_v_end: string,
+    public ssl_session_id: string,
+    public ssl_client_verify: string,
+    public ssl_session_reuse: string
+  ) {}
+}

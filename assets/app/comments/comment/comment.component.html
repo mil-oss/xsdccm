@@ -1,0 +1,19 @@
+<div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex>
+    <div fxFlex>{{comment.username}}: </div>
+    <div fxFlex> {{comment.content}} </div>
+    <div fxFlex> {{comment.timestamp | date:'M/dd HH:mm'}} </div>
+    <div fxFlex>
+        <a (click)="onEdit()" *ngIf="!nodeEdit()">Edit</a>
+        <a (click)="onDelete()">Delete</a>
+    </div>
+</div>
+<div class="col-md-8 col-md-offset-2" *ngIf="nodeEdit()">
+    <form (ngSubmit)="onSubmit(f)" #f="ngForm" ngNativeValidate>
+        <div class="form-group">
+            <input type="text" id="content" class="form-control" [ngModel]="message?.content" name="content" required>
+            <div class="config" style="width:100%; font-size:8px; margin-right:10px;">
+                <a class="btn btn-link" (click)="saveMessage(f)">Save</a>
+            </div>
+        </div>
+    </form>
+</div>

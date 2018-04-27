@@ -1,0 +1,166 @@
+<div class="instanceHdr" style="width:100%;" *ngIf="xmlService.selectedxml">
+  <div style="width:100%;">
+    <span style="float:left;min-width:100px;font-weight:bold;">{{xmlService.selectedxml.name}}</span>
+    <span style="float:left;min-width:100px;margin-left:40px;" *ngIf="xmlService.validate">valid:
+      <span [ngClass]="{colorgreen : xmlService.seldocvalid}">{{xmlService.seldocvalid}}</span>
+    </span>
+    <span style="float:left;min-width:100px;margin-left:40px;">verified:
+      <span [ngClass]="{colorgreen : xmlService.seldocverified}">{{xmlService.seldocverified}}</span>
+    </span>
+    <span *ngIf="!this.xmlService.rawmode">
+      <a (click)="xmlView()" style="margin-right:40px; color:blue;" [ngClass]="{viewSelected : xmlService.viewmode==='xml'}">XML</a>
+      <a (click)="jsonView()" style="margin-right:40px; color:blue;" [ngClass]="{viewSelected : xmlService.viewmode==='json'}">JSON</a>
+    </span>
+    <input type="checkbox" [(ngModel)]="xmlService.rawview" [ngClass]="{hidden : xmlService.rawmode}">
+    <span [ngClass]="{hidden : xmlService.rawmode}">raw</span>
+  </div>
+</div>
+<div *ngIf="!this.xmlService.rawview" class="instview">
+  <div *ngIf="xmlService.selectedxml ">
+    <div *ngIf="xmlService.viewmode==='xml' ">
+      <div *ngFor="let e of xmlService.toArray(xmlService.selectedxml.json) ">
+        <div *ngIf="e.value ">
+          <span *ngIf="xmlService.isOpenTab(e.name)">
+            <span (click)="xmlService.openTab(e.name)">
+              <span class="toggle">{{tog(e.name)}}</span>{{lt}}
+              <span class="elname">{{e.name}}</span>
+            </span>
+            <span>
+              <i>{{getAttributes(e.attributes)}}</i>{{rt}}
+              <span class="blu">{{e.value}}</span>{{ct}}
+              <span class="elname">{{e.name}}</span>
+            </span>{{rt}}
+          </span>
+        </div>
+        <div *ngIf="!e.value && e.name ">
+          <span (click)="this.xmlService.openTab(e.name)">
+            <span class="toggle">{{tog(e.name)}}</span>{{lt}}
+            <span class="elname">{{e.name}}</span>
+          </span>
+          <span *ngIf="xmlService.isOpenTab(e.name)">
+            <i>{{getAttributes(e.attributes)}}</i>
+          </span>{{rt}}
+          <div *ngIf="xmlService.isOpenTab(e.name)">
+            <div class="indent" *ngFor="let f of xmlService.toArray(e)">
+              <div *ngIf="f.value ">
+                <span (click)="xmlService.openTab(f.name+e.name)">
+                  <span class="toggle">{{tog(f.name+e.name)}}</span>{{lt}}
+                  <span class="elname">{{f.name}}</span>
+                </span>
+                <span *ngIf="xmlService.isOpenTab(f.name+e.name)">
+                  <i>{{getAttributes(f.attributes)}}</i>{{rt}}
+                  <span class="blu">{{f.value}}</span>{{ct}}
+                  <span class="elname ">{{f.name}}</span>
+                </span>
+                {{rt}}
+              </div>
+              <div *ngIf="!f.value && f.name ">
+                <span (click)="xmlService.openTab(f.name+e.name)">
+                  <span class="toggle">{{tog(f.name+e.name)}}</span>{{lt}}
+                  <span class="elname ">{{f.name}}</span>
+                </span>
+                <span *ngIf="xmlService.isOpenTab(f.name+e.name)">
+                  <i>{{getAttributes(f.attributes)}}</i>
+                </span>{{rt}}
+                <div *ngIf="xmlService.isOpenTab(f.name+e.name)">
+                  <div class="indent " *ngFor="let g of xmlService.toArray(f) ">
+                    <div *ngIf="g.value ">
+                      <span (click)="xmlService.openTab(g.name+f.name)">
+                        <span class="toggle">{{tog(g.name+f.name)}}</span>{{lt}}
+                        <span class="elname ">{{g.name}}</span>
+                      </span>
+                      <span *ngIf="xmlService.isOpenTab(g.name+f.name)">
+                        <i>{{getAttributes(g.attributes)}}</i>{{rt}}
+                        <span class="blu">{{g.value}}</span>{{ct}}
+                        <span class="elname ">{{g.name}}</span>
+                      </span>
+                      {{rt}}
+                    </div>
+                    <div *ngIf="!g.value && g.name ">
+                      <span (click)="xmlService.openTab(g.name+f.name)">
+                        <span class="toggle">{{tog(g.name+f.name)}}</span>{{lt}}
+                        <span class="elname ">{{g.name}}</span>
+                      </span>
+                      <span *ngIf="xmlService.isOpenTab(g.name+f.name)">
+                        <i>{{getAttributes(g.attributes)}}</i>
+                      </span>
+                      {{rt}}
+                      <div *ngIf="xmlService.isOpenTab(g.name+f.name)">
+                        <div class="indent " *ngFor="let h of xmlService.toArray(g) ">
+                          <div *ngIf="h.value ">
+                            <span (click)="xmlService.openTab(h.name+g.name)">
+                              <span class="toggle">{{tog(h.name+g.name)}}</span>{{lt}}
+                              <span class="elname">{{h.name}}</span>
+                            </span>
+                            <span *ngIf="xmlService.isOpenTab(h.name+g.name)">
+                              <i>{{getAttributes(h.attributes)}}</i>{{rt}}
+                              <span class="blu">{{h.value}}</span>{{ct}}
+                              <span class="elname ">{{h.name}}</span>
+                            </span>
+                            {{rt}}
+                          </div>
+                          <div *ngIf="!h.value && h.name ">
+                            <span (click)="xmlService.openTab(h.name+g.name)">
+                              <span class="toggle">{{tog(h.name+g.name)}}</span>{{lt}}
+                              <span class="elname ">{{h.name}}</span>
+                            </span>
+                            <span *ngIf="xmlService.isOpenTab(h.name+g.name)">
+                              <i>{{getAttributes(h.attributes)}}</i>
+                            </span>
+                            {{rt}}
+                            <div *ngIf="xmlService.isOpenTab(h.name+g.name)">
+                              <div class="indent " *ngFor="let i of xmlService.toArray(h) ">
+                                <div *ngIf="i.value ">
+                                  <span (click)="xmlService.openTab(i.name+h.name)">
+                                    <span class="toggle">{{tog(i.name+h.name)}}</span>{{lt}}
+                                    <span class="elname">{{i.name}}</span>
+                                  </span>
+                                  <span *ngIf="xmlService.isOpenTab(i.name+h.name)">
+                                    <i>{{getAttributes(e.attributes)}}</i>{{rt}}
+                                    <span class="blu">{{i.value}}</span>{{ct}}
+                                    <span class="elname ">{{i.name}}</span>{{rt}}</span>
+                                  {{rt}}
+                                </div>
+                              </div>
+                              <div *ngIf="xmlService.isOpenTab(h.name+g.name) && !h.value && h.name ">
+                                <span>{{ct}}
+                                  <span class="elname ">{{h.name}}</span>{{rt}}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div *ngIf="xmlService.isOpenTab(g.name+f.name) && !g.value && g.name ">
+                          <span>{{ct}}
+                            <span class="elname ">{{g.name}}</span>{{rt}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="xmlService.isOpenTab(f.name+e.name) && !f.value && f.name ">
+                  <span>{{ct}}
+                    <span class="elname ">{{f.name}}</span>{{rt}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="xmlService.isOpenTab(e.name) && !e.value && e.name ">
+          <span>{{ct}}
+            <span class="elname ">{{e.name}}</span>{{rt}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="xmlService.viewmode==='json'">
+    <div ng-hide="!xmlService.viewmode==='json'">{{xmlService.selectedxml.json}}</div>
+  </div>
+</div>
+<div *ngIf="this.xmlService.rawview ">
+  <div *ngIf="xmlService.viewmode==='xml' " class="rawview">
+    <pre>{{xmlService.selectedxml.content | xml}}</pre>
+  </div>
+  <div *ngIf="xmlService.viewmode==='json' " class="rawview">
+    <pre>{{xmlService.selectedxml.json | json}}</pre>
+  </div>
+</div>

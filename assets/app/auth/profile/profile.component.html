@@ -1,0 +1,7 @@
+<div data-ng-cloak="true" style="margin:5px;">
+  <div style="margin-top:5px; margin-bottom:10px; margin-left:160px;">PROFILE</div>
+  <div *ngFor="let f of userfields" class="grid" style="font-size:13px;margin-bottom:2px;">
+    <div *ngIf="usermap[f]" style="text-align:right;width:35%;margin-right:4px;">{{usermap[f]}}:</div>
+    <div *ngIf="usermap[f]" style="width:65%;border:thin solid green;">{{displayStr(userService.selectedUser[f])}}</div>
+  </div>
+</div>

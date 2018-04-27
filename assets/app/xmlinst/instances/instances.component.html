@@ -1,0 +1,20 @@
+<div class="page grid">
+  <div class="vgrid" data-ng-cloak="true">
+    <div class="menuCol" style="padding:4px;" (click)="xView()">
+      <b>Test Instances</b>
+      <div *ngFor="let i of xmlService.toArray(xmlService.xmldata.Instances)" class="ptr" (click)="selectInstance(i)">{{i.name}}</div>
+      <br/>
+      <b>Test Data</b>
+      <div *ngFor="let d of xmlService.toArray(xmlService.xmldata.Tests)" class="ptr" (click)="selectTestData(d)">{{d.name}}</div>
+      <br/>
+      <b>XML Schema</b>
+      <div *ngFor="let s of xmlService.toArray(xsdService.xsds)" class="ptr" (click)="selectXsd(s)">{{s.name}}</div>
+      <br/>
+      <b>XSLT</b>
+      <div *ngFor="let t of xmlService.toArray(xmlService.xmldata.Transforms)" class="ptr" (click)="selectXsl(t)">{{t.name}}</div>
+    </div>
+  </div>
+  <div class="content">
+    <app-instance></app-instance>
+  </div>
+</div>

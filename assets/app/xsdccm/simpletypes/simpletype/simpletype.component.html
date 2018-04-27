@@ -1,0 +1,49 @@
+<div *ngIf="stype">
+  <div class="editBtns">
+    <a *ngIf="!editst()" (click)="doedit()">Edit</a>
+    <a *ngIf="editst()" (click)="submit()">Submit</a>
+    <a *ngIf="editst()" (click)="cancel()" class="spc">Cancel</a>
+  </div>
+  <div class="nodevw">
+    <b>{{stype.name}}</b>
+    <div>
+      <i>xsdnode</i> = {{stype.xsdnode}}</div>
+    <div *ngIf="stype.datatype">
+      <i>datatype</i> = {{stype.datatype}}</div>
+    <div *ngIf="!editst()">
+      <i>label</i> = {{stype.appinfo.SimpleType.name}}</div>
+    <div *ngIf="editst()">
+      <i>label</i> =
+      <input style="height:20px;width:555px;" [(ngModel)]="editLabel" type="text" value="{editLabel}}" />
+    </div>
+    <div *ngIf="!editst()">
+      <i>documentation</i> = {{stype.documentation}}</div>
+    <div *ngIf="editst()">
+      <i>documentation</i> =</div>
+    <div *ngIf="editst()">
+      <div contenteditable=true [textContent]="editDoc" (input)="editDoc=$event.target.textContent" class="docedit"></div>
+    </div>
+    <div *ngIf="!editst()">
+      <i>variable</i> = {{stype.appinfo.SimpleType.mapvar}}</div>
+    <div *ngIf="editst()">
+      <i>variable</i> =
+      <input style="height:20px;width:535px;" type="text" [(ngModel)]="editVar" value="{{editVar}}"
+      />
+    </div>
+    <div *ngIf="editst()">
+      <b>Comments:</b>
+    </div>
+    <div *ngIf="editst()">
+      <div contenteditable=true [textContent]="editComment" (input)="editComment=$event.target.textContent" class="docedit"></div>
+    </div>
+    <div *ngIf="stype.enumerations">
+      <b>Enumerations</b>
+      <div *ngFor="let c of enums" class="blockindent">
+        <b>{{c.value}}</b>
+        <div>
+          <i>dataitem</i> = {{c.value}}</div>
+        <div>
+          <i>documentation</i> = {{c.documentation}}</div>
+      </div>
+    </div>
+  </div>
