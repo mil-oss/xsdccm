@@ -1,4 +1,6 @@
 /node_modules
+/pkg
+/bin
 /.idea
 /typings
 /public/js/
