@@ -48,7 +48,7 @@
     <xsl:variable name="ns" select="xs:schema/@targetNamespace"/>
 
     <xsl:template match="/">
-        <xsl:value-of select="concat('package seva', $cr, $cr)"/>
+        <xsl:value-of select="concat('package main', $cr, $cr)"/>
         <xsl:value-of select="concat('import ', $qt, 'encoding/xml', $qt, $cr, $cr)"/>
         <xsl:apply-templates select="xs:schema/xs:element[@name = $rootname]" mode="func"/>
         <xsl:apply-templates select="xs:schema/xs:element[@name = $rootname]"/>
@@ -103,11 +103,34 @@
     <xsl:template match="xs:sequence/xs:element[@ref]">
         <xsl:variable name="r" select="@ref"/>
         <xsl:variable name="t" select="/xs:schema/xs:element[@name = $r]/@type"/>
+        <xsl:variable name="typ">
+            <xsl:choose>
+                <xsl:when test="@maxOccurs>1">
+                    <xsl:text>[]</xsl:text>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:text></xsl:text>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:variable name="ptr">
+            <xsl:choose>
+                <xsl:when test="@maxOccurs>1">
+                    <xsl:text></xsl:text>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:text>*</xsl:text>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
         <xsl:variable name="dt">
             <xsl:choose>
                 <xsl:when test="/xs:schema/xs:complexType[@name = $t]//xs:element[@ref]">
-                    <xsl:value-of select="concat('*', $r)"/>
+                    <xsl:value-of select="concat($typ,$ptr,$r)"/>
                     <!--<xsl:value-of select="$r"/>-->
+                </xsl:when>
+                <xsl:when test="@maxOccurs>1">
+                    <xsl:text>[]string</xsl:text>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:text>string</xsl:text>
@@ -124,15 +147,15 @@
                 <xsl:with-param name="spc" select="number($tab) - string-length($dt)"/>
             </xsl:call-template>
         </xsl:variable>
-        <xsl:value-of select="concat($in, $in, $r, $rspcs, $dt, $vspcs, $bq, 'xml:', $qt, @ref, $cm, $omitempty, $qt, ' ', $json, $qt, @ref, $cm, $omitempty, $qt, $bq, $cr)"/>
+        <xsl:value-of select="concat($in, $in, $r, $rspcs, $dt, $vspcs, $bq, 'xml:', $qt, @ref, $cm, $omitempty, $qt, ' ', $json, $qt, @ref,$typ,$cm,$omitempty, $qt, $bq, $cr)"/>
     </xsl:template>
 
     <xsl:template match="xs:element[@name]" mode="func">
         <xsl:variable name="n" select="@name"/>
         <xsl:variable name="t" select="@type"/>
         <xsl:if test="//xs:complexType[@name = $t]//xs:element[@ref]">
-            <xsl:value-of select="concat('//NewXSDStruct ...', $cr)"/>
-            <xsl:value-of select="concat('func ', 'NewXSDStruct', '()', $as, $n, $lb, $cr)"/>
+            <xsl:value-of select="concat('//NewSoftwareEvidenceArchive ...', $cr)"/>
+            <xsl:value-of select="concat('func ', 'NewSoftwareEvidenceArchive', '()', $as, $n, $lb, $cr)"/>
             <xsl:value-of select="concat($in, 'return ', $a,$n, $lb, $cr)"/>
             <xsl:if test="@name = $rootname">
                 <xsl:value-of select="concat($in, $in, '// Required for the proper namespacing', $n, $cr)"/>
@@ -161,7 +184,7 @@
                     <xsl:when test="exsl:node-set($complexKids)/*">
                         <xsl:value-of select="concat($cr, $in, $in, $in)"/>
                         <xsl:for-each select="exsl:node-set($complexKids)/*">
-                            <xsl:value-of select="concat(@name, ':', $a,@name, '{}')"/>
+                            <xsl:value-of select="concat(@name, ':',$a,@name, '{}')"/>
                             <xsl:if test="following-sibling::*">
                                 <xsl:value-of select="concat($cm, $cr, $in, $in, $in)"/>
                             </xsl:if>

@@ -68,13 +68,6 @@ export class HomeComponent {
       url: this.xsdService.iepdhost + "xsd-test.go",
       description:
         "Auto-generated code test for marshalling and unmarshalling XML Instances using Golang"
-    }
-    ,
-    {
-      name: "GOLANG RESOURCES",
-      url: this.xsdService.iepdhost + "xsd-test.go",
-      description:
-        "File system paths for Golang implementation"
     },
     {
       name: "SEvA Resource Paths",

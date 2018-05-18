@@ -123,7 +123,8 @@
    </xs:simpleType>
    <xs:simpleType name="AuthoritativeDigitalSignatureIndicatorSimpleType">
       <xs:annotation>
-         <xs:documentation>A data type for the boolean indication of an authoritative digital signature. True if authoritative digital signature is provided. False if not or not known.</xs:documentation>
+         <xs:documentation>A data type for the boolean indication of an authoritative digital signature. True if authoritative digital signature is provided. False if not or not
+            known.</xs:documentation>
          <xs:appinfo>
             <SimpleType name="Authoritative Digital Signature Indicator" mapvar="authoritativeDigitalSignatureIndicator"/>
          </xs:appinfo>
@@ -3651,6 +3652,15 @@
          <xs:pattern value="[(\d+)(\.\d+)+]"/>
       </xs:restriction>
    </xs:simpleType>
+   <xs:simpleType name="PythonSemanticVersionIndicatorSimpleType">
+      <xs:annotation>
+         <xs:documentation>A data type for the boolean indication of a python semantic version. True if python semantic version is known. False if not or not known.</xs:documentation>
+         <xs:appinfo>
+            <SimpleType name="Python Semantic Version Indicator" mapvar="pySemanticVersionIndicator"/>
+         </xs:appinfo>
+      </xs:annotation>
+      <xs:restriction base="xs:boolean"/>
+   </xs:simpleType>
    <xs:simpleType name="PythonVersionTextSimpleType">
       <xs:annotation>
          <xs:documentation>A data type to support the five canonical public version identifiers which MUST comply with the following scheme: [N!]N(.N)*[{a|b|rc}N][.postN][.devN].
@@ -4180,14 +4190,14 @@
       <xs:complexContent>
          <xs:extension base="structures:ObjectType">
             <xs:sequence>
-              <xs:element ref="DeliveringOrganizationText">
-                 <xs:annotation>
-                    <xs:documentation>A data item for Organization Delivering the SEvA</xs:documentation>
-                    <xs:appinfo>
-                       <Element name="Delivering Organization Text" mapvar="deliveringOrganizationText"/>
-                    </xs:appinfo>
-                 </xs:annotation>
-              </xs:element>
+               <xs:element ref="DeliveringOrganizationText">
+                  <xs:annotation>
+                     <xs:documentation>A data item for Organization Delivering the SEvA</xs:documentation>
+                     <xs:appinfo>
+                        <Element name="Delivering Organization Text" mapvar="deliveringOrganizationText"/>
+                     </xs:appinfo>
+                  </xs:annotation>
+               </xs:element>
                <xs:element ref="DestinationText">
                   <xs:annotation>
                      <xs:documentation>A data item for a destination</xs:documentation>
@@ -4235,11 +4245,11 @@
       <xs:complexContent>
          <xs:extension base="structures:ObjectType">
             <xs:sequence>
-               <xs:element ref="Dependency" minOccurs="1" maxOccurs="100">
+               <xs:element ref="Dependencies">
                   <xs:annotation>
-                     <xs:documentation>A data item for software dependency information</xs:documentation>
+                     <xs:documentation>A data item for software dependencies</xs:documentation>
                      <xs:appinfo>
-                        <Element name="Dependency" mapvar="dependency"/>
+                        <Element name="Dependencies" mapvar="dependencies"/>
                      </xs:appinfo>
                   </xs:annotation>
                </xs:element>
@@ -4294,6 +4304,36 @@
                      <xs:documentation>An augmentation point for DependencyType</xs:documentation>
                      <xs:appinfo>
                         <Element name="Dependency Augmentation Point" mapvar="dependencyAugmentationPoint"/>
+                     </xs:appinfo>
+                  </xs:annotation>
+               </xs:element>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="DependenciesType">
+      <xs:annotation>
+         <xs:documentation>A data type for software dependency information</xs:documentation>
+         <xs:appinfo>
+            <ComplexType name="Dependencies" mapvar="dependencies"/>
+         </xs:appinfo>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="structures:ObjectType">
+            <xs:sequence>
+               <xs:element ref="Dependency" minOccurs="1" maxOccurs="100">
+                  <xs:annotation>
+                     <xs:documentation>A data item for software dependency information</xs:documentation>
+                     <xs:appinfo>
+                        <Element name="Dependency" mapvar="dependency"/>
+                     </xs:appinfo>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="DependenciesAugmentationPoint" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>An augmentation point for DependenciesType</xs:documentation>
+                     <xs:appinfo>
+                        <Element name="Dependencies Augmentation Point" mapvar="dependenciesAugmentationPoint"/>
                      </xs:appinfo>
                   </xs:annotation>
                </xs:element>
@@ -4820,11 +4860,24 @@
          </xs:extension>
       </xs:simpleContent>
    </xs:complexType>
+   <xs:complexType name="PythonSemanticVersionIndicatorType">
+      <xs:annotation>
+         <xs:documentation>A data type for the boolean indication of a python semantic version. True if python semantic version is provided. False if not or not known.</xs:documentation>
+         <xs:appinfo>
+            <ComplexType name="Python Semantic Version Indicator" mapvar="pySemanticVersionIndicator"/>
+         </xs:appinfo>
+      </xs:annotation>
+      <xs:simpleContent>
+         <xs:extension base="PythonSemanticVersionIndicatorSimpleType">
+            <xs:attributeGroup ref="structures:SimpleObjectAttributeGroup"/>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
    <xs:complexType name="PythonSemanticVersionType">
       <xs:annotation>
-         <xs:documentation>A data type for Python versioning.  Python Distributions are identified by a public version identifier which supports all defined version comparison operations. The version scheme is used both to describe the
-            distribution version provided by a particular distribution archive, as well as to place constraints on the version of dependencies needed in order to build or run the software.The
-            canonical public version identifiers MUST comply with the following scheme: [N!]N(.N)*[{a|b|rc}N][.postN][.devN]
+         <xs:documentation>A data type for Python versioning. Python Distributions are identified by a public version identifier which supports all defined version comparison operations. The version
+            scheme is used both to describe the distribution version provided by a particular distribution archive, as well as to place constraints on the version of dependencies needed in order to
+            build or run the software.The canonical public version identifiers MUST comply with the following scheme: [N!]N(.N)*[{a|b|rc}N][.postN][.devN]
             (https://www.python.org/dev/peps/pep-0440/#public-version-identifiers)</xs:documentation>
          <xs:appinfo>
             <ComplexType name="Semantic Version" mapvar="pySemanticVersion"/>
@@ -5120,69 +5173,11 @@
                      </xs:appinfo>
                   </xs:annotation>
                </xs:element>
-               <xs:element ref="SoftwareVersionText">
+               <xs:element ref="VersionInformation">
                   <xs:annotation>
-                     <xs:documentation>A data item for the raw Version of the software</xs:documentation>
+                     <xs:documentation>A data item for the software version information</xs:documentation>
                      <xs:appinfo>
-                        <Element name="Software Version Text" mapvar="softwareVersionText"/>
-                     </xs:appinfo>
-                  </xs:annotation>
-               </xs:element>
-               <xs:element ref="SemanticVersionText">
-                  <xs:annotation>
-                     <xs:documentation>A data type for semantic versioning information. A normal version number MUST take the form X.Y.Z where X, Y, and Z are non-negative integers, and MUST NOT
-                        contain leading zeroes. X is the major version, Y is the minor version, and Z is the patch version. Each element MUST increase numerically. For instance: 1.9.0 -> 1.10.0 ->
-                        1.11.0.(https://semver.org/spec/v2.0.0.html) </xs:documentation>
-                     <xs:appinfo>
-                        <Element name="Semantic Version Text" mapvar="semanticVersionText"/>
-                     </xs:appinfo>
-                  </xs:annotation>
-               </xs:element>
-               <xs:element ref="SemanticVersionInformation">
-                  <xs:annotation>
-                     <xs:documentation>A data type for semantic versioning information. A normal version number MUST take the form X.Y.Z where X, Y, and Z are non-negative integers, and MUST NOT
-                        contain leading zeroes. X is the major version, Y is the minor version, and Z is the patch version. Each element MUST increase numerically. For instance: 1.9.0 -> 1.10.0 ->
-                        1.11.0.(https://semver.org/spec/v2.0.0.html) </xs:documentation>
-                     <xs:appinfo>
-                        <Element name="Semantic Version" mapvar="semanticVersion"/>
-                     </xs:appinfo>
-                  </xs:annotation>
-               </xs:element>
-               <xs:element ref="PythonSemanticVersion">
-                  <xs:annotation>
-                     <xs:documentation>A data item for a Python Distribution identified by a public version identifier which supports all defined version comparison operations. The version scheme is
-                        used both to describe the distribution version provided by a particular distribution archive, as well as to place constraints on the version of dependencies needed in order to
-                        build or run the software.The canonical public version identifiers MUST comply with the following scheme: [N!]N(.N)*[{a|b|rc}N][.postN][.devN]
-                        (https://www.python.org/dev/peps/pep-0440/#public-version-identifiers)</xs:documentation>
-                     <xs:appinfo>
-                        <Element name="Python Semantic Version" mapvar="pySemanticVersion"/>
-                     </xs:appinfo>
-                  </xs:annotation>
-               </xs:element>
-               <xs:element ref="PythonVersionText">
-                  <xs:annotation>
-                     <xs:documentation>A data item for a Python Distribution identified by a public version identifier which supports all defined version comparison operations. The version scheme is
-                        used both to describe the distribution version provided by a particular distribution archive, as well as to place constraints on the version of dependencies needed in order to
-                        build or run the software.The canonical public version identifiers MUST comply with the following scheme: [N!]N(.N)*[{a|b|rc}N][.postN][.devN]
-                        (https://www.python.org/dev/peps/pep-0440/#public-version-identifiers)</xs:documentation>
-                     <xs:appinfo>
-                        <Element name="Semantic Version Text" mapvar="pyVersionText"/>
-                     </xs:appinfo>
-                  </xs:annotation>
-               </xs:element>
-               <xs:element ref="SemanticVersionDate">
-                  <xs:annotation>
-                     <xs:documentation>A data type for date and time information</xs:documentation>
-                     <xs:appinfo>
-                        <Element name="Semantic Version Date" mapvar="semanticVersionDate"/>
-                     </xs:appinfo>
-                  </xs:annotation>
-               </xs:element>
-               <xs:element ref="SemanticVersionIndicator">
-                  <xs:annotation>
-                     <xs:documentation>True if semantic version; false if not or not known.</xs:documentation>
-                     <xs:appinfo>
-                        <Element name="Semantic Version Indicator" mapvar="semanticVersionIndicator"/>
+                        <Element name="Version Information" mapvar="versionInformation"/>
                      </xs:appinfo>
                   </xs:annotation>
                </xs:element>
@@ -5226,6 +5221,102 @@
             <xs:attributeGroup ref="structures:SimpleObjectAttributeGroup"/>
          </xs:extension>
       </xs:simpleContent>
+   </xs:complexType>
+   <xs:complexType name="VersionInformationType">
+      <xs:annotation>
+         <xs:documentation>A data type for version information</xs:documentation>
+         <xs:appinfo>
+            <ComplexType name="Version Information" mapvar="versionInformation"/>
+         </xs:appinfo>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="structures:ObjectType">
+            <xs:sequence>
+               <xs:element ref="SoftwareVersionText">
+                  <xs:annotation>
+                     <xs:documentation>A data item for the raw Version of the software</xs:documentation>
+                     <xs:appinfo>
+                        <Element name="Software Version Text" mapvar="softwareVersionText"/>
+                     </xs:appinfo>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="SemanticVersionIndicator">
+                  <xs:annotation>
+                     <xs:documentation>True if semantic version; false if not or not known.</xs:documentation>
+                     <xs:appinfo>
+                        <Element name="Semantic Version Indicator" mapvar="semanticVersionIndicator"/>
+                     </xs:appinfo>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="SemanticVersionText">
+                  <xs:annotation>
+                     <xs:documentation>A data type for semantic versioning information. A normal version number MUST take the form X.Y.Z where X, Y, and Z are non-negative integers, and MUST NOT
+                        contain leading zeroes. X is the major version, Y is the minor version, and Z is the patch version. Each element MUST increase numerically. For instance: 1.9.0 -> 1.10.0 ->
+                        1.11.0.(https://semver.org/spec/v2.0.0.html) </xs:documentation>
+                     <xs:appinfo>
+                        <Element name="Semantic Version Text" mapvar="semanticVersionText"/>
+                     </xs:appinfo>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="SemanticVersionInformation">
+                  <xs:annotation>
+                     <xs:documentation>A data type for semantic versioning information. A normal version number MUST take the form X.Y.Z where X, Y, and Z are non-negative integers, and MUST NOT
+                        contain leading zeroes. X is the major version, Y is the minor version, and Z is the patch version. Each element MUST increase numerically. For instance: 1.9.0 -> 1.10.0 ->
+                        1.11.0.(https://semver.org/spec/v2.0.0.html) </xs:documentation>
+                     <xs:appinfo>
+                        <Element name="Semantic Version" mapvar="semanticVersion"/>
+                     </xs:appinfo>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="SemanticVersionDate">
+                  <xs:annotation>
+                     <xs:documentation>A data type for date and time information</xs:documentation>
+                     <xs:appinfo>
+                        <Element name="Semantic Version Date" mapvar="semanticVersionDate"/>
+                     </xs:appinfo>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="PythonSemanticVersionIndicator">
+                  <xs:annotation>
+                     <xs:documentation>True if python semantic version; false if not or not known.</xs:documentation>
+                     <xs:appinfo>
+                        <Element name="Python Semantic Version Indicator" mapvar="pySemanticVersionIndicator"/>
+                     </xs:appinfo>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="PythonSemanticVersion">
+                  <xs:annotation>
+                     <xs:documentation>A data item for a Python Distribution identified by a public version identifier which supports all defined version comparison operations. The version scheme is
+                        used both to describe the distribution version provided by a particular distribution archive, as well as to place constraints on the version of dependencies needed in order to
+                        build or run the software.The canonical public version identifiers MUST comply with the following scheme: [N!]N(.N)*[{a|b|rc}N][.postN][.devN]
+                        (https://www.python.org/dev/peps/pep-0440/#public-version-identifiers)</xs:documentation>
+                     <xs:appinfo>
+                        <Element name="Python Semantic Version" mapvar="pySemanticVersion"/>
+                     </xs:appinfo>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="PythonVersionText">
+                  <xs:annotation>
+                     <xs:documentation>A data item for a Python Distribution identified by a public version identifier which supports all defined version comparison operations. The version scheme is
+                        used both to describe the distribution version provided by a particular distribution archive, as well as to place constraints on the version of dependencies needed in order to
+                        build or run the software.The canonical public version identifiers MUST comply with the following scheme: [N!]N(.N)*[{a|b|rc}N][.postN][.devN]
+                        (https://www.python.org/dev/peps/pep-0440/#public-version-identifiers)</xs:documentation>
+                     <xs:appinfo>
+                        <Element name="Semantic Version Text" mapvar="pyVersionText"/>
+                     </xs:appinfo>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="VersionInformationAugmentationPoint" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>An augmentation point for VersionInformationType</xs:documentation>
+                     <xs:appinfo>
+                        <Element name="Version Information Augmentation Point" mapvar="versionInformationAugmentationPoint"/>
+                     </xs:appinfo>
+                  </xs:annotation>
+               </xs:element>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
    </xs:complexType>
    <xs:complexType name="VirusInformationType">
       <xs:annotation>
@@ -5909,6 +6000,14 @@
          </xs:appinfo>
       </xs:annotation>
    </xs:element>
+   <xs:element name="Dependencies" type="DependenciesType" nillable="true">
+      <xs:annotation>
+         <xs:documentation>A data item for software dependencies</xs:documentation>
+         <xs:appinfo>
+            <Element name="Dependencies" mapvar="dependencies"/>
+         </xs:appinfo>
+      </xs:annotation>
+   </xs:element>
    <xs:element name="Dependency" type="DependencyType" nillable="true">
       <xs:annotation>
          <xs:documentation>A data item for software dependency information</xs:documentation>
@@ -5922,6 +6021,14 @@
          <xs:documentation>An augmentation point for DependencyType</xs:documentation>
          <xs:appinfo>
             <Element name="Dependency Augmentation Point" mapvar="dependencyAugmentationPoint"/>
+         </xs:appinfo>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="DependenciesAugmentationPoint" abstract="true">
+      <xs:annotation>
+         <xs:documentation>An augmentation point for DependenciesType</xs:documentation>
+         <xs:appinfo>
+            <Element name="Dependencies Augmentation Point" mapvar="dependenciesAugmentationPoint"/>
          </xs:appinfo>
       </xs:annotation>
    </xs:element>
@@ -6340,6 +6447,14 @@
          </xs:appinfo>
       </xs:annotation>
    </xs:element>
+   <xs:element name="PythonSemanticVersionIndicator" type="PythonSemanticVersionIndicatorType" nillable="true">
+      <xs:annotation>
+         <xs:documentation>True if python semantic version; false if not or not known.</xs:documentation>
+         <xs:appinfo>
+            <Element name="Python Semantic Version Indicator" mapvar="pySemanticVersionIndicator"/>
+         </xs:appinfo>
+      </xs:annotation>
+   </xs:element>
    <xs:element name="PythonVersionText" type="PythonVersionTextType" nillable="true">
       <xs:annotation>
          <xs:documentation>An augmentation point for SemanticVersionType</xs:documentation>
@@ -6619,6 +6734,22 @@
          <xs:documentation>A data item for a vulnerability vector string</xs:documentation>
          <xs:appinfo>
             <Element name="Vector String Text" mapvar="vectorStringText"/>
+         </xs:appinfo>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="VersionInformation" type="VersionInformationType" nillable="true">
+      <xs:annotation>
+         <xs:documentation>A data item for version information</xs:documentation>
+         <xs:appinfo>
+            <Element name="Version Information" mapvar="versionInformation"/>
+         </xs:appinfo>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="VersionInformationAugmentationPoint" abstract="true">
+      <xs:annotation>
+         <xs:documentation>An augmentation point for VersionInformationType</xs:documentation>
+         <xs:appinfo>
+            <Element name="Version Information Augmentation Point" mapvar="versionInformationAugmentationPoint"/>
          </xs:appinfo>
       </xs:annotation>
    </xs:element>

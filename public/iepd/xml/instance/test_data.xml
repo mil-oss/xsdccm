@@ -109,6 +109,14 @@
             <True1 valid="true">0</True1>
             <False1 valid="false">beta.0.1</False1>
         </PythonReleaseVersionSimpleType>
+        <PythonSemanticVersionIndicatorSimpleType>
+            <True1 valid="true">true</True1>
+            <True1 valid="true">false</True1>
+            <True1 valid="true">1</True1>
+            <True1 valid="true">0</True1>
+            <False1 valid="false">yes</False1>
+            <False2 valid="false">no</False2>
+        </PythonSemanticVersionIndicatorSimpleType>
         <PythonVersionTextSimpleType>
             <True1 valid="true">1.0.3.2.3</True1>
             <False1 valid="false">beta.0.1</False1>

@@ -43,6 +43,12 @@
             <xsl:value-of select="$testValue"/>
             <xsl:apply-templates select="$typnode/*"/>
         </xsl:element>
+        <xsl:if test="@maxOccurs>1">
+            <xsl:element name="{$elnode/@name}" namespace="urn:seva::1.0">
+                <xsl:value-of select="$testValue"/>
+                <xsl:apply-templates select="$typnode/*"/>
+            </xsl:element>
+        </xsl:if>
     </xsl:template>
     <xsl:template match="xs:annotation"/>
     <xsl:template match="xs:sequence">

@@ -2,11 +2,12 @@ FROM golang:alpine
 ENV LANG=C.UTF-8
 #compile linux only
 ENV GOOS=linux
+ENV GIN_MODE=release
 RUN apk add --update wget gcc g++ make curl bash zip
 RUN apk --no-cache add openssh curl 
 
-ADD bin /go/bin
 ADD src /go/src
+ADD vendor /go/vendor
 WORKDIR /go/src/xsdsrv
 
 ADD public /go/src/xsdsrv/public

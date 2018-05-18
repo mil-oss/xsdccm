@@ -31,7 +31,7 @@ export class InstancesComponent implements OnInit {
     this.xmlService.validate=true;
     console.log("selectInstance " + i.name);
     this.xmlService.validateXml({xmlname:i.name,xmlstr:i.content,xsdname:"iep.xsd"});
-    this.xmlService.verifyStr(i.name,i.file,i.content);
+    this.xmlService.verifyStr(i.file,i.content);
   }
   
   selectTestData(d) {
@@ -44,7 +44,7 @@ export class InstancesComponent implements OnInit {
     if (typeof d.json === "string") {
       this.xmlService.selectedxml.json = JSON.parse(d.json);
     }
-    this.xmlService.verifyStr(d.name,d.file,d.content);
+    this.xmlService.verifyStr(d.file,d.content);
   }
   
   selectXsd(s) {
@@ -54,8 +54,8 @@ export class InstancesComponent implements OnInit {
     this.xmlService.rawview=true;
     s.content=this.xsdService.xmldata[s.file];
     this.xmlService.selectedxml = s;
-    this.xmlService.validateXml({xmlname:s.value,xmlstr:this.xsdService.xmldata[s.file],xsdname:"XMLSchema.xsd"})
-    this.xmlService.verifyStr(s.value,s.file,this.xsdService.xmldata[s.file]);
+    //this.xmlService.validateXml({xmlname:s.value,xmlstr:this.xsdService.xmldata[s.file],xsdname:"XMLSchema.xsd"})
+    this.xmlService.verifyStr(s.file,this.xsdService.xmldata[s.file]);
   }
   
   selectXsl(s) {
@@ -65,7 +65,7 @@ export class InstancesComponent implements OnInit {
     this.xmlService.rawmode=true;
     this.xmlService.rawview=true;
     s.content=this.xsdService.xmldata[s.name];
-    this.xmlService.verifyStr(s.name,s.name,s.content);
+    this.xmlService.verifyStr(s.name,s.content);
   }
   
   xView() {

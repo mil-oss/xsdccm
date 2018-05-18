@@ -98,9 +98,11 @@ func main() {
 func Index(c *gin.Context) {
 	c.HTML(200, "index.html", gin.H{})
 }
+
 func redirct(c *gin.Context) {
-	c.Redirect(307, "/")
+	c.Redirect(307, "/xsdccm/home")
 }
+
 func getreslist() map[string]string {
 	res, err := ioutil.ReadFile("public/iepd/json/resources.json")
 	check(err)

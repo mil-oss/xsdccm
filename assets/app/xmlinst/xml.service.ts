@@ -61,8 +61,8 @@ export class XmlService {
   xsdmode: boolean = true;
   valerrors: any[] = [];
   viewmode: string = "xml";
-  //iepdroot: string = "http://localhost:8080/";
-  //iepdhost:string="http://localhost:8080/file/";
+   //iepdroot: string = "http://localhost:8080/";
+   //iepdhost:string="http://localhost:8080/file/";
   iepdroot: string = "https://sevaxsd.specchain.org/";
   iepdhost: string = "https://sevaxsd.specchain.org/file/";
   sevaroot: string = "https://seva.specchain.org/";
@@ -103,9 +103,9 @@ export class XmlService {
         }
       });
   };
-  verifyStr(name: string, file: string, str: string) {
+  verifyStr(name: string, str: string) {
     var digest = crypto.createHash('sha256').update(str, 'utf8').digest('hex');
-    this.http.post(this.sevaroot.concat('verify'), { name: name, file: file, digest: digest }).subscribe(
+    this.http.post(this.sevaroot.concat('verify'), { id: name, digest: digest }).subscribe(
       (response) => {
         var vresp = JSON.parse(response['_body']);
         this.seldocverified = vresp.status;

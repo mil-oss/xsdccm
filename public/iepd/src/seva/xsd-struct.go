@@ -1,16 +1,15 @@
-package seva
+package main
 
 import "encoding/xml"
 
-//NewXSDStruct ...
-func NewXSDStruct()*SoftwareEvidenceArchive{
+//NewSoftwareEvidenceArchive ...
+func NewSoftwareEvidenceArchive()*SoftwareEvidenceArchive{
     return &SoftwareEvidenceArchive{
         // Required for the proper namespacingSoftwareEvidenceArchive
         AttrXmlnsXsi:"http://www.w3.org/2001/XMLSchema-instance",
         AttrXmlns:"urn:seva::1.0",
         SoftwareInformation: &SoftwareInformation{
-            SemanticVersionInformation:&SemanticVersionInformation{},
-            PythonSemanticVersion:&PythonSemanticVersion{},
+            VersionInformation:&VersionInformation{},
         },
         FileInformation: &FileInformation{},
         AuthoritativeSourceInformation: &AuthoritativeSourceInformation{},
@@ -19,7 +18,7 @@ func NewXSDStruct()*SoftwareEvidenceArchive{
             CompanyInformation:&CompanyInformation{},
         },
         DependencyInformation: &DependencyInformation{
-            Dependency:&Dependency{},
+            Dependencies:&Dependencies{},
             Compiler:&Compiler{},
         },
         LicenseInformation: &LicenseInformation{},
@@ -55,7 +54,7 @@ type AuthoritativeSourceInformation struct {
 }
 //CommitLogs ... A data item for entries associated with software repository commit events
 type CommitLogs struct {
-        CommitLogText                            string                                   `xml:"CommitLogText,omitempty"  json:"CommitLogText,omitempty"`
+        CommitLogText                            []string                                 `xml:"CommitLogText,omitempty"  json:"CommitLogText[],omitempty"`
         XMLName                                  xml.Name                                 `xml:"CommitLogs,omitempty"  json:"CommitLogs,omitempty"`
 }
 //CommonVulnerabilityScoringSystemV2 ... A data type for Common Vulnerability Scoring System V2 (CVSSV2) Information
@@ -104,6 +103,11 @@ type DeliveryInformation struct {
         LastRegistryUpdateDate                   string                                   `xml:"LastRegistryUpdateDate,omitempty"  json:"LastRegistryUpdateDate,omitempty"`
         XMLName                                  xml.Name                                 `xml:"DeliveryInformation,omitempty"  json:"DeliveryInformation,omitempty"`
 }
+//Dependencies ... A data item for software dependencies
+type Dependencies struct {
+        Dependency                               []Dependency                             `xml:"Dependency,omitempty"  json:"Dependency[],omitempty"`
+        XMLName                                  xml.Name                                 `xml:"Dependencies,omitempty"  json:"Dependencies,omitempty"`
+}
 //Dependency ... A data item for software dependency information
 type Dependency struct {
         Name                                     string                                   `xml:"Name,omitempty"  json:"Name,omitempty"`
@@ -112,7 +116,7 @@ type Dependency struct {
 }
 //DependencyInformation ... A data item for a list of dependencies for a given software project derived directly from the artifact or source dependency definition file. Entries include names, versions, and vulnerabilities
 type DependencyInformation struct {
-        Dependency                               *Dependency                              `xml:"Dependency,omitempty"  json:"Dependency,omitempty"`
+        Dependencies                             *Dependencies                            `xml:"Dependencies,omitempty"  json:"Dependencies,omitempty"`
         Compiler                                 *Compiler                                `xml:"Compiler,omitempty"  json:"Compiler,omitempty"`
         XMLName                                  xml.Name                                 `xml:"DependencyInformation,omitempty"  json:"DependencyInformation,omitempty"`
 }
@@ -149,13 +153,13 @@ type GovernanceRiskCompliance struct {
 }
 //Languages ... A data item for languages used in a software repository
 type Languages struct {
-        LanguageText                             string                                   `xml:"LanguageText,omitempty"  json:"LanguageText,omitempty"`
+        LanguageText                             []string                                 `xml:"LanguageText,omitempty"  json:"LanguageText[],omitempty"`
         XMLName                                  xml.Name                                 `xml:"Languages,omitempty"  json:"Languages,omitempty"`
 }
 //LicenseInformation ... A data item for software license information for a software artifact or source repository
 type LicenseInformation struct {
         LicenseCategoryCode                      string                                   `xml:"LicenseCategoryCode,omitempty"  json:"LicenseCategoryCode,omitempty"`
-        LicenseCode                              string                                   `xml:"LicenseCode,omitempty"  json:"LicenseCode,omitempty"`
+        LicenseCode                              []string                                 `xml:"LicenseCode,omitempty"  json:"LicenseCode[],omitempty"`
         EndOfLifeIndicator                       string                                   `xml:"EndOfLifeIndicator,omitempty"  json:"EndOfLifeIndicator,omitempty"`
         XMLName                                  xml.Name                                 `xml:"LicenseInformation,omitempty"  json:"LicenseInformation,omitempty"`
 }
@@ -189,16 +193,22 @@ type SoftwareInformation struct {
         ProductTitleText                         string                                   `xml:"ProductTitleText,omitempty"  json:"ProductTitleText,omitempty"`
         SoftwareNameText                         string                                   `xml:"SoftwareNameText,omitempty"  json:"SoftwareNameText,omitempty"`
         SoftwareOrgText                          string                                   `xml:"SoftwareOrgText,omitempty"  json:"SoftwareOrgText,omitempty"`
-        SoftwareVersionText                      string                                   `xml:"SoftwareVersionText,omitempty"  json:"SoftwareVersionText,omitempty"`
-        SemanticVersionText                      string                                   `xml:"SemanticVersionText,omitempty"  json:"SemanticVersionText,omitempty"`
-        SemanticVersionInformation               *SemanticVersionInformation              `xml:"SemanticVersionInformation,omitempty"  json:"SemanticVersionInformation,omitempty"`
-        PythonSemanticVersion                    *PythonSemanticVersion                   `xml:"PythonSemanticVersion,omitempty"  json:"PythonSemanticVersion,omitempty"`
-        PythonVersionText                        string                                   `xml:"PythonVersionText,omitempty"  json:"PythonVersionText,omitempty"`
-        SemanticVersionDate                      string                                   `xml:"SemanticVersionDate,omitempty"  json:"SemanticVersionDate,omitempty"`
-        SemanticVersionIndicator                 string                                   `xml:"SemanticVersionIndicator,omitempty"  json:"SemanticVersionIndicator,omitempty"`
+        VersionInformation                       *VersionInformation                      `xml:"VersionInformation,omitempty"  json:"VersionInformation,omitempty"`
         GroupingText                             string                                   `xml:"GroupingText,omitempty"  json:"GroupingText,omitempty"`
         ReleaseNotesText                         string                                   `xml:"ReleaseNotesText,omitempty"  json:"ReleaseNotesText,omitempty"`
         XMLName                                  xml.Name                                 `xml:"SoftwareInformation,omitempty"  json:"SoftwareInformation,omitempty"`
+}
+//VersionInformation ... A data item for version information
+type VersionInformation struct {
+        SoftwareVersionText                      string                                   `xml:"SoftwareVersionText,omitempty"  json:"SoftwareVersionText,omitempty"`
+        SemanticVersionIndicator                 string                                   `xml:"SemanticVersionIndicator,omitempty"  json:"SemanticVersionIndicator,omitempty"`
+        SemanticVersionText                      string                                   `xml:"SemanticVersionText,omitempty"  json:"SemanticVersionText,omitempty"`
+        SemanticVersionInformation               *SemanticVersionInformation              `xml:"SemanticVersionInformation,omitempty"  json:"SemanticVersionInformation,omitempty"`
+        SemanticVersionDate                      string                                   `xml:"SemanticVersionDate,omitempty"  json:"SemanticVersionDate,omitempty"`
+        PythonSemanticVersionIndicator           string                                   `xml:"PythonSemanticVersionIndicator,omitempty"  json:"PythonSemanticVersionIndicator,omitempty"`
+        PythonSemanticVersion                    *PythonSemanticVersion                   `xml:"PythonSemanticVersion,omitempty"  json:"PythonSemanticVersion,omitempty"`
+        PythonVersionText                        string                                   `xml:"PythonVersionText,omitempty"  json:"PythonVersionText,omitempty"`
+        XMLName                                  xml.Name                                 `xml:"VersionInformation,omitempty"  json:"VersionInformation,omitempty"`
 }
 //VirusInformation ... A data item for information collected from virus scans
 type VirusInformation struct {
@@ -217,7 +227,7 @@ type VirusInformation struct {
 }
 //Vulnerabilities ... A data item for vulnerabilty information
 type Vulnerabilities struct {
-        Vulnerability                            *Vulnerability                           `xml:"Vulnerability,omitempty"  json:"Vulnerability,omitempty"`
+        Vulnerability                            []Vulnerability                          `xml:"Vulnerability,omitempty"  json:"Vulnerability[],omitempty"`
         XMLName                                  xml.Name                                 `xml:"Vulnerabilities,omitempty"  json:"Vulnerabilities,omitempty"`
 }
 //Vulnerability ... A data item for vulnerabilty information

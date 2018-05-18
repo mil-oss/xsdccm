@@ -47,10 +47,9 @@ export class XsdService {
   selectedxml: any;
   xsdmode: boolean = true;
   viewmode: string = "xml";
-  //iepdroot: string = "https://seva.specchain.org/";
-  //iepdhost: string = "https://seva.specchain.org/iepd/";
-  iepdroot: string = "https://sevaxsd.specchain.org/";
+  iepdroot: string = "https://seva.specchain.org/";
   iepdhost: string = "https://sevaxsd.specchain.org/file/";
+  //iepdhost: string = "http://localhost:8080/file/";
   xmldata: any = {
   };
   jsondata: any = {
@@ -88,6 +87,7 @@ export class XsdService {
     this.xsds.iepXsd.json=this.jsondata["iep_xsd.json"]
     this.iepdJsonResource("test_instance.json")
     this.iepdJsonResource("provenance_report.json")
+    this.iepdJsonResource("resources.json")
   }
 
   iepdResource(name: string) {
