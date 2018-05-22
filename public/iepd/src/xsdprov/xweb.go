@@ -48,7 +48,6 @@ func StartWeb(path string, tmppath string) {
 	router.Handle("/validate", validate())
 	router.Handle("/transform", transform())
 	router.Handle("/verify", verify())
-	router.Handle("/textdoc", getText())
 	nextRequestID := func() string {
 		return fmt.Sprintf("%d", time.Now().UnixNano())
 	}
@@ -94,7 +93,7 @@ func index() http.Handler {
 		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("X-Content-Type-Options", "nosniff")
-		w.WriteHeader(http.StatusOK)
+		//w.WriteHeader(http.StatusOK)
 		fmt.Fprintln(w, "SEvA 1.0")
 		fmt.Fprintln(w, temppath)
 	})
@@ -134,14 +133,7 @@ func getResource() http.Handler {
 		w.WriteHeader(http.StatusServiceUnavailable)
 	})
 }
-func getText() http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if atomic.LoadInt32(&healthy) == 1 {
-			log.Println("getText")
-		}
-		w.WriteHeader(http.StatusServiceUnavailable)
-	})
-}
+
 func verify() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if atomic.LoadInt32(&healthy) == 1 {
@@ -166,8 +158,8 @@ func verify() http.Handler {
 }
 func validate() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 		w.Header().Set("X-Content-Type-Options", "nosniff")
 		if atomic.LoadInt32(&healthy) == 1 {
 			defer r.Body.Close()
@@ -219,7 +211,7 @@ func dload() http.Handler {
 		w.Header().Set("X-Content-Type-Options", "nosniff")
 		if atomic.LoadInt32(&healthy) == 1 {
 			DownloadFile(temppath+"/SevA.zip", w)
-			w.WriteHeader(http.StatusOK)
+			//w.WriteHeader(http.StatusOK)
 			index()
 		}
 		w.WriteHeader(http.StatusServiceUnavailable)
@@ -263,6 +255,7 @@ func HandleSuccess(w *http.ResponseWriter, result interface{}) {
 		return
 	}
 	writer.Write(marshalled)
+	return
 }
 
 //HandleError ... handle error response
@@ -271,10 +264,12 @@ func HandleError(w *http.ResponseWriter, code int, responseText string, logMessa
 	writer := *w
 	if err != nil {
 		errorMessage = err.Error()
+		return
 	}
 	log.Println(logMessage, errorMessage)
 	writer.WriteHeader(code)
 	writer.Write([]byte(responseText))
+	return
 }
 
 //HandleValidationErrors ... handle error response
@@ -282,6 +277,7 @@ func HandleValidationErrors(w *http.ResponseWriter, logMessage string, errors []
 	errs := []ValErr{}
 	for _, errorMessage := range errors {
 		errs = append(errs, ValErr{Message: errorMessage.Error()})
+		return
 	}
 	allerrs, err := json.Marshal(errs)
 	if err != nil {
@@ -289,4 +285,5 @@ func HandleValidationErrors(w *http.ResponseWriter, logMessage string, errors []
 	}
 	writer := *w
 	writer.Write([]byte(allerrs))
+	return
 }

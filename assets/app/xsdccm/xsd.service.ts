@@ -47,9 +47,13 @@ export class XsdService {
   selectedxml: any;
   xsdmode: boolean = true;
   viewmode: string = "xml";
-  iepdroot: string = "https://seva.specchain.org/";
-  iepdhost: string = "https://sevaxsd.specchain.org/file/";
+  //iepdroot: string = "https://seva.specchain.org/";
+  iepdroot: string = "https://sevaism.specchain.org/";
+  //iepdroot: string = "http://localhost:8181/";
+   //iepdhost: string = "https://sevaxsd.specchain.org/file/";
+  iepdhost: string = "https://seva-ism-xsd.specchain.org/file/";
   //iepdhost: string = "http://localhost:8080/file/";
+
   xmldata: any = {
   };
   jsondata: any = {

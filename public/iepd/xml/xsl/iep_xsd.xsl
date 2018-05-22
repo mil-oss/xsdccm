@@ -1,44 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-    xmlns:strings="http://exslt.org/strings" 
-    exclude-result-prefixes="xs" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs" version="1.0">
     <xsl:output method="xml" indent="yes"/>
     <!--
         This XSL Generates an Implementation Schema from a NIEM Reference Schema 
-        which allows validation without importing NIEM artifacts
+        which allows validation without importing NIEM artifacts and includes ISM attributes.
         
         To run the XSL ensure that the sevaNiemXsd and sevaImpXsdOut paths are correct
         and configure the XSL processor to use the 'main' template.
     -->
-    
-    <!-- 
-    input: /iepd/xml/xsd/ref.xsd
-    output:/iepd/xml/xsd/iep.xsd
-   -->
-    
+
     <xsl:template match="/">
         <xsl:call-template name="main"/>
     </xsl:template>
 
     <xsl:template name="main">
-        <xs:schema xmlns="urn:seva::1.0" 
-            attributeFormDefault="unqualified" 
-            elementFormDefault="qualified" 
-            targetNamespace="urn:seva::1.0" 
-            version="1" 
-            xmlns:xs="http://www.w3.org/2001/XMLSchema"
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <xs:schema xmlns="urn:seva::1.0" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="urn:seva::1.0" version="1" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ism="urn:us:gov:ic:ism">
+            <xs:import namespace="urn:us:gov:ic:ism" schemaLocation="ic-ism/IC-ISM-v2.1.xsd"/>
             <xsl:apply-templates select="xs:schema/*"/>
         </xs:schema>
     </xsl:template>
 
     <xsl:template match="*">
-        <xsl:copy>
+        <xsl:element name="{name()}">
             <xsl:apply-templates select="@*"/>
             <xsl:apply-templates select="text()"/>
             <xsl:apply-templates select="*"/>
-        </xsl:copy>
+        </xsl:element>
     </xsl:template>
 
     <xsl:template match="xs:element[substring(@ref, string-length(@ref) - string-length('Representation') + 1) = 'Representation']">
@@ -57,22 +45,26 @@
 
     <xsl:template match="xs:complexContent">
         <xsl:apply-templates select="*"/>
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
     </xsl:template>
 
     <xsl:template match="xs:simpleContent[not(xs:restriction)]">
         <xsl:apply-templates select="*"/>
     </xsl:template>
 
-    <xsl:template match="xs:element/xs:annotation/xs:appinfo/*">
+    <xsl:template match="*/xs:annotation/xs:appinfo/*">
         <xsl:variable name="xpath">
             <xsl:apply-templates select="ancestor::xs:element" mode="makeXpath"/>
         </xsl:variable>
-        <xsl:copy>
+        <xsl:element name="{name()}" namespace="urn:seva::1.0">
             <xsl:apply-templates select="@*"/>
+            <xsl:if test="contains($xpath,'xs:complexContent/xs:extension')">
             <xsl:attribute name="xpath">
-                <xsl:value-of select="concat(substring-before($xpath, 'xs:complexContent/xs:extension'),substring-after($xpath, 'xs:complexContent/xs:extension'))"/>
+                <!--<xsl:value-of select="$xpath"/>-->
+                <xsl:value-of select="concat(substring-before($xpath, 'xs:complexContent/xs:extension'), substring-after($xpath, 'xs:complexContent/xs:extension'))"/>
             </xsl:attribute>
-        </xsl:copy>
+            </xsl:if>
+        </xsl:element>
     </xsl:template>
 
     <xsl:template match="xs:extension">
@@ -84,7 +76,7 @@
                         <xsl:attribute name="base">
                             <xsl:value-of select="$b"/>
                         </xsl:attribute>
-                        <xsl:copy-of select="xs:attributeGroup[@ref = 'ism:SecurityAttributesOptionGroup']"/>
+                        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
                     </xsl:element>
                 </xsl:element>
             </xsl:when>
@@ -94,7 +86,7 @@
                         <xsl:attribute name="base">
                             <xsl:value-of select="$b"/>
                         </xsl:attribute>
-                        <xsl:copy-of select="xs:attributeGroup[@ref = 'ism:SecurityAttributesOptionGroup']"/>
+                        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
                     </xsl:element>
                 </xsl:element>
             </xsl:when>
@@ -107,7 +99,7 @@
                         <xsl:attribute name="base">
                             <xsl:value-of select="$b"/>
                         </xsl:attribute>
-                        <xsl:copy-of select="xs:attributeGroup[@ref = 'ism:SecurityAttributesOptionGroup']"/>
+                        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
                     </xsl:element>
                 </xsl:element>
             </xsl:otherwise>
@@ -115,6 +107,10 @@
     </xsl:template>
 
     <xsl:template match="xs:import"/>
+
+    <xsl:template match="xs:attributeGroup[@ref = 'structures:SimpleObjectAttributeGroup']">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+    </xsl:template>
 
     <!-- Ends-with XSL 1.0-->
     <xsl:template match="*[substring(@name, string-length(@name) - string-length('AugmentationPoint') + 1) = 'AugmentationPoint']"/>
@@ -247,7 +243,5 @@
             </xsl:if>
         </xsl:for-each>
     </xsl:template>
-
-
 
 </xsl:stylesheet>

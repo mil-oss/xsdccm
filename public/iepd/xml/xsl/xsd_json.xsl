@@ -11,10 +11,10 @@
         To run the XSL ensure that the xsdpath and xsdjson paths are correct
         and configure the XSL processor to use the 'main' template.
     -->
-
+    
     <!-- 
-    input:  /iepd/xml/xsd/iep.xsd
-    output: /iepd/json/iep_xsd.json
+    input:  /iepd/xml/xsd/ismiep.xsd
+    output: /iepd/json/ism_xsd.json
    -->
 
 
@@ -30,12 +30,12 @@
     <xsl:variable name="rbr" select="']'"/>
     <xsl:variable name="cm" select="','"/>
     <!--*************************************************-->
-
-    <xsl:template match="/">
-        <xsl:call-template name="main"/>
-    </xsl:template>
     
-    <xsl:template name="main">
+    <xsl:template match="/">
+      <xsl:call-template name="main"/>
+    </xsl:template>
+
+   <xsl:template name="main">
         <xsl:value-of select="$lb"/>
         <xsl:apply-templates select="xs:schema/*"/>
         <xsl:value-of select="$rb"/>
@@ -98,6 +98,9 @@
         <xsl:apply-templates select="xs:simpleContent/xs:restriction/@base" mode="tojson"/>
         <xsl:if test="./*">
             <xsl:apply-templates select="*"/>
+        </xsl:if>
+        <xsl:if test="xs:attributeGroup">
+            <xsl:value-of select="concat($cm,$q, 'attributeGroup', $q, $c, $q,xs:attributeGroup/@ref, $q)"/>
         </xsl:if>
         <xsl:value-of select="$rb"/>
         <xsl:if test="following-sibling::xs:*">

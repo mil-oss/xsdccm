@@ -26,6 +26,7 @@ func BuildIep() (map[int64]ProvEntry, []error, error) {
 	generateResources()
 	validateResources()
 	resrcJSON()
+	provenanceRpt()
 	zipIEPD()
 	return provreport, valerr, iepderr
 }

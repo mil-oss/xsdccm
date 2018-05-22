@@ -9,16 +9,6 @@
         To run the XSL ensure that the xsdpath and xsdjson paths are correct
         and configure the XSL processor to use the 'main' template.
     -->
-    
-    <!-- 
-    input:  /iepd/xml/instance/test_instance.xml
-    output: /iepd/json/test_instance.json
-    
-    input:  /iepd/xml/instance/test_instance-ism.xml
-    output: /iepd/json/test_instance-ism.json
-   -->
-
-
 
     <!--********************** JSON ********************-->
     <xsl:variable name="q" select="'&quot;'"/>

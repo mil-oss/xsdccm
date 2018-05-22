@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<xs:schema xmlns="urn:seva::1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:strings="http://exslt.org/strings" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="urn:seva::1.0" version="1">
+<xs:schema xmlns="urn:seva::1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ism="urn:us:gov:ic:ism" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="urn:seva::1.0" version="1">
+  <xs:import namespace="urn:us:gov:ic:ism" schemaLocation="ic-ism/IC-ISM-v2.1.xsd"/>
   <xs:annotation>
     <xs:documentation>This is a NIEM Conformant Reference Schema for Software Evidence Archive (SEvA) inormation. SEvA is a specification for the definition, verification, and validation of automated software supply chain metadata.</xs:documentation>
   </xs:annotation>
@@ -84,6 +85,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:simpleType name="APINameSimpleType">
     <xs:annotation>
@@ -3742,7 +3744,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="APINameSimpleType"/>
+      <xs:extension base="APINameSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="AuthoritativeDigitalSignatureIndicatorType">
@@ -3753,7 +3757,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="AuthoritativeDigitalSignatureIndicatorSimpleType"/>
+      <xs:extension base="AuthoritativeDigitalSignatureIndicatorSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="AuthoritativeSourceInformationType">
@@ -3789,6 +3795,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="BuildMetaType">
     <xs:annotation>
@@ -3798,7 +3805,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="BuildMetaSimpleType"/>
+      <xs:extension base="BuildMetaSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="CommitLogsType">
@@ -3818,6 +3827,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="CommonVulnerabilityScoringSystemV2Type">
     <xs:annotation>
@@ -3892,6 +3902,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="CommonVulnerabilityScoringSystemV3Type">
     <xs:annotation>
@@ -3990,6 +4001,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="CompanyInformationType">
     <xs:annotation>
@@ -4008,6 +4020,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="CompilerType">
     <xs:annotation>
@@ -4034,6 +4047,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="DataCountType">
     <xs:annotation>
@@ -4043,7 +4057,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="DataCountSimpleType"/>
+      <xs:extension base="DataCountSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="DateTimeType">
@@ -4054,7 +4070,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="DateTimeSimpleType"/>
+      <xs:extension base="DateTimeSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="DeliveryInformationType">
@@ -4098,6 +4116,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="DependencyInformationType">
     <xs:annotation>
@@ -4124,6 +4143,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="DependencyType">
     <xs:annotation>
@@ -4150,6 +4170,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="DependenciesType">
     <xs:annotation>
@@ -4168,6 +4189,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="EcosystemInformationType">
     <xs:annotation>
@@ -4194,6 +4216,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="EcosystemType">
     <xs:annotation>
@@ -4228,6 +4251,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="EndOfLifeIndicatorType">
     <xs:annotation>
@@ -4237,7 +4261,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="EndOfLifeIndicatorSimpleType"/>
+      <xs:extension base="EndOfLifeIndicatorSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="EngineDetailsType">
@@ -4265,6 +4291,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="FileExtensionType">
     <xs:annotation>
@@ -4274,7 +4301,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="FileExtensionSimpleType"/>
+      <xs:extension base="FileExtensionSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="FileInformationType">
@@ -4302,6 +4331,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="FileNameType">
     <xs:annotation>
@@ -4311,7 +4341,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="FileNameSimpleType"/>
+      <xs:extension base="FileNameSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="FileType">
@@ -4322,7 +4354,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="FileSimpleType"/>
+      <xs:extension base="FileSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="FloatValueType">
@@ -4333,7 +4367,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="FloatValueSimpleType"/>
+      <xs:extension base="FloatValueSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="GovernanceRiskComplianceType">
@@ -4361,6 +4397,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="LanguagesType">
     <xs:annotation>
@@ -4379,6 +4416,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="LicenseCategoryCodeType">
     <xs:annotation>
@@ -4388,7 +4426,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="LicenseCategoryCodeSimpleType"/>
+      <xs:extension base="LicenseCategoryCodeSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="LicenseCodeType">
@@ -4399,7 +4439,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="LicenseCodeSimpleType"/>
+      <xs:extension base="LicenseCodeSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="LicenseInformationType">
@@ -4435,6 +4477,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="LineTextType">
     <xs:annotation>
@@ -4444,7 +4487,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="LineTextSimpleType"/>
+      <xs:extension base="LineTextSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="MajorVersionType">
@@ -4455,7 +4500,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="VersionSimpleType"/>
+      <xs:extension base="VersionSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="MinorVersionType">
@@ -4466,7 +4513,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="VersionSimpleType"/>
+      <xs:extension base="VersionSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="ParagraphTextType">
@@ -4477,7 +4526,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="ParagraphTextSimpleType"/>
+      <xs:extension base="ParagraphTextSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="PatchVersionType">
@@ -4488,7 +4539,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="VersionSimpleType"/>
+      <xs:extension base="VersionSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="PreReleaseVersionType">
@@ -4499,7 +4552,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="PreReleaseVersionSimpleType"/>
+      <xs:extension base="PreReleaseVersionSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="PythonDevelopmentVersionReleaseType">
@@ -4510,7 +4565,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="PythonDevelopmentVersionSimpleType"/>
+      <xs:extension base="PythonDevelopmentVersionSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="PythonEpochVersionType">
@@ -4521,7 +4578,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="PythonEpochVersionSimpleType"/>
+      <xs:extension base="PythonEpochVersionSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="PythonPostReleaseVersionType">
@@ -4532,7 +4591,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="PythonPostReleaseVersionSimpleType"/>
+      <xs:extension base="PythonPostReleaseVersionSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="PythonPreReleaseVersionType">
@@ -4543,7 +4604,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="PythonPreReleaseVersionSimpleType"/>
+      <xs:extension base="PythonPreReleaseVersionSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="PythonReleaseVersionType">
@@ -4554,7 +4617,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="PythonReleaseVersionSimpleType"/>
+      <xs:extension base="PythonReleaseVersionSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="PythonSemanticVersionIndicatorType">
@@ -4565,7 +4630,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="PythonSemanticVersionIndicatorSimpleType"/>
+      <xs:extension base="PythonSemanticVersionIndicatorSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="PythonSemanticVersionType">
@@ -4617,6 +4684,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="PythonVersionTextType">
     <xs:annotation>
@@ -4626,7 +4694,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="PythonVersionTextSimpleType"/>
+      <xs:extension base="PythonVersionTextSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="RiskCodeType">
@@ -4637,7 +4707,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="RiskCodeSimpleType"/>
+      <xs:extension base="RiskCodeSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="ScoreDetailsType">
@@ -4665,6 +4737,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="SemanticVersionIndicatorType">
     <xs:annotation>
@@ -4674,7 +4747,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="SemanticVersionIndicatorSimpleType"/>
+      <xs:extension base="SemanticVersionIndicatorSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="SemanticVersionTextType">
@@ -4685,7 +4760,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="SemanticVersionTextSimpleType"/>
+      <xs:extension base="SemanticVersionTextSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="SemanticVersionInformationType">
@@ -4745,6 +4822,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="Sha1TextType">
     <xs:annotation>
@@ -4754,7 +4832,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="Sha1TextSimpleType"/>
+      <xs:extension base="Sha1TextSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="Sha256TextType">
@@ -4765,7 +4845,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="Sha256TextSimpleType"/>
+      <xs:extension base="Sha256TextSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="SoftwareInformationType">
@@ -4825,6 +4907,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="URITextType">
     <xs:annotation>
@@ -4834,7 +4917,9 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="URITextSimpleType"/>
+      <xs:extension base="URITextSimpleType">
+        <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="VersionInformationType">
@@ -4910,6 +4995,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="VirusInformationType">
     <xs:annotation>
@@ -5008,6 +5094,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="VulnerabilitiesType">
     <xs:annotation>
@@ -5026,6 +5113,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="VulnerabilityInformationType">
     <xs:annotation>
@@ -5052,6 +5140,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="VulnerabilityReferenceType">
     <xs:annotation>
@@ -5094,6 +5183,7 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:complexType name="VulnerabilityType">
     <xs:annotation>
@@ -5272,12 +5362,13 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
+    <xs:attributeGroup ref="ism:SecurityAttributesOptionGroup"/>
   </xs:complexType>
   <xs:element name="AccessComplexityText" type="LineTextType" nillable="true">
     <xs:annotation>
       <xs:documentation>A data item for a access complexity</xs:documentation>
       <xs:appinfo>
-        <Element name="Access Complexity Text" mapvar="accessComplexityText" xpath=""/>
+        <Element name="Access Complexity Text" mapvar="accessComplexityText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5285,7 +5376,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a vulnerability access vector</xs:documentation>
       <xs:appinfo>
-        <Element name="Access Vector Text" mapvar="accessVectorText" xpath=""/>
+        <Element name="Access Vector Text" mapvar="accessVectorText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5293,7 +5384,7 @@
     <xs:annotation>
       <xs:documentation>A data item for the name of the required public API declaration</xs:documentation>
       <xs:appinfo>
-        <Element name="API Name" mapvar="apiName" xpath=""/>
+        <Element name="API Name" mapvar="apiName"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5301,7 +5392,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a vulnerabilty source</xs:documentation>
       <xs:appinfo>
-        <Element name="Assessment Check Text" mapvar="assessmentCheckText" xpath=""/>
+        <Element name="Assessment Check Text" mapvar="assessmentCheckText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5309,7 +5400,7 @@
     <xs:annotation>
       <xs:documentation>True if has an authoritative digital signatiure; false if not.</xs:documentation>
       <xs:appinfo>
-        <Element name="Authoritative Digital Signature Indicator" mapvar="authoritativeDigitalSignatureIndicator" xpath=""/>
+        <Element name="Authoritative Digital Signature Indicator" mapvar="authoritativeDigitalSignatureIndicator"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5317,7 +5408,7 @@
     <xs:annotation>
       <xs:documentation>A data item for information about what is to be considered the authoritative source for a given artifact or source repository. This includes an URL, a hash of the source, and whether or not the source has been signed</xs:documentation>
       <xs:appinfo>
-        <Element name="Authoritative Source Information" mapvar="authoritativeSourceInformation" xpath=""/>
+        <Element name="Authoritative Source Information" mapvar="authoritativeSourceInformation"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5325,7 +5416,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a availability impact</xs:documentation>
       <xs:appinfo>
-        <Element name="Availability Impact Text" mapvar="availabilityImpactText" xpath=""/>
+        <Element name="Availability Impact Text" mapvar="availabilityImpactText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5333,7 +5424,7 @@
     <xs:annotation>
       <xs:documentation>A data item for base severity</xs:documentation>
       <xs:appinfo>
-        <Element name="Base Severity Text" mapvar="baseSeverityText" xpath=""/>
+        <Element name="Base Severity Text" mapvar="baseSeverityText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5341,7 +5432,7 @@
     <xs:annotation>
       <xs:documentation>A data item for Build metadata. Build metadata MAY be denoted by appending a plus sign and a series of dot separated identifiers immediately following the patch or pre-release version. Identifiers MUST comprise only ASCII alphanumerics and hyphen [0-9A-Za-z-]. Identifiers MUST NOT be empty. Build metadata SHOULD be ignored when determining version precedence. Thus two versions that differ only in the build metadata, have the same precedence. Examples: 1.0.0-alpha+001, 1.0.0+20130313144700, 1.0.0-beta+exp.sha.5114f85.(https://semver.org/spec/v2.0.0.html)</xs:documentation>
       <xs:appinfo>
-        <Element name="Build Metadata" mapvar="buildMeta" xpath=""/>
+        <Element name="Build Metadata" mapvar="buildMeta"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5349,7 +5440,7 @@
     <xs:annotation>
       <xs:documentation>A data item for an entry associated with software repository commit event</xs:documentation>
       <xs:appinfo>
-        <Element name="Commit Log Text" mapvar="commitLogText" xpath=""/>
+        <Element name="Commit Log Text" mapvar="commitLogText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5357,7 +5448,7 @@
     <xs:annotation>
       <xs:documentation>A data item for entries associated with software repository commit events</xs:documentation>
       <xs:appinfo>
-        <Element name="Commit Logs" mapvar="commitLogs" xpath=""/>
+        <Element name="Commit Logs" mapvar="commitLogs"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5365,7 +5456,7 @@
     <xs:annotation>
       <xs:documentation>A data item for the number of committers to a software repository</xs:documentation>
       <xs:appinfo>
-        <Element name="Committer Quantity" mapvar="committerQuantity" xpath=""/>
+        <Element name="Committer Quantity" mapvar="committerQuantity"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5373,7 +5464,7 @@
     <xs:annotation>
       <xs:documentation>A data type for Common Vulnerability Scoring System V2 (CVSSV2) Information</xs:documentation>
       <xs:appinfo>
-        <Element name="Common Vulnerability Scoring System V2" mapvar="commonVulnerabilityScoringSystemV2" xpath=""/>
+        <Element name="Common Vulnerability Scoring System V2" mapvar="commonVulnerabilityScoringSystemV2"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5381,7 +5472,7 @@
     <xs:annotation>
       <xs:documentation>A data type for Common Vulnerability Scoring System V3 (CVSSV3) Information</xs:documentation>
       <xs:appinfo>
-        <Element name="Common Vulnerability Scoring System V3" mapvar="commonVulnerabilityScoringSystemV3" xpath=""/>
+        <Element name="Common Vulnerability Scoring System V3" mapvar="commonVulnerabilityScoringSystemV3"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5389,7 +5480,7 @@
     <xs:annotation>
       <xs:documentation>A data item for languages used in a software repository</xs:documentation>
       <xs:appinfo>
-        <Element name="Company Information" mapvar="companyInformation" xpath=""/>
+        <Element name="Company Information" mapvar="companyInformation"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5397,7 +5488,7 @@
     <xs:annotation>
       <xs:documentation>A data item for languages used in a software repository</xs:documentation>
       <xs:appinfo>
-        <Element name="Compiler" mapvar="compiler" xpath=""/>
+        <Element name="Compiler" mapvar="compiler"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5405,7 +5496,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a compiler version</xs:documentation>
       <xs:appinfo>
-        <Element name="Compiler Version Text" mapvar="compilerVersionText" xpath=""/>
+        <Element name="Compiler Version Text" mapvar="compilerVersionText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5413,7 +5504,7 @@
     <xs:annotation>
       <xs:documentation>A data item for confidentiality impact</xs:documentation>
       <xs:appinfo>
-        <Element name="Confidentiality Impact Text" mapvar="confidentialityImpactText" xpath=""/>
+        <Element name="Confidentiality Impact Text" mapvar="confidentialityImpactText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5421,7 +5512,7 @@
     <xs:annotation>
       <xs:documentation>A data item for the count of an artifact</xs:documentation>
       <xs:appinfo>
-        <Element name="Data Quantity" mapvar="dataQuantity" xpath=""/>
+        <Element name="Data Quantity" mapvar="dataQuantity"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5429,7 +5520,7 @@
     <xs:annotation>
       <xs:documentation>A data item for an entry associated with software repository commit event</xs:documentation>
       <xs:appinfo>
-        <Element name="Data Read Text" mapvar="dataReadText" xpath=""/>
+        <Element name="Data Read Text" mapvar="dataReadText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5437,7 +5528,7 @@
     <xs:annotation>
       <xs:documentation>A data item for an entry associated with software repository commit event</xs:documentation>
       <xs:appinfo>
-        <Element name="Data Scanned Text" mapvar="dataScannedText" xpath=""/>
+        <Element name="Data Scanned Text" mapvar="dataScannedText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5445,7 +5536,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a virus database version</xs:documentation>
       <xs:appinfo>
-        <Element name="Database Version Text" mapvar="databaseVersionText" xpath=""/>
+        <Element name="Database Version Text" mapvar="databaseVersionText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5453,7 +5544,7 @@
     <xs:annotation>
       <xs:documentation>A data type for date and time information</xs:documentation>
       <xs:appinfo>
-        <Element name="Date Time" mapvar="dateTime" xpath=""/>
+        <Element name="Date Time" mapvar="dateTime"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5461,7 +5552,7 @@
     <xs:annotation>
       <xs:documentation>A data item for the Organization of Delivery for the SEvA</xs:documentation>
       <xs:appinfo>
-        <Element name="Delivering Organization Text" mapvar="deliveringOrganizationText" xpath=""/>
+        <Element name="Delivering Organization Text" mapvar="deliveringOrganizationText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5469,7 +5560,7 @@
     <xs:annotation>
       <xs:documentation>A data item for delivery information including the target url and last delivered date and time for a previously signed Software Evidence Archive.</xs:documentation>
       <xs:appinfo>
-        <Element name="Delivery Information" mapvar="deliveryInformation" xpath=""/>
+        <Element name="Delivery Information" mapvar="deliveryInformation"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5477,7 +5568,7 @@
     <xs:annotation>
       <xs:documentation>A data item for software dependencies</xs:documentation>
       <xs:appinfo>
-        <Element name="Dependencies" mapvar="dependencies" xpath=""/>
+        <Element name="Dependencies" mapvar="dependencies"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5485,7 +5576,7 @@
     <xs:annotation>
       <xs:documentation>A data item for software dependency information</xs:documentation>
       <xs:appinfo>
-        <Element name="Dependency" mapvar="dependency" xpath=""/>
+        <Element name="Dependency" mapvar="dependency"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5493,7 +5584,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a list of dependencies for a given software project derived directly from the artifact or source dependency definition file. Entries include names, versions, and vulnerabilities</xs:documentation>
       <xs:appinfo>
-        <Element name="Dependency Information" mapvar="dependencyInformation" xpath=""/>
+        <Element name="Dependency Information" mapvar="dependencyInformation"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5501,7 +5592,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a dependency version</xs:documentation>
       <xs:appinfo>
-        <Element name="Dependency Version Text" mapvar="dependencyVersionText" xpath=""/>
+        <Element name="Dependency Version Text" mapvar="dependencyVersionText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5509,7 +5600,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a destination</xs:documentation>
       <xs:appinfo>
-        <Element name="Destination Text" mapvar="destinationText" xpath=""/>
+        <Element name="Destination Text" mapvar="destinationText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5517,7 +5608,7 @@
     <xs:annotation>
       <xs:documentation>A data item for software ecosystem information</xs:documentation>
       <xs:appinfo>
-        <Element name="Ecosystem" mapvar="ecosystem" xpath=""/>
+        <Element name="Ecosystem" mapvar="ecosystem"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5525,7 +5616,7 @@
     <xs:annotation>
       <xs:documentation>A data item for information pertaining to a software project's ecosystem which includes programming languages, references, number of committers, mailing list activity, overall sentiment, and other information</xs:documentation>
       <xs:appinfo>
-        <Element name="Ecosystem Information" mapvar="ecosystemInformation" xpath=""/>
+        <Element name="Ecosystem Information" mapvar="ecosystemInformation"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5533,7 +5624,7 @@
     <xs:annotation>
       <xs:documentation>True if software has end of life status; false if not.</xs:documentation>
       <xs:appinfo>
-        <Element name="End Of Life Indicator" mapvar="endOfLifeIndicator" xpath=""/>
+        <Element name="End Of Life Indicator" mapvar="endOfLifeIndicator"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5541,7 +5632,7 @@
     <xs:annotation>
       <xs:documentation>A data item for for details of a virus engine</xs:documentation>
       <xs:appinfo>
-        <Element name="Engine Details" mapvar="engineDetails" xpath=""/>
+        <Element name="Engine Details" mapvar="engineDetails"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5549,7 +5640,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a virus engine version</xs:documentation>
       <xs:appinfo>
-        <Element name="Engine Version Text" mapvar="engineVersionText" xpath=""/>
+        <Element name="Engine Version Text" mapvar="engineVersionText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5557,7 +5648,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a software family or relationship</xs:documentation>
       <xs:appinfo>
-        <Element name="Grouping Text" mapvar="groupingText" xpath=""/>
+        <Element name="Grouping Text" mapvar="groupingText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5565,7 +5656,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a computer file extension</xs:documentation>
       <xs:appinfo>
-        <Element name="File Extension Text" mapvar="fileExtensionText" xpath=""/>
+        <Element name="File Extension Text" mapvar="fileExtensionText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5573,7 +5664,7 @@
     <xs:annotation>
       <xs:documentation>A data item for file types and related Multipurpose Internet Mail Extensions (MIME) types</xs:documentation>
       <xs:appinfo>
-        <Element name="File Information" mapvar="fileInformation" xpath=""/>
+        <Element name="File Information" mapvar="fileInformation"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5581,7 +5672,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a computer file name without extension</xs:documentation>
       <xs:appinfo>
-        <Element name="File Name Text" mapvar="fileNameText" xpath=""/>
+        <Element name="File Name Text" mapvar="fileNameText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5589,7 +5680,7 @@
     <xs:annotation>
       <xs:documentation>A data item a for a multi-line entry for file notes</xs:documentation>
       <xs:appinfo>
-        <Element name="File Notes Text" mapvar="fileNotesText" xpath=""/>
+        <Element name="File Notes Text" mapvar="fileNotesText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5597,7 +5688,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a computer file name with extension</xs:documentation>
       <xs:appinfo>
-        <Element name="File Text" mapvar="fileText" xpath=""/>
+        <Element name="File Text" mapvar="fileText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5605,7 +5696,7 @@
     <xs:annotation>
       <xs:documentation>A data item for calculated risk and compliance to governance for a software artifact or source repository</xs:documentation>
       <xs:appinfo>
-        <Element name="Governance Risk Compliance" mapvar="governanceRiskCompliance" xpath=""/>
+        <Element name="Governance Risk Compliance" mapvar="governanceRiskCompliance"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5613,7 +5704,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a hash of the artifact delivered</xs:documentation>
       <xs:appinfo>
-        <Element name="Hash Text" mapvar="hashTest" xpath=""/>
+        <Element name="Hash Text" mapvar="hashTest"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5621,7 +5712,7 @@
     <xs:annotation>
       <xs:documentation>A data item for the number of files infected by a virus</xs:documentation>
       <xs:appinfo>
-        <Element name="Infected File Quantity" mapvar="infectedFileQuantity" xpath=""/>
+        <Element name="Infected File Quantity" mapvar="infectedFileQuantity"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5629,7 +5720,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a integrity impact</xs:documentation>
       <xs:appinfo>
-        <Element name="Integrity Impact Text" mapvar="integrityImpactText" xpath=""/>
+        <Element name="Integrity Impact Text" mapvar="integrityImpactText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5637,7 +5728,7 @@
     <xs:annotation>
       <xs:documentation>A data item for the number of known viruses</xs:documentation>
       <xs:appinfo>
-        <Element name="Known Virus Quantity" mapvar="knownVirusQuantity" xpath=""/>
+        <Element name="Known Virus Quantity" mapvar="knownVirusQuantity"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5645,7 +5736,7 @@
     <xs:annotation>
       <xs:documentation>A data item for the name of a programming language</xs:documentation>
       <xs:appinfo>
-        <Element name="Language Text" mapvar="languageText" xpath=""/>
+        <Element name="Language Text" mapvar="languageText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5653,7 +5744,7 @@
     <xs:annotation>
       <xs:documentation>A data item for languages used in a software repository</xs:documentation>
       <xs:appinfo>
-        <Element name="Languages" mapvar="languages" xpath=""/>
+        <Element name="Languages" mapvar="languages"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5661,7 +5752,7 @@
     <xs:annotation>
       <xs:documentation>A data type for date and time of last registry update</xs:documentation>
       <xs:appinfo>
-        <Element name="Last Registry Update Date" mapvar="lastRegistryUpdateDate" xpath=""/>
+        <Element name="Last Registry Update Date" mapvar="lastRegistryUpdateDate"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5669,7 +5760,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a software license category</xs:documentation>
       <xs:appinfo>
-        <Element name="License Category Code" mapvar="licenseCategoryCode" xpath=""/>
+        <Element name="License Category Code" mapvar="licenseCategoryCode"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5677,7 +5768,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a type of software license</xs:documentation>
       <xs:appinfo>
-        <Element name="License Code" mapvar="licenseCode" xpath=""/>
+        <Element name="License Code" mapvar="licenseCode"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5685,7 +5776,7 @@
     <xs:annotation>
       <xs:documentation>A data item for software license information for a software artifact or source repository</xs:documentation>
       <xs:appinfo>
-        <Element name="License Information" mapvar="licenseInformation" xpath=""/>
+        <Element name="License Information" mapvar="licenseInformation"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5693,7 +5784,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a short text entry suitable for a name or a title</xs:documentation>
       <xs:appinfo>
-        <Element name="Line Text" mapvar="lineText" xpath=""/>
+        <Element name="Line Text" mapvar="lineText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5701,7 +5792,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a log entry</xs:documentation>
       <xs:appinfo>
-        <Element name="Log Entry Text" mapvar="logEntryText" xpath=""/>
+        <Element name="Log Entry Text" mapvar="logEntryText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5709,7 +5800,7 @@
     <xs:annotation>
       <xs:documentation>A data item for the Major version. The value zero (0.y.z) is for initial development. Anything may change at any time. The public API should not be considered stable. Version 1.0.0 defines the public API. The way in which the version number is incremented after this release is dependent on this public API and how it changes. Major version X (X.y.z | X &gt; 0) MUST be incremented if any backwards incompatible changes are introduced to the public API. It MAY include minor and patch level changes. Patch and minor version MUST be reset to 0 when major version is incremented.</xs:documentation>
       <xs:appinfo>
-        <Element name="Major Version" mapvar="majorVersion" xpath=""/>
+        <Element name="Major Version" mapvar="majorVersion"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5717,7 +5808,7 @@
     <xs:annotation>
       <xs:documentation>A data item for the Minor version. Minor version Y (x.Y.z | x &gt; 0) MUST be incremented if new, backwards compatible functionality is introduced to the public API. It MUST be incremented if any public API functionality is marked as deprecated. It MAY be incremented if substantial new functionality or improvements are introduced within the private code. It MAY include patch level changes. Patch version MUST be reset to 0 when minor version is incremented.</xs:documentation>
       <xs:appinfo>
-        <Element name="Minor Version" mapvar="minorVersion" xpath=""/>
+        <Element name="Minor Version" mapvar="minorVersion"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5725,7 +5816,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a name</xs:documentation>
       <xs:appinfo>
-        <Element name="Name" mapvar="name" xpath=""/>
+        <Element name="Name" mapvar="name"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5733,7 +5824,7 @@
     <xs:annotation>
       <xs:documentation>A data item a for a multi-line text entry</xs:documentation>
       <xs:appinfo>
-        <Element name="Paragraph Text" mapvar="paragraphText" xpath=""/>
+        <Element name="Paragraph Text" mapvar="paragraphText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5741,7 +5832,7 @@
     <xs:annotation>
       <xs:documentation>A data item for the Patch version. Patch version Z (x.y.Z | x &gt; 0) MUST be incremented if only backwards compatible bug fixes are introduced. A bug fix is defined as an internal change that fixes incorrect behavior.</xs:documentation>
       <xs:appinfo>
-        <Element name="Patch Version" mapvar="patchVersion" xpath=""/>
+        <Element name="Patch Version" mapvar="patchVersion"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5749,7 +5840,7 @@
     <xs:annotation>
       <xs:documentation>A pre-release version MAY be denoted by appending a hyphen and a series of dot separated identifiers immediately following the patch version. Identifiers MUST comprise only ASCII alphanumerics and hyphen [0-9A-Za-z-]. Identifiers MUST NOT be empty. Numeric identifiers MUST NOT include leading zeroes. Pre-release versions have a lower precedence than the associated normal version. A pre-release version indicates that the version is unstable and might not satisfy the intended compatibility requirements as denoted by its associated normal version. Examples: 1.0.0-alpha, 1.0.0-alpha.1, 1.0.0-0.3.7, 1.0.0-x.7.z.92.</xs:documentation>
       <xs:appinfo>
-        <Element name="Pre-Release Version" mapvar="preReleaseVersion" xpath=""/>
+        <Element name="Pre-Release Version" mapvar="preReleaseVersion"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5757,7 +5848,7 @@
     <xs:annotation>
       <xs:documentation>A data item for privileges required</xs:documentation>
       <xs:appinfo>
-        <Element name="Privileges Required Text" mapvar="privilegesRequiredText" xpath=""/>
+        <Element name="Privileges Required Text" mapvar="privilegesRequiredText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5765,7 +5856,7 @@
     <xs:annotation>
       <xs:documentation>A data item for the product title</xs:documentation>
       <xs:appinfo>
-        <Element name="Product Title Text" mapvar="productTitleText" xpath=""/>
+        <Element name="Product Title Text" mapvar="productTitleText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5773,7 +5864,7 @@
     <xs:annotation>
       <xs:documentation>A data type for the Python development release segment with the scheme: .devN: [N!]N(.N)*[{a|b|rc}N][.postN][.devN] (https://www.python.org/dev/peps/pep-0440/#public-version-identifiers).</xs:documentation>
       <xs:appinfo>
-        <Element name="Development Release Segment" mapvar="pyDevelopmentReleaseSegment" xpath=""/>
+        <Element name="Development Release Segment" mapvar="pyDevelopmentReleaseSegment"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5781,7 +5872,7 @@
     <xs:annotation>
       <xs:documentation>A data type for the Python Epoch Segment with the scheme: [N!]. (https://www.python.org/dev/peps/pep-0440/#public-version-identifiers).</xs:documentation>
       <xs:appinfo>
-        <Element name="Epoch Segment" mapvar="pyEpochSegment" xpath=""/>
+        <Element name="Epoch Segment" mapvar="pyEpochSegment"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5789,7 +5880,7 @@
     <xs:annotation>
       <xs:documentation>A data type for the Python Post-Release Segment with the scheme: .postN (https://www.python.org/dev/peps/pep-0440/#public-version-identifiers).</xs:documentation>
       <xs:appinfo>
-        <Element name="Post Release Segment" mapvar="pyPostReleaseSegment" xpath=""/>
+        <Element name="Post Release Segment" mapvar="pyPostReleaseSegment"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5797,7 +5888,7 @@
     <xs:annotation>
       <xs:documentation>A data type for the Python Pre-Release Segment with the scheme: {a|b|rc}N. (https://www.python.org/dev/peps/pep-0440/#public-version-identifiers).</xs:documentation>
       <xs:appinfo>
-        <Element name="Pre-Release Segment" mapvar="pyPreReleaseSegment" xpath=""/>
+        <Element name="Pre-Release Segment" mapvar="pyPreReleaseSegment"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5805,7 +5896,7 @@
     <xs:annotation>
       <xs:documentation>A data type for the Python Release Segment with the scheme: N(.N)*. (https://www.python.org/dev/peps/pep-0440/#public-version-identifiers).</xs:documentation>
       <xs:appinfo>
-        <Element name="Release Segment" mapvar="pyReleaseSegment" xpath=""/>
+        <Element name="Release Segment" mapvar="pyReleaseSegment"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5813,7 +5904,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a Python Distribution identified by a public version identifier which supports all defined version comparison operations. The version scheme is used both to describe the distribution version provided by a particular distribution archive, as well as to place constraints on the version of dependencies needed in order to build or run the software.The canonical public version identifiers MUST comply with the following scheme: [N!]N(.N)*[{a|b|rc}N][.postN][.devN] (https://www.python.org/dev/peps/pep-0440/#public-version-identifiers)</xs:documentation>
       <xs:appinfo>
-        <Element name="Python Semantic Version" mapvar="pySemanticVersion" xpath=""/>
+        <Element name="Python Semantic Version" mapvar="pySemanticVersion"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5821,7 +5912,7 @@
     <xs:annotation>
       <xs:documentation>True if python semantic version; false if not or not known.</xs:documentation>
       <xs:appinfo>
-        <Element name="Python Semantic Version Indicator" mapvar="pySemanticVersionIndicator" xpath=""/>
+        <Element name="Python Semantic Version Indicator" mapvar="pySemanticVersionIndicator"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5829,7 +5920,7 @@
     <xs:annotation>
       <xs:documentation>An augmentation point for SemanticVersionType</xs:documentation>
       <xs:appinfo>
-        <Element name="Python Version" mapvar="pyVersionText" xpath=""/>
+        <Element name="Python Version" mapvar="pyVersionText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5837,7 +5928,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a recommendation paragraph</xs:documentation>
       <xs:appinfo>
-        <Element name="Recommendation Text" mapvar="recommendationText" xpath=""/>
+        <Element name="Recommendation Text" mapvar="recommendationText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5845,7 +5936,7 @@
     <xs:annotation>
       <xs:documentation>A data item for the reference source</xs:documentation>
       <xs:appinfo>
-        <Element name="Reference Source Text" mapvar="referenceSourceText" xpath=""/>
+        <Element name="Reference Source Text" mapvar="referenceSourceText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5853,7 +5944,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a reference description</xs:documentation>
       <xs:appinfo>
-        <Element name="Reference Text" mapvar="referenceText" xpath=""/>
+        <Element name="Reference Text" mapvar="referenceText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5861,7 +5952,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a release notes</xs:documentation>
       <xs:appinfo>
-        <Element name="Release Notes Text" mapvar="releaseNotesText" xpath=""/>
+        <Element name="Release Notes Text" mapvar="releaseNotesText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5869,7 +5960,7 @@
     <xs:annotation>
       <xs:documentation>A data item for the level of risk associated with a software artifact</xs:documentation>
       <xs:appinfo>
-        <Element name="Risk Code" mapvar="riskCode" xpath=""/>
+        <Element name="Risk Code" mapvar="riskCode"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5877,7 +5968,7 @@
     <xs:annotation>
       <xs:documentation>A data item for the number of directories scanned</xs:documentation>
       <xs:appinfo>
-        <Element name="Scanned Directory Quantity" mapvar="scannedDirectoryQuantity" xpath=""/>
+        <Element name="Scanned Directory Quantity" mapvar="scannedDirectoryQuantity"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5885,7 +5976,7 @@
     <xs:annotation>
       <xs:documentation>A data item for the number of files scanned</xs:documentation>
       <xs:appinfo>
-        <Element name="Scanned File Quantity" mapvar="scannedFileQuantity" xpath=""/>
+        <Element name="Scanned File Quantity" mapvar="scannedFileQuantity"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5893,7 +5984,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a vulnerabilty source</xs:documentation>
       <xs:appinfo>
-        <Element name="Scanner Text" mapvar="scannerText" xpath=""/>
+        <Element name="Scanner Text" mapvar="scannerText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5901,7 +5992,7 @@
     <xs:annotation>
       <xs:documentation>A data item for common vulnerability score details</xs:documentation>
       <xs:appinfo>
-        <Element name="Score Details" mapvar="scoreDetails" xpath=""/>
+        <Element name="Score Details" mapvar="scoreDetails"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5909,7 +6000,7 @@
     <xs:annotation>
       <xs:documentation>A data item for the name of a score system</xs:documentation>
       <xs:appinfo>
-        <Element name="Score System Text" mapvar="scoreSystemText" xpath=""/>
+        <Element name="Score System Text" mapvar="scoreSystemText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5917,7 +6008,7 @@
     <xs:annotation>
       <xs:documentation>A data type for semantic versioning information. A normal version number MUST take the form X.Y.Z where X, Y, and Z are non-negative integers, and MUST NOT contain leading zeroes. X is the major version, Y is the minor version, and Z is the patch version. Each element MUST increase numerically. For instance: 1.9.0 -&gt; 1.10.0 -&gt; 1.11.0.(https://semver.org/spec/v2.0.0.html)</xs:documentation>
       <xs:appinfo>
-        <Element name="Semantic Version" mapvar="semanticVersion" xpath=""/>
+        <Element name="Semantic Version" mapvar="semanticVersion"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5925,7 +6016,7 @@
     <xs:annotation>
       <xs:documentation>A data type for date and time information</xs:documentation>
       <xs:appinfo>
-        <Element name="Semantic Version Date" mapvar="semanticVersionDate" xpath=""/>
+        <Element name="Semantic Version Date" mapvar="semanticVersionDate"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5933,7 +6024,7 @@
     <xs:annotation>
       <xs:documentation>A data item a software product version</xs:documentation>
       <xs:appinfo>
-        <Element name="Semantic Version Text" mapvar="semanticVersionText" xpath=""/>
+        <Element name="Semantic Version Text" mapvar="semanticVersionText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5941,7 +6032,7 @@
     <xs:annotation>
       <xs:documentation>True if semantic version; false if not or not known.</xs:documentation>
       <xs:appinfo>
-        <Element name="Semantic Version Indicator" mapvar="semanticVersionIndicator" xpath=""/>
+        <Element name="Semantic Version Indicator" mapvar="semanticVersionIndicator"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5949,7 +6040,7 @@
     <xs:annotation>
       <xs:documentation>A data item a for a sha256 encoded string</xs:documentation>
       <xs:appinfo>
-        <Element name="Sha256 Text" mapvar="sha256Text" xpath=""/>
+        <Element name="Sha256 Text" mapvar="sha256Text"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5957,7 +6048,7 @@
     <xs:annotation>
       <xs:documentation>A data item for automated software supply chain metadata.</xs:documentation>
       <xs:appinfo>
-        <Element name="Software Evidence Archive" mapvar="softwareEvidenceArchive" xpath=""/>
+        <Element name="Software Evidence Archive" mapvar="softwareEvidenceArchive"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5965,7 +6056,7 @@
     <xs:annotation>
       <xs:documentation>A data item for software product naming or version related information</xs:documentation>
       <xs:appinfo>
-        <Element name="Software Information" mapvar="softwareInformation" xpath=""/>
+        <Element name="Software Information" mapvar="softwareInformation"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5973,7 +6064,7 @@
     <xs:annotation>
       <xs:documentation>A data item for the Name of the software</xs:documentation>
       <xs:appinfo>
-        <Element name="Software Name Text" mapvar="softwareNameText" xpath=""/>
+        <Element name="Software Name Text" mapvar="softwareNameText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5981,7 +6072,7 @@
     <xs:annotation>
       <xs:documentation>A data item for the Organization of the software</xs:documentation>
       <xs:appinfo>
-        <Element name="Software Org Text" mapvar="softwareOrgText" xpath=""/>
+        <Element name="Software Org Text" mapvar="softwareOrgText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5989,7 +6080,7 @@
     <xs:annotation>
       <xs:documentation>A data item for the raw Version of the software</xs:documentation>
       <xs:appinfo>
-        <Element name="Software Version Text" mapvar="softwareVersionText" xpath=""/>
+        <Element name="Software Version Text" mapvar="softwareVersionText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -5997,7 +6088,7 @@
     <xs:annotation>
       <xs:documentation>A data item a for a sha1 encoded string</xs:documentation>
       <xs:appinfo>
-        <Element name="Source Hash Text" mapvar="sourceHashText" xpath=""/>
+        <Element name="Source Hash Text" mapvar="sourceHashText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6005,7 +6096,7 @@
     <xs:annotation>
       <xs:documentation>A data item describing the vulnerabilty source</xs:documentation>
       <xs:appinfo>
-        <Element name="Source Text" mapvar="sourceText" xpath=""/>
+        <Element name="Source Text" mapvar="sourceText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6013,7 +6104,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a World Wide Web Consortium Uniform Reference Indicator</xs:documentation>
       <xs:appinfo>
-        <Element name="Source URI Text" mapvar="sourceURIText" xpath=""/>
+        <Element name="Source URI Text" mapvar="sourceURIText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6021,7 +6112,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a statement of assurance</xs:documentation>
       <xs:appinfo>
-        <Element name="Statement Of Assurance Text" mapvar="statementOfAssuranceText" xpath=""/>
+        <Element name="Statement Of Assurance Text" mapvar="statementOfAssuranceText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6029,7 +6120,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a summary</xs:documentation>
       <xs:appinfo>
-        <Element name="Summary Text" mapvar="summaryText" xpath=""/>
+        <Element name="Summary Text" mapvar="summaryText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6037,7 +6128,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a text time entry</xs:documentation>
       <xs:appinfo>
-        <Element name="Time Text" mapvar="timeText" xpath=""/>
+        <Element name="Time Text" mapvar="timeText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6045,7 +6136,7 @@
     <xs:annotation>
       <xs:documentation>A data item for the type of reference</xs:documentation>
       <xs:appinfo>
-        <Element name="Type Of Reference Text" mapvar="typeOfReferenceText" xpath=""/>
+        <Element name="Type Of Reference Text" mapvar="typeOfReferenceText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6053,7 +6144,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a World Wide Web Consortium Uniform Reference Indicator</xs:documentation>
       <xs:appinfo>
-        <Element name="URI Text" mapvar="uriText" xpath=""/>
+        <Element name="URI Text" mapvar="uriText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6061,7 +6152,7 @@
     <xs:annotation>
       <xs:documentation>A data item for user interaction</xs:documentation>
       <xs:appinfo>
-        <Element name="User Interaction Text" mapvar="userInteractionText" xpath=""/>
+        <Element name="User Interaction Text" mapvar="userInteractionText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6069,7 +6160,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a vulnerability vector string</xs:documentation>
       <xs:appinfo>
-        <Element name="Vector String Text" mapvar="vectorStringText" xpath=""/>
+        <Element name="Vector String Text" mapvar="vectorStringText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6077,7 +6168,7 @@
     <xs:annotation>
       <xs:documentation>A data item for version information</xs:documentation>
       <xs:appinfo>
-        <Element name="Version Information" mapvar="versionInformation" xpath=""/>
+        <Element name="Version Information" mapvar="versionInformation"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6085,7 +6176,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a version</xs:documentation>
       <xs:appinfo>
-        <Element name="Version Text" mapvar="versionText" xpath=""/>
+        <Element name="Version Text" mapvar="versionText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6093,7 +6184,7 @@
     <xs:annotation>
       <xs:documentation>A data item for an entry associated with software repository commit event</xs:documentation>
       <xs:appinfo>
-        <Element name="Virus Engine Text" mapvar="virusEngineText" xpath=""/>
+        <Element name="Virus Engine Text" mapvar="virusEngineText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6101,7 +6192,7 @@
     <xs:annotation>
       <xs:documentation>A data item for information collected from virus scans</xs:documentation>
       <xs:appinfo>
-        <Element name="Virus Information" mapvar="virusInformation" xpath=""/>
+        <Element name="Virus Information" mapvar="virusInformation"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6109,7 +6200,7 @@
     <xs:annotation>
       <xs:documentation>A data item for vulnerabilty information</xs:documentation>
       <xs:appinfo>
-        <Element name="Vulnerabilities" mapvar="vulnerabilities" xpath=""/>
+        <Element name="Vulnerabilities" mapvar="vulnerabilities"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6117,7 +6208,7 @@
     <xs:annotation>
       <xs:documentation>A data item for vulnerabilty information</xs:documentation>
       <xs:appinfo>
-        <Element name="Vulnerability" mapvar="vulnerability" xpath=""/>
+        <Element name="Vulnerability" mapvar="vulnerability"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6125,7 +6216,7 @@
     <xs:annotation>
       <xs:documentation>A data item for authentication</xs:documentation>
       <xs:appinfo>
-        <Element name="Vulnerability Authentication Text" mapvar="vulnerabilityAuthenticationText" xpath=""/>
+        <Element name="Vulnerability Authentication Text" mapvar="vulnerabilityAuthenticationText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6133,7 +6224,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a vulnerability base score</xs:documentation>
       <xs:appinfo>
-        <Element name="Vulnerability Base Score Value" mapvar="vulnerabilityBaseScoreValue" xpath=""/>
+        <Element name="Vulnerability Base Score Value" mapvar="vulnerabilityBaseScoreValue"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6141,7 +6232,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a vulnerabilty identifier</xs:documentation>
       <xs:appinfo>
-        <Element name="Vulnerability Identifier Text" mapvar="vulnerabilityIdentifierText" xpath=""/>
+        <Element name="Vulnerability Identifier Text" mapvar="vulnerabilityIdentifierText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6149,7 +6240,7 @@
     <xs:annotation>
       <xs:documentation>A data item for vulnerability or virus information for a software artifact or source repository</xs:documentation>
       <xs:appinfo>
-        <Element name="Vulnerability Information" mapvar="vulnerabilityInformation" xpath=""/>
+        <Element name="Vulnerability Information" mapvar="vulnerabilityInformation"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6157,7 +6248,7 @@
     <xs:annotation>
       <xs:documentation>A data type for date and time vulnerability modified</xs:documentation>
       <xs:appinfo>
-        <Element name="Vulnerability Modified Date" mapvar="vulnerabilityModifiedDate" xpath=""/>
+        <Element name="Vulnerability Modified Date" mapvar="vulnerabilityModifiedDate"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6165,7 +6256,7 @@
     <xs:annotation>
       <xs:documentation>A data type for date and time vulnerability published</xs:documentation>
       <xs:appinfo>
-        <Element name="Vulnerability Published Date" mapvar="vulnerabilityPublishedDate" xpath=""/>
+        <Element name="Vulnerability Published Date" mapvar="vulnerabilityPublishedDate"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6173,7 +6264,7 @@
     <xs:annotation>
       <xs:documentation>A data item for reference details for a vulnerability</xs:documentation>
       <xs:appinfo>
-        <Element name="Vulnerability Reference" mapvar="vulnerabilityReference" xpath=""/>
+        <Element name="Vulnerability Reference" mapvar="vulnerabilityReference"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6181,7 +6272,7 @@
     <xs:annotation>
       <xs:documentation>A data item for vulnerability scope</xs:documentation>
       <xs:appinfo>
-        <Element name="Vulnerability Scope Text" mapvar="vulnerabilityScopeText" xpath=""/>
+        <Element name="Vulnerability Scope Text" mapvar="vulnerabilityScopeText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6189,7 +6280,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a vulnerability score system</xs:documentation>
       <xs:appinfo>
-        <Element name="Vulnerability Score System Text" mapvar="vulnerabilityScoreSystemText" xpath=""/>
+        <Element name="Vulnerability Score System Text" mapvar="vulnerabilityScoreSystemText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6197,7 +6288,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a vulnerability score</xs:documentation>
       <xs:appinfo>
-        <Element name="Vulnerability Score Value" mapvar="vulnerabilityScoreValue" xpath=""/>
+        <Element name="Vulnerability Score Value" mapvar="vulnerabilityScoreValue"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6205,7 +6296,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a vulnerability score version</xs:documentation>
       <xs:appinfo>
-        <Element name="Vulnerability Score Version Value" mapvar="vulnerabilityScoreVersionValue" xpath=""/>
+        <Element name="Vulnerability Score Version Value" mapvar="vulnerabilityScoreVersionValue"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6213,7 +6304,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a vulnerabilty source</xs:documentation>
       <xs:appinfo>
-        <Element name="Vulnerability Source Text" mapvar="vulnerabilitySourceText" xpath=""/>
+        <Element name="Vulnerability Source Text" mapvar="vulnerabilitySourceText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6221,7 +6312,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a vulnerability summary paragraph</xs:documentation>
       <xs:appinfo>
-        <Element name="Vulnerability Summary Text" mapvar="vulnerabilitySummaryText" xpath=""/>
+        <Element name="Vulnerability Summary Text" mapvar="vulnerabilitySummaryText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6229,7 +6320,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a vulnerability title</xs:documentation>
       <xs:appinfo>
-        <Element name="Vulnerability Title Text" mapvar="vulnerabilityTitleText" xpath=""/>
+        <Element name="Vulnerability Title Text" mapvar="vulnerabilityTitleText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -6237,7 +6328,7 @@
     <xs:annotation>
       <xs:documentation>A data item for a vector</xs:documentation>
       <xs:appinfo>
-        <Element name="Vulnerability Vector Text" mapvar="vulnerabilityVectorText" xpath=""/>
+        <Element name="Vulnerability Vector Text" mapvar="vulnerabilityVectorText"/>
       </xs:appinfo>
     </xs:annotation>
   </xs:element>

@@ -11,8 +11,6 @@ import (
 //PORT ... Listen address
 var PORT = 8080
 
-//var temppath = mkDir("IEPD")
-
 var tempfiles = map[string]string{}
 var resdigests = map[string]string{}
 var tempdigests = map[string]string{}
@@ -31,7 +29,7 @@ var Datastruct interface{}
 func Setup(pckgname string, assetpath string, resrces map[string]string, dirs map[string]string, dstruct interface{}) {
 	Datastruct = dstruct
 	dbloc = "/tmp/" + pckgname
-	tpath = "/tmp/IEPD"
+	temppath = "/tmp/IEPD"
 	path = assetpath
 	name = pckgname
 	resources = resrces

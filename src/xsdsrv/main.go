@@ -25,7 +25,8 @@ type key int
 
 const (
 	requestIDKey key    = 0
-	iepdsrc      string = "https://seva.specchain.org/dload"
+	iepdsrc      string = "https://sevaism.specchain.org/dload"
+	//iepdsrc string = "http://localhost:8181/dload"
 )
 
 var (
@@ -100,7 +101,7 @@ func Index(c *gin.Context) {
 }
 
 func redirct(c *gin.Context) {
-	c.Redirect(307, "/xsdccm/home")
+	c.Redirect(307, "/")
 }
 
 func getreslist() map[string]string {
@@ -123,6 +124,10 @@ func getResource(c *gin.Context) {
 		panic(err)
 	}
 	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	c.Writer.Header().Set("Expires", time.Unix(0, 0).Format(time.RFC1123))
+	c.Writer.Header().Set("Cache-Control", "no-cache, private, max-age=0")
+	c.Writer.Header().Set("Pragma", "no-cache")
+	c.Writer.Header().Set("X-Accel-Expires", "0")
 	c.Writer.Write(f)
 }
 func logging(logger *log.Logger) func(http.Handler) http.Handler {
@@ -153,7 +158,7 @@ func tracing(nextRequestID func() string) func(http.Handler) http.Handler {
 	}
 }
 func wgetIepd(fpath string, urlstr string) error {
-	log.Println("Wget Save To: " + fpath)
+	log.Println("Wget " + urlstr + " Save To: " + fpath)
 	// Create output dir
 	p := filepath.Dir(fpath)
 	os.MkdirAll(p, os.ModePerm)

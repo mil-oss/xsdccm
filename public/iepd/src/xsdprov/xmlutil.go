@@ -40,10 +40,9 @@ func writeStructXML(filepath string, xsdstruct interface{}) string {
 func Verify(verifydata VerifyData) bool {
 	resdigests = getDigests(resources, tpath, "Sha256")
 	//log.Println("Verify")
-	//log.Println("verify.Name " + verify.Name)
-	//log.Println("verify.File " + verify.File)
-	//log.Println("verify.Digest " + verify.Digest)
-	//log.Println("src.Digest " + resdigests[verify.File])
+	log.Println("verifydata.ID " + verifydata.ID)
+	log.Println("verifydata.Digest " + verifydata.Digest)
+	log.Println("src.Digest " + resdigests[verifydata.ID])
 	if resdigests[verifydata.ID] == verifydata.Digest {
 		log.Println("Verification Successful")
 		return true
@@ -56,7 +55,7 @@ func ValidateXML(validationdata ValidationData) (bool, []error) {
 	log.Println("ValidateXML")
 	log.Println("xml: " + validationdata.XMLName)
 	log.Println("xsd: " + validationdata.XSDName)
-	var xsddoc, derr = xsd.ParseFromFile(temppath + resources[validationdata.XSDName])
+	var xsddoc, derr = xsd.ParseFromFile(tpath + resources[validationdata.XSDName])
 	check(derr)
 	ioutil.ReadFile(validationdata.XMLPath)
 	doc, err := libxml2.ParseString(validationdata.XMLString)

@@ -10,7 +10,7 @@ export class HomeComponent {
 
   files = [
     {
-      name: "SEvA XML IEPD",
+      name: "SEvA ISM XML IEPD",
       url: this.xsdService.iepdroot + "dload",
       description:
         "Information Exchange Packet Documentation - all files in a Zip"
@@ -28,25 +28,25 @@ export class HomeComponent {
         "JSON Representation of Software Evidence Archive Reference XML Schema"
     },
     {
-      name: "SEvA XML IEPD Schema",
+      name: "SEvA ISM XML IEPD Schema",
       url: this.xsdService.iepdhost + "iep.xsd",
       description:
         "XML Schema for Software Evidence Archive information exchange"
     },
     {
-      name: "SEvA XML IEPD JSON",
+      name: "SEvA ISM XML IEPD JSON",
       url: this.xsdService.iepdhost + "iep_xsd.json",
       description:
         "JSON Representation of Software Evidence Archive Implementation XML Schema"
     },
     {
-      name: "TEST INSTANCE XML",
+      name: "TEST INSTANCE ISM XML",
       url: this.xsdService.iepdhost + "test_instance.xml",
       description:
         "Software Evidence Archive XML Test Instance"
     },
     {
-      name: "TEST INSTANCE JSON",
+      name: "TEST INSTANCE ISM JSON",
       url: this.xsdService.iepdhost + "test_instance.json",
       description:
         "JSON Representation of Software Evidence Archive XML Test Instance"

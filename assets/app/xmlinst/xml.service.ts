@@ -61,37 +61,31 @@ export class XmlService {
   xsdmode: boolean = true;
   valerrors: any[] = [];
   viewmode: string = "xml";
-   //iepdroot: string = "http://localhost:8080/";
-   //iepdhost:string="http://localhost:8080/file/";
-  iepdroot: string = "https://sevaxsd.specchain.org/";
-  iepdhost: string = "https://sevaxsd.specchain.org/file/";
-  sevaroot: string = "https://seva.specchain.org/";
-  sevahost: string = "https://seva.specchain.org/file/";
 
   constructor(private http: Http, private errorService: ErrorService, private xsdService: XsdService) {
   }
   //{name,ism}
   getInstance(jobj) {
     this.xmldata.Instances[jobj.name] = {}
-    this.http.get(this.iepdhost + "test_instance.xml").subscribe(
+    this.http.get(this.xsdService.iepdhost + "test_instance.xml").subscribe(
       (response) => {
         this.xmldata.Instances[jobj.name] = { name: jobj.name, file: "test_instance.xml", content: response['_body'] };
       });
-    this.http.get(this.iepdhost + "test_instance.json").subscribe(
+    this.http.get(this.xsdService.iepdhost + "test_instance.json").subscribe(
       (response) => {
         var jdta = JSON.parse(response['_body']);
         this.xmldata.Instances[jobj.name].json = jdta;
       });
   }
   getTestData(params) {
-    this.http.get(this.iepdhost + "test_data.xml").subscribe(
+    this.http.get(this.xsdService.iepdhost + "test_data.xml").subscribe(
       (response) => {
         this.xmldata.Tests[params.name] = { name: params.name, file: "test_data.xml", content: response["_body"] };
       });
   }
   //valdata:{xmlname: string, xmlstring: string, xsdname: string}
   validateXml(valdata) {
-    this.http.post(this.sevaroot.concat('validate'), valdata, httpOptions).subscribe(
+    this.http.post(this.xsdService.iepdroot.concat('validate'), valdata, httpOptions).subscribe(
       (response) => {
         var vresp = JSON.parse(response['_body']);
         if (vresp.status) {
@@ -105,7 +99,7 @@ export class XmlService {
   };
   verifyStr(name: string, str: string) {
     var digest = crypto.createHash('sha256').update(str, 'utf8').digest('hex');
-    this.http.post(this.sevaroot.concat('verify'), { id: name, digest: digest }).subscribe(
+    this.http.post(this.xsdService.iepdroot.concat('verify'), { id: name, digest: digest }).subscribe(
       (response) => {
         var vresp = JSON.parse(response['_body']);
         this.seldocverified = vresp.status;
