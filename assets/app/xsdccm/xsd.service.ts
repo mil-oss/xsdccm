@@ -23,6 +23,9 @@ import {
   ComplexType
 } from "./xsd.model";
 
+import * as data from "../../../config/xsdccm.json";
+const config = (<any>data).config;
+
 @Injectable()
 export class XsdService {
   xsd: XsdSchema;
@@ -47,11 +50,13 @@ export class XsdService {
   selectedxml: any;
   xsdmode: boolean = true;
   viewmode: string = "xml";
+  iepdroot=config.iepdroot;
+  iepdhost=config.iepdhost;
   //iepdroot: string = "https://seva.specchain.org/";
-  iepdroot: string = "https://sevaism.specchain.org/";
+  //iepdroot: string = "https://sevaism.specchain.org/";
   //iepdroot: string = "http://localhost:8181/";
-   //iepdhost: string = "https://sevaxsd.specchain.org/file/";
-  iepdhost: string = "https://seva-ism-xsd.specchain.org/file/";
+  //iepdhost: string = "https://sevaxsd.specchain.org/file/";
+  //iepdhost: string = "https://seva-ism-xsd.specchain.org/file/";
   //iepdhost: string = "http://localhost:8080/file/";
 
   xmldata: any = {

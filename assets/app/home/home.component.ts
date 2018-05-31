@@ -10,7 +10,7 @@ export class HomeComponent {
 
   files = [
     {
-      name: "SEvA ISM XML IEPD",
+      name: "SPDX XSD",
       url: this.xsdService.iepdroot + "dload",
       description:
         "Information Exchange Packet Documentation - all files in a Zip"

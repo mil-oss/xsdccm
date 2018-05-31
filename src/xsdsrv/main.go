@@ -28,6 +28,7 @@ const (
 )
 
 var (
+	cfg        Cfg
 	requestID  string
 	listenAddr string
 	healthy    int32
@@ -36,7 +37,9 @@ var (
 )
 
 func main() {
-	wgetIepd("public/iepd.zip", iepdsrc)
+	cfg := getConfig()
+	log.Println("Pull IEPD from " + cfg.Pckg)
+	wgetIepd("public/iepd.zip", cfg.Pckg)
 	unzip("public/iepd.zip", "public")
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
@@ -98,11 +101,9 @@ func main() {
 func Index(c *gin.Context) {
 	c.HTML(200, "index.html", gin.H{})
 }
-
 func redirct(c *gin.Context) {
 	c.Redirect(307, "/")
 }
-
 func getreslist() map[string]string {
 	res, err := ioutil.ReadFile("public/iepd/json/resources.json")
 	check(err)
@@ -111,7 +112,6 @@ func getreslist() map[string]string {
 	check(merr)
 	return r
 }
-
 func getResource(c *gin.Context) {
 	log.Println("getResource")
 	var ft = filepath.Base(c.Request.URL.Path)

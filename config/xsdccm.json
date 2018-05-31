@@ -1,0 +1,5 @@
+{
+    "pckg": "http://localhost:8181/dload",
+    "root": "http://localhost:8181",
+    "host": "http://localhost:8080"
+}
