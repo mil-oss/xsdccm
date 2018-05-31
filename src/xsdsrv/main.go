@@ -25,11 +25,10 @@ type key int
 
 const (
 	requestIDKey key = 0
-	//iepdsrc      string = "https://sevaism.specchain.org/dload"
-	iepdsrc string = "http://localhost:8080/dload"
 )
 
 var (
+	requestID  string
 	listenAddr string
 	healthy    int32
 	xsdstruct  interface{}
@@ -123,6 +122,7 @@ func getResource(c *gin.Context) {
 	if err != nil {
 		panic(err)
 	}
+	c.Writer.Header().Set("X-Request-Id", requestID)
 	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 	c.Writer.Header().Set("Expires", time.Unix(0, 0).Format(time.RFC1123))
 	c.Writer.Header().Set("Cache-Control", "no-cache, private, max-age=0")
@@ -152,7 +152,7 @@ func tracing(nextRequestID func() string) func(http.Handler) http.Handler {
 				requestID = nextRequestID()
 			}
 			ctx := context.WithValue(r.Context(), requestIDKey, requestID)
-			w.Header().Set("X-Request-Id", requestID)
+			//w.Header().Set("X-Request-Id", requestID)
 			next.ServeHTTP(w, r.WithContext(ctx))
 		})
 	}

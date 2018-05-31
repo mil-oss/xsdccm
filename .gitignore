@@ -1,9 +1,11 @@
 /node_modules
 /.idea
 /typings
-/public/js/
+/public/iepd/
+/public/xsdccm/
 npm-debug.log
 .DS_Store
+.zip
 bin/
 pkg/
 src/github.com/
