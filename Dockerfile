@@ -21,3 +21,4 @@ RUN go install xsdsrv
 EXPOSE 8080
 ENTRYPOINT ["xsdsrv"]
 
+CMD []
