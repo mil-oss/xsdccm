@@ -24,9 +24,9 @@ import (
 type key int
 
 const (
-	requestIDKey key    = 0
-	iepdsrc      string = "https://sevaism.specchain.org/dload"
-	//iepdsrc string = "http://localhost:8181/dload"
+	requestIDKey key = 0
+	//iepdsrc      string = "https://sevaism.specchain.org/dload"
+	iepdsrc string = "http://localhost:8080/dload"
 )
 
 var (
@@ -54,7 +54,7 @@ func main() {
 	{
 		ng.GET("/")
 	}
-	flag.StringVar(&listenAddr, "listen-addr", ":8080", "server listen address")
+	flag.StringVar(&listenAddr, "listen-addr", ":8181", "server listen address")
 	flag.Parse()
 	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
 	logger.Println("Starting HTTP Server. .. ")

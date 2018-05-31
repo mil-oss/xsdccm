@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-    xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="xs" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="xs" version="1.0">
     <xsl:output method="text" indent="yes"/>
 
     <!--
@@ -11,10 +9,10 @@
         To run the XSL ensure that the xsdpath and xsdjson paths are correct
         and configure the XSL processor to use the 'main' template.
     -->
-    
+
     <!-- 
-    input:  /iepd/xml/xsd/ismiep.xsd
-    output: /iepd/json/ism_xsd.json
+    input:  /iepd/xml/xsd/iep.xsd
+    output: /iepd/json/iep_xsd.json
    -->
 
 
@@ -30,12 +28,12 @@
     <xsl:variable name="rbr" select="']'"/>
     <xsl:variable name="cm" select="','"/>
     <!--*************************************************-->
-    
+
     <xsl:template match="/">
-      <xsl:call-template name="main"/>
+        <xsl:call-template name="main"/>
     </xsl:template>
 
-   <xsl:template name="main">
+    <xsl:template name="main">
         <xsl:value-of select="$lb"/>
         <xsl:apply-templates select="xs:schema/*"/>
         <xsl:value-of select="$rb"/>
@@ -47,7 +45,12 @@
         <xsl:value-of select="$cm"/>
         <xsl:value-of select="concat($q, 'name', $q, $c, $q, @name, $q)"/>
         <xsl:value-of select="$cm"/>
-        <xsl:value-of select="concat($q, 'documentation', $q, $c, $q, normalize-space(xs:annotation/xs:documentation), $q)"/>
+        <xsl:variable name="doc">
+            <xsl:call-template name="escape-bs-string">
+                <xsl:with-param name="s" select="xs:annotation/xs:documentation"/>
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:value-of select="concat($q, 'documentation', $q, $c, $q, normalize-space($doc), $q)"/>
         <xsl:if test="xs:restriction/@base">
             <xsl:value-of select="$cm"/>
             <xsl:apply-templates select="xs:restriction/@base" mode="tojson"/>
@@ -63,7 +66,12 @@
                     <xsl:value-of select="concat($cm, $q, 'dataitem', $q, $c, $q, @dataitem, $q)"/>
                 </xsl:if>
                 <xsl:if test="xs:annotation/xs:documentation">
-                    <xsl:value-of select="concat($cm, $q, 'documentation', $q, $c, $q, normalize-space(xs:annotation/xs:documentation), $q)"/>
+                    <xsl:variable name="edoc">
+                        <xsl:call-template name="escape-bs-string">
+                            <xsl:with-param name="s" select="xs:annotation/xs:documentation"/>
+                        </xsl:call-template>
+                    </xsl:variable>
+                    <xsl:value-of select="concat($cm, $q, 'documentation', $q, $c, $q, normalize-space($edoc), $q)"/>
                 </xsl:if>
                 <xsl:value-of select="$rb"/>
                 <xsl:if test="following-sibling::xs:enumeration">
@@ -88,7 +96,12 @@
         <xsl:value-of select="$cm"/>
         <xsl:value-of select="concat($q, 'name', $q, $c, $q, @name, $q)"/>
         <xsl:value-of select="$cm"/>
-        <xsl:value-of select="concat($q, 'documentation', $q, $c, $q, normalize-space(xs:annotation/xs:documentation), $q)"/>
+        <xsl:variable name="doc">
+            <xsl:call-template name="escape-bs-string">
+                <xsl:with-param name="s" select="xs:annotation/xs:documentation"/>
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:value-of select="concat($q, 'documentation', $q, $c, $q, normalize-space($doc), $q)"/>
         <xsl:if test="xs:restriction/@base">
             <xsl:value-of select="$cm"/>
             <xsl:apply-templates select="xs:restriction/@base" mode="tojson"/>
@@ -98,9 +111,6 @@
         <xsl:apply-templates select="xs:simpleContent/xs:restriction/@base" mode="tojson"/>
         <xsl:if test="./*">
             <xsl:apply-templates select="*"/>
-        </xsl:if>
-        <xsl:if test="xs:attributeGroup">
-            <xsl:value-of select="concat($cm,$q, 'attributeGroup', $q, $c, $q,xs:attributeGroup/@ref, $q)"/>
         </xsl:if>
         <xsl:value-of select="$rb"/>
         <xsl:if test="following-sibling::xs:*">
@@ -128,7 +138,12 @@
         </xsl:for-each>
         <xsl:if test="xs:annotation/xs:documentation">
             <xsl:value-of select="$cm"/>
-            <xsl:value-of select="concat($q, 'documentation', $q, $c, $q, normalize-space(xs:annotation/xs:documentation), $q)"/>
+            <xsl:variable name="doc">
+                <xsl:call-template name="escape-bs-string">
+                    <xsl:with-param name="s" select="xs:annotation/xs:documentation"/>
+                </xsl:call-template>
+            </xsl:variable>
+            <xsl:value-of select="concat($q, 'documentation', $q, $c, $q, normalize-space($doc), $q)"/>
         </xsl:if>
         <xsl:if test="xs:annotation/xs:appinfo">
             <xsl:apply-templates select="xs:annotation/xs:appinfo" mode="tojson"/>
@@ -202,7 +217,19 @@
             <xsl:value-of select="concat($q, name(), $inc, $q, $c, $lb)"/>
             <xsl:variable name="appatts">
                 <xsl:for-each select="@*">
-                    <json str="{concat($q, name(), $q, $c, $q, ., $q)}"/>
+                    <xsl:variable name="txt">
+                        <xsl:choose>
+                            <xsl:when test="name() = 'comment'">
+                                <xsl:call-template name="escape-bs-string">
+                                    <xsl:with-param name="s" select="."/>
+                                </xsl:call-template>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="."/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:variable>
+                    <json str="{concat($q, name(), $q, $c, $q, $txt, $q)}"/>
                 </xsl:for-each>
             </xsl:variable>
             <xsl:for-each select="exsl:node-set($appatts)/*">
