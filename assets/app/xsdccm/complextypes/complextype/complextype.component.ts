@@ -19,7 +19,7 @@ export class ComplextypeComponent implements OnInit {
   editLabel: string;
   editVar: string;
 
-  constructor(private xsdService: XsdService, private router: Router, private route: ActivatedRoute) {
+  constructor(public xsdService: XsdService, private router: Router, private route: ActivatedRoute) {
 
   }
 

@@ -1,6 +1,6 @@
 {
-    "project":"SPDX XSD",
-    "title":"SPDX XML Schema Confguration Management",
+    "project":"SPD License",
+    "title":"SPDX License XML Schema Confguration Management",
     "pckg": "http://localhost:8080/dload",
     "root": "http://localhost:8080/",
     "host": "http://localhost:8181/",

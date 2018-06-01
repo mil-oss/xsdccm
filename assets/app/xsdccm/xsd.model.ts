@@ -50,6 +50,7 @@ export class XsdAppinfo {
     public Element?: Element;
     public SimpleType?: SimpleType;
     public ComplexType?: ComplexType;
+    public Choice?: XsdElement[];
 }
 
 export class XsdEnumeration {

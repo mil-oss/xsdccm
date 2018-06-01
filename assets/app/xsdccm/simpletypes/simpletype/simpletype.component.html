@@ -23,13 +23,6 @@
     <div *ngIf="editst()">
       <div contenteditable=true [textContent]="editDoc" (input)="editDoc=$event.target.textContent" class="docedit"></div>
     </div>
-    <div *ngIf="!editst()">
-      <i>variable</i> = {{stype.appinfo.SimpleType.mapvar}}</div>
-    <div *ngIf="editst()">
-      <i>variable</i> =
-      <input style="height:20px;width:535px;" type="text" [(ngModel)]="editVar" value="{{editVar}}"
-      />
-    </div>
     <div *ngIf="editst()">
       <b>Comments:</b>
     </div>

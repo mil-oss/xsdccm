@@ -16,10 +16,10 @@ export class XsdviewComponent implements OnInit {
 
   ngOnInit() {
     this.xsdService.xsdmode = false;
-    //this.ixsdjson = this.xsdService.jsondata["iep_xsd.json"];
-    //this.rootel = this.xsdService.xsds.iepXsd.root;
-    this.ixsdjson = this.xsdService.jsondata["ref_xsd.json"];
-    this.rootel = this.xsdService.xsds.refXsd.root;
+    this.ixsdjson = this.xsdService.jsondata["iep_xsd.json"];
+    this.rootel = this.xsdService.xsds.iepXsd.root;
+    //this.ixsdjson = this.xsdService.jsondata["ref_xsd.json"];
+    //this.rootel = this.xsdService.xsds.refXsd.root;
     console.log(this.rootel);
   }
 

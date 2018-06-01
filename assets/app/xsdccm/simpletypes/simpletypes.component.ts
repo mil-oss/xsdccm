@@ -23,6 +23,7 @@ export class SimpletypesComponent implements OnInit {
     var txt = this.xsdService.txtFilter;
     var result = [];
     var mlist = this.xsdService.simpletypes;
+    this.stypes = this.xsdService.simpletypes;
     if (txt === "" || typeof txt === "undefined") {
       return mlist;
     } else {
@@ -43,4 +44,5 @@ export class SimpletypesComponent implements OnInit {
     this.xsdService.selSimpleType(node.name);
     this.router.navigate(['xsd/simpletype', node.name]);
   };
+
 }

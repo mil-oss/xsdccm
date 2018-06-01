@@ -28,12 +28,6 @@
       <div *ngIf="editel()">
         <div contenteditable=true [textContent]="editDoc" (input)="editDoc=$event.target.textContent" class="docedit"></div>
       </div>
-      <div *ngIf="!editel()">
-        <i>variable</i> = {{elmnt.appinfo.Element.mapvar}}</div>
-      <div *ngIf="editel()">
-        <i>variable</i> =
-        <input style="height:20px;width:535px;" type="text" [(ngModel)]="editVar" value="{{editVar}}" />
-      </div>
       <div *ngIf="elmnt.appinfo.Element.xpath">
         <i>xpath</i> = {{elmnt.appinfo.Element.xpath}}
       </div>
