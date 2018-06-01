@@ -118,7 +118,7 @@ func getResource(c *gin.Context) {
 	log.Println(ft)
 	var p = resources[ft]
 	log.Println(p)
-	f, err := ioutil.ReadFile("public/" + p)
+	f, err := ioutil.ReadFile("public/iepd/" + p)
 	if err != nil {
 		panic(err)
 	}

@@ -24,7 +24,9 @@ import {
 } from "./xsd.model";
 
 import * as data from "../../../config/xsdccm.json";
-const config = (<any>data).config;
+const root = (<any>data).root;
+const host = (<any>data).host;
+const xsdcfg = (<any>data).xsds;
 
 @Injectable()
 export class XsdService {
@@ -50,34 +52,20 @@ export class XsdService {
   selectedxml: any;
   xsdmode: boolean = true;
   viewmode: string = "xml";
-  iepdroot=config.iepdroot;
-  iepdhost=config.iepdhost;
+
+
   //iepdroot: string = "https://seva.specchain.org/";
   //iepdroot: string = "https://sevaism.specchain.org/";
   //iepdroot: string = "http://localhost:8181/";
   //iepdhost: string = "https://sevaxsd.specchain.org/file/";
-  //iepdhost: string = "https://seva-ism-xsd.specchain.org/file/";
-  //iepdhost: string = "http://localhost:8080/file/";
+  iepdhost: string = host+"file/";
+  iepdroot: string = root;
 
   xmldata: any = {
   };
   jsondata: any = {
   };
-  xsds: any = {
-    refXsd: {
-      name: "SEvA Reference XSD",
-      value: "refXsd",
-      file: "ref.xsd",
-      root: "SoftwareEvidenceArchive"
-    },
-    iepXsd: {
-      name: "SEvA Implementation XSD",
-      value: "iepdXsd",
-      file: "iep.xsd",
-      root: "SoftwareEvidenceArchive",
-      json: this.jsondata["iep_xsd.json"]
-    }
-  };
+  xsds: any=xsdcfg;
 
   constructor(private http: Http, private errorService: ErrorService) {
     this.iepdResource("ref.xsd")
@@ -101,7 +89,7 @@ export class XsdService {
 
   iepdResource(name: string) {
     var resp = {}
-    this.http.get(this.iepdhost + name).subscribe(
+    this.http.get(this.iepdhost +name).subscribe(
       (response) => {
         this.xmldata[name] = response["_body"]
       })

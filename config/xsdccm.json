@@ -1,5 +1,19 @@
 {
-    "pckg": "http://localhost:8181/dload",
-    "root": "http://localhost:8181",
-    "host": "http://localhost:8080"
+    "pckg": "http://localhost:8080/dload",
+    "root": "http://localhost:8080/",
+    "host": "http://localhost:8181/",
+    "xsds": {
+        "refXsd": {
+            "name": "SPDX Reference XSD",
+            "value": "refXsd",
+            "file": "spdx-ref.xsd",
+            "root": "SpdxDocumentType"
+        },
+        "iepXsd": {
+            "name": "SPDX License XSD",
+            "value": "iepdXsd",
+            "file": "spdx-license.xsd",
+            "root": "License"
+        }
+    }
 }

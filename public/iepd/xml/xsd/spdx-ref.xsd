@@ -28,6 +28,31 @@
                        rdf="http://www.semanticweb.org/spdx/ontologies/2014/6/SPDX-2.1"/>
       </xs:appinfo>
    </xs:annotation>
+   <xs:complexType name="LicenseType">
+      <xs:annotation>
+         <xs:documentation>A data type for License type</xs:documentation>
+         <xs:appinfo>
+            <spd:Class name="License"
+                       xmlname="License"
+                       comment="A License represents a copyright license. The SPDX license list website is annotated with these properties (using RDFa) to allow license data published there to be easily processed. The license list is populated in accordance with the License List fields guidelines. These guidelines are not normative and may change over time. SPDX tooling should not rely on values in the license list conforming to the current guidelines."
+                       rdf="http://spdx.org/rdf/terms#License"
+                       subclassof="SimpleLicensingInfo"/>
+         </xs:appinfo>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="SimpleLicensingInfoType">
+            <xs:sequence>
+               <xs:element ref="IsDeprecatedLicenseId" minOccurs="0"/>
+               <xs:element ref="IsOsiApproved" minOccurs="1"/>
+               <xs:element ref="IsFsfLibre" minOccurs="0"/>
+               <xs:element ref="StandardLicenseHeader" minOccurs="0"/>
+               <xs:element ref="LicenseText" minOccurs="1"/>
+               <xs:element ref="StandardLicenseTemplate" minOccurs="1"/>
+               <xs:element ref="LicenseAugmentationPoint" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
    <xs:simpleType name="AlgorithmCodeSimpleType">
       <xs:annotation>
          <xs:documentation>A data type for Algorithm properties</xs:documentation>
@@ -322,15 +347,6 @@
             </xs:annotation>
          </xs:enumeration>
       </xs:restriction>
-   </xs:simpleType>
-   <xs:simpleType name="PropertyIndicatorSimpleType">
-      <xs:annotation>
-         <xs:documentation>A data type for the boolean indication of a property existence. True if known. False if not or not known.</xs:documentation>
-         <xs:appinfo>
-            <spd:SimpleType name="Property Indicator" mapvar="propertyIndicator"/>
-         </xs:appinfo>
-      </xs:annotation>
-      <xs:restriction base="xs:boolean"/>
    </xs:simpleType>
    <xs:simpleType name="ReferenceCategoryCodeSimpleType">
       <xs:annotation>
@@ -664,10 +680,10 @@
       <xs:complexContent>
          <xs:extension base="structures:ObjectType">
             <xs:sequence>
-               <xs:element ref="Date"/>
+               <xs:element ref="Date" minOccurs="1" maxOccurs="1"/>
                <xs:element ref="AnnotationTypeCode"/>
-               <xs:element ref="Comment"/>
-               <xs:element ref="Annotator"/>
+               <xs:element ref="Comment" minOccurs="1" maxOccurs="1"/>
+               <xs:element ref="Annotator" minOccurs="1" maxOccurs="1"/>
                <xs:element ref="AnnotationAugmentationPoint"
                            minOccurs="0"
                            maxOccurs="unbounded"/>
@@ -739,7 +755,7 @@
          </xs:appinfo>
       </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="structures:ObjectType">
+         <xs:extension base="OffsetPointerType">
             <xs:sequence>
                <xs:element ref="ByteOffsetPointerAugmentationPoint"
                            minOccurs="0"
@@ -761,7 +777,7 @@
       <xs:complexContent>
          <xs:extension base="structures:ObjectType">
             <xs:sequence>
-               <xs:element ref="ChecksumValue"/>
+               <xs:element ref="ChecksumValue" minOccurs="1" maxOccurs="1"/>
                <xs:element ref="AlgorithmCode"/>
                <xs:element ref="ChecksumAugmentationPoint" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
@@ -814,7 +830,7 @@
          </xs:appinfo>
       </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="structures:ObjectType">
+         <xs:extension base="PointerType">
             <xs:sequence>
                <xs:element ref="CompoundPointerAugmentationPoint"
                            minOccurs="0"
@@ -831,13 +847,13 @@
                        xmlname="ConjunctiveLicenseSet"
                        comment="A ConjunctiveLicenseSet represents a set of licensing information all of which apply."
                        rdf="http://spdx.org/rdf/terms#ConjunctiveLicenseSet"
-                       subclassof="AnyLicenseInfoContainer"/>
+                       subclassof="AnyLicenseInfo"/>
          </xs:appinfo>
       </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="structures:ObjectType">
+         <xs:extension base="AnyLicenseInfoType">
             <xs:sequence>
-               <xs:element ref="Member"/>
+               <xs:element ref="Member" minOccurs="2" maxOccurs="unbounded"/>
                <xs:element ref="ConjunctiveLicenseSetAugmentationPoint"
                            minOccurs="0"
                            maxOccurs="unbounded"/>
@@ -945,10 +961,10 @@
       <xs:complexContent>
          <xs:extension base="structures:ObjectType">
             <xs:sequence>
-               <xs:element ref="LicenseListVersion"/>
-               <xs:element ref="Created"/>
-               <xs:element ref="Comment"/>
-               <xs:element ref="Creator"/>
+               <xs:element ref="LicenseListVersion" minOccurs="0"/>
+               <xs:element ref="Created" minOccurs="1" maxOccurs="1"/>
+               <xs:element ref="Comment" minOccurs="0"/>
+               <xs:element ref="Creator" minOccurs="1"/>
                <xs:element ref="CreationInfoAugmentationPoint"
                            minOccurs="0"
                            maxOccurs="unbounded"/>
@@ -1018,13 +1034,13 @@
                        xmlname="DisjunctiveLicenseSet"
                        comment="A DisjunctiveLicenseSet represents a set of licensing information where only one license applies at a time. This class implies that the recipient gets to choose one of these licenses they would prefer to use."
                        rdf="http://spdx.org/rdf/terms#DisjunctiveLicenseSet"
-                       subclassof="AnyLicenseInfoContainer"/>
+                       subclassof="AnyLicenseInfo"/>
          </xs:appinfo>
       </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="structures:ObjectType">
+         <xs:extension base="AnyLicenseInfoType">
             <xs:sequence>
-               <xs:element ref="Member"/>
+               <xs:element ref="Member" minOccurs="2" maxOccurs="unbounded"/>
                <xs:element ref="DisjunctiveLicenseSetAugmentationPoint"
                            minOccurs="0"
                            maxOccurs="unbounded"/>
@@ -1129,9 +1145,9 @@
       <xs:complexContent>
          <xs:extension base="structures:ObjectType">
             <xs:sequence>
-               <xs:element ref="Checksum"/>
-               <xs:element ref="ExternalDocumentID"/>
-               <xs:element ref="SpdxDocument"/>
+               <xs:element ref="Checksum" minOccurs="1" maxOccurs="1"/>
+               <xs:element ref="ExternalDocumentID" minOccurs="1" maxOccurs="1"/>
+               <xs:element ref="SpdxDocument" minOccurs="1" maxOccurs="1"/>
                <xs:element ref="ExternalDocumentRefAugmentationPoint"
                            minOccurs="0"
                            maxOccurs="unbounded"/>
@@ -1152,9 +1168,9 @@
       <xs:complexContent>
          <xs:extension base="structures:ObjectType">
             <xs:sequence>
-               <xs:element ref="Comment"/>
-               <xs:element ref="ReferenceLocator"/>
-               <xs:element ref="ReferenceID"/>
+               <xs:element ref="Comment" maxOccurs="1"/>
+               <xs:element ref="ReferenceLocator" minOccurs="1" maxOccurs="1"/>
+               <xs:element ref="ReferenceID" minOccurs="1" maxOccurs="1"/>
                <xs:element ref="ReferenceCategoryCode"/>
                <xs:element ref="ExternalRefAugmentationPoint"
                            minOccurs="0"
@@ -1192,9 +1208,9 @@
          </xs:appinfo>
       </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="structures:ObjectType">
+         <xs:extension base="SimpleLicensingInfoType">
             <xs:sequence>
-               <xs:element ref="ExtractedText"/>
+               <xs:element ref="ExtractedText" minOccurs="1" maxOccurs="1"/>
                <xs:element ref="ExtractedLicenseInfoAugmentationPoint"
                            minOccurs="0"
                            maxOccurs="unbounded"/>
@@ -1270,13 +1286,13 @@
          </xs:appinfo>
       </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="structures:ObjectType">
+         <xs:extension base="SpdxItemType">
             <xs:sequence>
-               <xs:element ref="NoticeText"/>
-               <xs:element ref="FileContributor"/>
-               <xs:element ref="FileName"/>
+               <xs:element ref="NoticeText" maxOccurs="1"/>
+               <xs:element ref="FileContributor" minOccurs="0"/>
+               <xs:element ref="FileName" minOccurs="1" maxOccurs="1"/>
                <xs:element ref="FileTypeCode"/>
-               <xs:element ref="Checksum"/>
+               <xs:element ref="Checksum" minOccurs="1"/>
                <xs:element ref="FileAugmentationPoint" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
          </xs:extension>
@@ -1307,7 +1323,7 @@
          </xs:appinfo>
       </xs:annotation>
       <xs:simpleContent>
-         <xs:extension base="PropertyIndicatorSimpleType">
+         <xs:extension base="xs:boolean">
             <xs:attributeGroup ref="structures:SimpleObjectAttributeGroup"/>
          </xs:extension>
       </xs:simpleContent>
@@ -1341,7 +1357,7 @@
          </xs:appinfo>
       </xs:annotation>
       <xs:simpleContent>
-         <xs:extension base="PropertyIndicatorSimpleType">
+         <xs:extension base="xs:boolean">
             <xs:attributeGroup ref="structures:SimpleObjectAttributeGroup"/>
          </xs:extension>
       </xs:simpleContent>
@@ -1358,7 +1374,7 @@
          </xs:appinfo>
       </xs:annotation>
       <xs:simpleContent>
-         <xs:extension base="PropertyIndicatorSimpleType">
+         <xs:extension base="xs:boolean">
             <xs:attributeGroup ref="structures:SimpleObjectAttributeGroup"/>
          </xs:extension>
       </xs:simpleContent>
@@ -1376,7 +1392,7 @@
          </xs:appinfo>
       </xs:annotation>
       <xs:simpleContent>
-         <xs:extension base="PropertyIndicatorSimpleType">
+         <xs:extension base="xs:boolean">
             <xs:attributeGroup ref="structures:SimpleObjectAttributeGroup"/>
          </xs:extension>
       </xs:simpleContent>
@@ -1476,12 +1492,12 @@
       <xs:complexContent>
          <xs:extension base="structures:ObjectType">
             <xs:sequence>
-               <xs:element ref="LicenseExceptionText"/>
-               <xs:element ref="Comment"/>
-               <xs:element ref="Example"/>
-               <xs:element ref="Name"/>
-               <xs:element ref="SeeAlso"/>
-               <xs:element ref="LicenseExceptionID"/>
+               <xs:element ref="LicenseExceptionText" minOccurs="1" maxOccurs="1"/>
+               <xs:element ref="Comment" minOccurs="1" maxOccurs="1"/>
+               <xs:element ref="Example" maxOccurs="1"/>
+               <xs:element ref="Name" minOccurs="1" maxOccurs="1"/>
+               <xs:element ref="SeeAlso" minOccurs="0"/>
+               <xs:element ref="LicenseExceptionID" minOccurs="1" maxOccurs="1"/>
                <xs:element ref="LicenseExceptionAugmentationPoint"
                            minOccurs="0"
                            maxOccurs="unbounded"/>
@@ -1557,29 +1573,6 @@
          </xs:extension>
       </xs:simpleContent>
    </xs:complexType>
-   <xs:complexType name="LicenseType">
-      <xs:annotation>
-         <xs:documentation>A data type for License type</xs:documentation>
-         <xs:appinfo>
-            <spd:Class name="License"
-                       xmlname="License"
-                       comment="A License represents a copyright license. The SPDX license list website is annotated with these properties (using RDFa) to allow license data published there to be easily processed. The license list is populated in accordance with the License List fields guidelines. These guidelines are not normative and may change over time. SPDX tooling should not rely on values in the license list conforming to the current guidelines."
-                       rdf="http://spdx.org/rdf/terms#License"
-                       subclassof="SimpleLicensingInfo"/>
-         </xs:appinfo>
-      </xs:annotation>
-      <xs:complexContent>
-         <xs:extension base="structures:ObjectType">
-            <xs:sequence>
-               <xs:element ref="IsOsiApproved"/>
-               <xs:element ref="StandardLicenseHeader"/>
-               <xs:element ref="LicenseText"/>
-               <xs:element ref="StandardLicenseTemplate"/>
-               <xs:element ref="LicenseAugmentationPoint" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
-         </xs:extension>
-      </xs:complexContent>
-   </xs:complexType>
    <xs:complexType name="LineCharPointerType">
       <xs:annotation>
          <xs:documentation>A data type for LineCharPointer type</xs:documentation>
@@ -1592,7 +1585,7 @@
          </xs:appinfo>
       </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="structures:ObjectType">
+         <xs:extension base="OffsetPointerType">
             <xs:sequence>
                <xs:element ref="LineCharPointerAugmentationPoint"
                            minOccurs="0"
@@ -1631,7 +1624,7 @@
          </xs:appinfo>
       </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="structures:ObjectType">
+         <xs:extension base="LicenseType">
             <xs:sequence>
                <xs:element ref="ListedLicenseAugmentationPoint"
                            minOccurs="0"
@@ -1705,7 +1698,7 @@
          </xs:appinfo>
       </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="structures:ObjectType">
+         <xs:extension base="SinglePointerType">
             <xs:sequence>
                <xs:element ref="OffsetPointerAugmentationPoint"
                            minOccurs="0"
@@ -1744,9 +1737,9 @@
          </xs:appinfo>
       </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="structures:ObjectType">
+         <xs:extension base="AnyLicenseInfoType">
             <xs:sequence>
-               <xs:element ref="Member"/>
+               <xs:element ref="Member" minOccurs="1" maxOccurs="1"/>
                <xs:element ref="OrLaterOperatorAugmentationPoint"
                            minOccurs="0"
                            maxOccurs="unbounded"/>
@@ -1820,22 +1813,22 @@
          </xs:appinfo>
       </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="structures:ObjectType">
+         <xs:extension base="SpdxItemType">
             <xs:sequence>
-               <xs:element ref="ExternalRef"/>
-               <xs:element ref="PackageFileName"/>
-               <xs:element ref="FilesAnalyzed"/>
-               <xs:element ref="Description"/>
-               <xs:element ref="Homepage"/>
-               <xs:element ref="Originator"/>
-               <xs:element ref="DownloadLocation"/>
-               <xs:element ref="SourceInfo"/>
-               <xs:element ref="Supplier"/>
-               <xs:element ref="PackageVerificationCode"/>
+               <xs:element ref="ExternalRef" minOccurs="0"/>
+               <xs:element ref="PackageFileName" minOccurs="1" maxOccurs="1"/>
+               <xs:element ref="FilesAnalyzed" maxOccurs="1"/>
+               <xs:element ref="Description" maxOccurs="1"/>
+               <xs:element ref="Homepage" maxOccurs="1"/>
+               <xs:element ref="Originator" maxOccurs="1"/>
+               <xs:element ref="DownloadLocation" minOccurs="1" maxOccurs="1"/>
+               <xs:element ref="SourceInfo" maxOccurs="1"/>
+               <xs:element ref="Supplier" maxOccurs="1"/>
+               <xs:element ref="PackageVerificationCode" minOccurs="1" maxOccurs="1"/>
                <xs:element ref="LicenseDeclaredCode"/>
-               <xs:element ref="VersionInfo"/>
-               <xs:element ref="Summary"/>
-               <xs:element ref="Checksum"/>
+               <xs:element ref="VersionInfo" maxOccurs="1"/>
+               <xs:element ref="Summary" maxOccurs="1"/>
+               <xs:element ref="Checksum" maxOccurs="1"/>
                <xs:element ref="PackageAugmentationPoint" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
          </xs:extension>
@@ -1854,8 +1847,8 @@
       <xs:complexContent>
          <xs:extension base="structures:ObjectType">
             <xs:sequence>
-               <xs:element ref="PackageVerificationCodeValue"/>
-               <xs:element ref="VerificationCodeExcludedFile"/>
+               <xs:element ref="PackageVerificationCodeValue" minOccurs="1" maxOccurs="1"/>
+               <xs:element ref="VerificationCodeExcludedFile" minOccurs="0"/>
                <xs:element ref="PackageVerificationCodeAugmentationPoint"
                            minOccurs="0"
                            maxOccurs="unbounded"/>
@@ -1944,9 +1937,9 @@
       <xs:complexContent>
          <xs:extension base="structures:ObjectType">
             <xs:sequence>
-               <xs:element ref="ExternalReferenceSite"/>
-               <xs:element ref="ContextualExample"/>
-               <xs:element ref="Documentation"/>
+               <xs:element ref="ExternalReferenceSite" minOccurs="1" maxOccurs="1"/>
+               <xs:element ref="ContextualExample" minOccurs="1" maxOccurs="1"/>
+               <xs:element ref="Documentation" minOccurs="1" maxOccurs="1"/>
                <xs:element ref="ReferenceIDAugmentationPoint"
                            minOccurs="0"
                            maxOccurs="unbounded"/>
@@ -2003,8 +1996,8 @@
          <xs:extension base="structures:ObjectType">
             <xs:sequence>
                <xs:element ref="RelationshipTypeCode"/>
-               <xs:element ref="Comment"/>
-               <xs:element ref="RelatedSpdxElement"/>
+               <xs:element ref="Comment" maxOccurs="1"/>
+               <xs:element ref="RelatedSpdxElement" minOccurs="1" maxOccurs="1"/>
                <xs:element ref="RelationshipAugmentationPoint"
                            minOccurs="0"
                            maxOccurs="unbounded"/>
@@ -2054,12 +2047,12 @@
          </xs:appinfo>
       </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="structures:ObjectType">
+         <xs:extension base="AnyLicenseInfoType">
             <xs:sequence>
-               <xs:element ref="LicenseID"/>
-               <xs:element ref="Comment"/>
-               <xs:element ref="SeeAlso"/>
-               <xs:element ref="Name"/>
+               <xs:element ref="LicenseID" minOccurs="1" maxOccurs="1"/>
+               <xs:element ref="Comment" maxOccurs="1"/>
+               <xs:element ref="SeeAlso" minOccurs="0"/>
+               <xs:element ref="Name" minOccurs="1" maxOccurs="1"/>
                <xs:element ref="SimpleLicensingInfoAugmentationPoint"
                            minOccurs="0"
                            maxOccurs="unbounded"/>
@@ -2079,7 +2072,7 @@
          </xs:appinfo>
       </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="structures:ObjectType">
+         <xs:extension base="PointerType">
             <xs:sequence>
                <xs:element ref="SinglePointerAugmentationPoint"
                            minOccurs="0"
@@ -2117,10 +2110,10 @@
          </xs:appinfo>
       </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="structures:ObjectType">
+         <xs:extension base="SpdxItemType">
             <xs:sequence>
-               <xs:element ref="SnippetFromFile"/>
-               <xs:element ref="Range"/>
+               <xs:element ref="SnippetFromFile" minOccurs="1" maxOccurs="1"/>
+               <xs:element ref="Range" minOccurs="1" maxOccurs="1"/>
                <xs:element ref="SnippetAugmentationPoint" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
          </xs:extension>
@@ -2156,14 +2149,14 @@
          </xs:appinfo>
       </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="structures:ObjectType">
+         <xs:extension base="SpdxElementType">
             <xs:sequence>
-               <xs:element ref="DescribesPackage"/>
-               <xs:element ref="DescribesFile"/>
-               <xs:element ref="HasExtractedLicensingInfo"/>
-               <xs:element ref="CreationInfo"/>
-               <xs:element ref="SpecVersion"/>
-               <xs:element ref="ExternalDocumentRef"/>
+               <xs:element ref="DescribesPackage" minOccurs="0"/>
+               <xs:element ref="DescribesFile" minOccurs="0"/>
+               <xs:element ref="HasExtractedLicensingInfo" minOccurs="0"/>
+               <xs:element ref="CreationInfo" minOccurs="1" maxOccurs="1"/>
+               <xs:element ref="SpecVersion" minOccurs="1" maxOccurs="1"/>
+               <xs:element ref="ExternalDocumentRef" minOccurs="0"/>
                <xs:element ref="DataLicense"/>
                <xs:element ref="SpdxDocumentAugmentationPoint"
                            minOccurs="0"
@@ -2186,10 +2179,10 @@
       <xs:complexContent>
          <xs:extension base="structures:ObjectType">
             <xs:sequence>
-               <xs:element ref="Annotation"/>
-               <xs:element ref="Name"/>
-               <xs:element ref="Comment"/>
-               <xs:element ref="Relationship"/>
+               <xs:element ref="Annotation" minOccurs="0"/>
+               <xs:element ref="Name" minOccurs="1" maxOccurs="1"/>
+               <xs:element ref="Comment" maxOccurs="1"/>
+               <xs:element ref="Relationship" minOccurs="0"/>
                <xs:element ref="SpdxElementAugmentationPoint"
                            minOccurs="0"
                            maxOccurs="unbounded"/>
@@ -2209,12 +2202,12 @@
          </xs:appinfo>
       </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="structures:ObjectType">
+         <xs:extension base="SpdxElementType">
             <xs:sequence>
                <xs:element ref="LicenseConcludedCode"/>
-               <xs:element ref="CopyrightText"/>
-               <xs:element ref="LicenseInfoFromFiles"/>
-               <xs:element ref="LicenseComments"/>
+               <xs:element ref="CopyrightText" minOccurs="1" maxOccurs="1"/>
+               <xs:element ref="LicenseInfoFromFiles" minOccurs="1"/>
+               <xs:element ref="LicenseComments" maxOccurs="1"/>
                <xs:element ref="SpdxItemAugmentationPoint" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
          </xs:extension>
@@ -2286,7 +2279,7 @@
          </xs:appinfo>
       </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="structures:ObjectType">
+         <xs:extension base="CompoundPointerType">
             <xs:sequence>
                <xs:element ref="StartEndPointerAugmentationPoint"
                            minOccurs="0"
@@ -2378,10 +2371,10 @@
          </xs:appinfo>
       </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="structures:ObjectType">
+         <xs:extension base="AnyLicenseInfoType">
             <xs:sequence>
-               <xs:element ref="Member"/>
-               <xs:element ref="LicenseException"/>
+               <xs:element ref="Member" minOccurs="1" maxOccurs="1"/>
+               <xs:element ref="LicenseException" minOccurs="1" maxOccurs="1"/>
                <xs:element ref="WithExceptionOperatorAugmentationPoint"
                            minOccurs="0"
                            maxOccurs="unbounded"/>
@@ -2568,7 +2561,7 @@
                          xmlname="ConjunctiveLicenseSet"
                          comment="A ConjunctiveLicenseSet represents a set of licensing information all of which apply."
                          rdf="http://spdx.org/rdf/terms#ConjunctiveLicenseSet"
-                         subclassof="AnyLicenseInfoContainer"/>
+                         subclassof="AnyLicenseInfo"/>
          </xs:appinfo>
       </xs:annotation>
    </xs:element>
@@ -2756,7 +2749,7 @@
                          xmlname="DisjunctiveLicenseSet"
                          comment="A DisjunctiveLicenseSet represents a set of licensing information where only one license applies at a time. This class implies that the recipient gets to choose one of these licenses they would prefer to use."
                          rdf="http://spdx.org/rdf/terms#DisjunctiveLicenseSet"
-                         subclassof="AnyLicenseInfoContainer"/>
+                         subclassof="AnyLicenseInfo"/>
          </xs:appinfo>
       </xs:annotation>
    </xs:element>
