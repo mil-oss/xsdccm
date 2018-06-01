@@ -2,13 +2,13 @@
     <a href="http://www.ionchannel.io/">
         <img src="/img/ionchannel.png" alt="IONChannel" height="40px;">
     </a>
-    <b style="margin-left:40px;">SEvA ISM XML Schema Specification Confguration Management</b>
+    <b style="margin-left:40px;">{{xsdService.cfg.title}}</b>
 </div>
 <header class="col-md-8 col-md-offset" style="width:100%; min-width:600px;">
     <nav class="col-md-8 col-md-offset" style="font-size:12px; font-weight:bold;">
         <ul class="nav nav-tabs">
             <li [ngClass]="{active : isSel('home')}"><a [routerLink]="['home']" (click)="selTab('home')">Home</a></li>
-            <li [ngClass]="{active : isSel('datamodel')}"><a [routerLink]="['datamodel']" (click)="selTab('datamodel')">SEvA</a></li>
+            <li [ngClass]="{active : isSel('datamodel')}"><a [routerLink]="['datamodel']" (click)="selTab('datamodel')">{{xsdService.cfg.project}}</a></li>
             <li [ngClass]="{active : isSel('xsd')}"><a [routerLink]="['xsd']" (click)="selTab('xsd')">XSD Components</a></li>
             <li [ngClass]="{active : isSel('xmldata')}"><a [routerLink]="['xmldata']" (click)="selTab('xmldata')">XML</a></li>
             <li [ngClass]="{active : isSel('provrpt')}"><a [routerLink]="['provrpt']" (click)="selTab('provrpt')">Provenance Report</a></li>

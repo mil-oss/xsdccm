@@ -8,7 +8,7 @@ import { XsdService } from '../xsd.service';
 })
 export class XsdviewComponent implements OnInit {
 
-  refxsdjson: any;
+  refjson: any;
   ixsdjson: any;
   rootel: string;
 
@@ -16,9 +16,11 @@ export class XsdviewComponent implements OnInit {
 
   ngOnInit() {
     this.xsdService.xsdmode = false;
-    this.refxsdjson = this.xsdService.xsds.refXsd.json;
-    this.ixsdjson = this.xsdService.jsondata["iep_xsd.json"];
+    //this.ixsdjson = this.xsdService.jsondata["iep_xsd.json"];
+    //this.rootel = this.xsdService.xsds.iepXsd.root;
+    this.ixsdjson = this.xsdService.jsondata["ref_xsd.json"];
     this.rootel = this.xsdService.xsds.refXsd.root;
+    console.log(this.rootel);
   }
 
   rootList() {

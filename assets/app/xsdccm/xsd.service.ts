@@ -20,13 +20,17 @@ import {
   XsdSchema,
   Element,
   SimpleType,
-  ComplexType
+  ComplexType,
+  Config
 } from "./xsd.model";
 
 import * as data from "../../../config/xsdccm.json";
+
+const config = (<any>data)
 const root = (<any>data).root;
 const host = (<any>data).host;
 const xsdcfg = (<any>data).xsds;
+const xsdfiles = (<any>data).files;
 
 @Injectable()
 export class XsdService {
@@ -53,11 +57,6 @@ export class XsdService {
   xsdmode: boolean = true;
   viewmode: string = "xml";
 
-
-  //iepdroot: string = "https://seva.specchain.org/";
-  //iepdroot: string = "https://sevaism.specchain.org/";
-  //iepdroot: string = "http://localhost:8181/";
-  //iepdhost: string = "https://sevaxsd.specchain.org/file/";
   iepdhost: string = host+"file/";
   iepdroot: string = root;
 
@@ -65,7 +64,9 @@ export class XsdService {
   };
   jsondata: any = {
   };
-  xsds: any=xsdcfg;
+  cfg: any=config;
+  xsds: any=config.xsds;
+  files: any=xsdfiles;
 
   constructor(private http: Http, private errorService: ErrorService) {
     this.iepdResource("ref.xsd")

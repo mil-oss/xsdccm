@@ -1,4 +1,32 @@
 
+export class Config {
+    public project: string;
+    public title: string;
+    public pckg: string;
+    public root: string;
+    public host: string;
+    public xsds: Xsds;
+    public files: FileInfo[];
+}
+
+export class Xsds {
+    public RefXsd: XsdInfo;
+    public IepXsd: XsdInfo;
+}
+
+export class XsdInfo {
+    public name: string;
+    public value: string;
+    public file: string;
+    public root: string;
+}
+
+export class FileInfo {
+    public name: string;
+    public url: string;
+    public description: string;
+}
+
 export class Element {
     public name: string;
     public mapvar: string;
