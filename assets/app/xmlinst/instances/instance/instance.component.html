@@ -1,19 +1,17 @@
 <div class="instanceHdr" style="width:100%;" *ngIf="xmlService.selectedxml">
-  <div style="width:100%;">
-    <span style="float:left;min-width:100px;font-weight:bold;">{{xmlService.selectedxml.name}}</span>
-    <span style="float:left;min-width:100px;margin-left:40px;" *ngIf="xmlService.validate">valid:
+    <span style="float:left;min-width:80px;font-weight:bold;">{{xmlService.selectedxml.name}}</span>
+    <span style="float:left;min-width:80px;margin-left:20px;" *ngIf="xmlService.validate">valid:
       <span [ngClass]="{colorgreen : xmlService.seldocvalid}">{{xmlService.seldocvalid}}</span>
     </span>
-    <span style="float:left;min-width:100px;margin-left:40px;">verified:
+    <span style="float:left;min-width:80px;margin-left:20px;">verified:
       <span [ngClass]="{colorgreen : xmlService.seldocverified}">{{xmlService.seldocverified}}</span>
     </span>
     <span *ngIf="!this.xmlService.rawmode">
-      <a (click)="xmlView()" style="margin-right:40px; color:blue;" [ngClass]="{viewSelected : xmlService.viewmode==='xml'}">XML</a>
-      <a (click)="jsonView()" style="margin-right:40px; color:blue;" [ngClass]="{viewSelected : xmlService.viewmode==='json'}">JSON</a>
+      <a (click)="xmlView()" style="margin-right:20px; color:blue;" [ngClass]="{viewSelected : xmlService.viewmode==='xml'}">XML</a>
+      <a (click)="jsonView()" style="margin-right:20px; color:blue;" [ngClass]="{viewSelected : xmlService.viewmode==='json'}">JSON</a>
     </span>
     <input type="checkbox" [(ngModel)]="xmlService.rawview" [ngClass]="{hidden : xmlService.rawmode}">
     <span [ngClass]="{hidden : xmlService.rawmode}">raw</span>
-  </div>
 </div>
 <div *ngIf="!this.xmlService.rawview" class="instview">
   <div *ngIf="xmlService.selectedxml ">

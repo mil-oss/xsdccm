@@ -54,7 +54,7 @@ export class InstancesComponent implements OnInit {
     this.xmlService.rawview=true;
     s.content=this.xsdService.xmldata[s.file];
     this.xmlService.selectedxml = s;
-    //this.xmlService.validateXml({xmlname:s.value,xmlstr:this.xsdService.xmldata[s.file],xsdname:"XMLSchema.xsd"})
+    //this.xmlService.validateXml({xmlname:s.file,xmlstr:this.xsdService.xmldata[s.file],xsdname:"XMLSchema.xsd"})
     this.xmlService.verifyStr(s.file,this.xsdService.xmldata[s.file]);
   }
   

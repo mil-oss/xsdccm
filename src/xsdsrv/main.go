@@ -112,13 +112,18 @@ func getreslist() map[string]string {
 	check(merr)
 	return r
 }
+
 func getResource(c *gin.Context) {
 	log.Println("getResource")
 	var ft = filepath.Base(c.Request.URL.Path)
 	log.Println(ft)
-	var p = resources[ft]
+	var p = getPath(ft)
 	log.Println(p)
-	f, err := ioutil.ReadFile("public/iepd/" + p)
+	var path = "public/iepd/" + p
+	if ft == "iepd.zip" {
+		path = "public/iepd.zip"
+	}
+	f, err := ioutil.ReadFile(path)
 	if err != nil {
 		panic(err)
 	}
@@ -130,6 +135,18 @@ func getResource(c *gin.Context) {
 	c.Writer.Header().Set("X-Accel-Expires", "0")
 	c.Writer.Write(f)
 }
+func getPath(fname string) string {
+	var p = resources[fname]
+	if p == "" {
+		for _, r := range resources {
+			if filepath.Base(r) == fname {
+				return r
+			}
+		}
+	}
+	return p
+}
+
 func logging(logger *log.Logger) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

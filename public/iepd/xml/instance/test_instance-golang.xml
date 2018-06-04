@@ -3,7 +3,6 @@
       <Comment>Test string one</Comment>
       <SeeAlso>http://anyuri.org</SeeAlso>
       <Name>Test string one</Name>
-      <IsDeprecatedLicenseId>true</IsDeprecatedLicenseId>
       <IsOsiApproved>true</IsOsiApproved>
       <IsFsfLibre>true</IsFsfLibre>
       <StandardLicenseHeader>Test string one</StandardLicenseHeader>

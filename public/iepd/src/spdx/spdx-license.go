@@ -18,7 +18,7 @@ type License struct {
         Comment                                  []string                                 `xml:"Comment,omitempty"  json:"Comment,omitempty"`
         SeeAlso                                  string                                   `xml:"SeeAlso,omitempty"  json:"SeeAlso,omitempty"`
         Name                                     []string                                 `xml:"Name,omitempty"  json:"Name,omitempty"`
-        IsDeprecatedLicenseID                    bool                                     `xml:"IsDeprecatedLicenseId,omitempty"  json:"IsDeprecatedLicenseId,omitempty"`
+        IsDeprecatedLicenseID                    bool                                     `xml:"IsDeprecatedLicenseID,omitempty"  json:"IsDeprecatedLicenseID,omitempty"`
         IsOsiApproved                            bool                                     `xml:"IsOsiApproved,omitempty"  json:"IsOsiApproved,omitempty"`
         IsFsfLibre                               bool                                     `xml:"IsFsfLibre,omitempty"  json:"IsFsfLibre,omitempty"`
         StandardLicenseHeader                    string                                   `xml:"StandardLicenseHeader,omitempty"  json:"StandardLicenseHeader,omitempty"`

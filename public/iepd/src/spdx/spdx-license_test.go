@@ -39,8 +39,8 @@ func TestSpdxLicense(t *testing.T) {
         g.It("Must have name",func() {
             Expect(spdxlic.Name).To(Equal("Test string one"))
         })
-        g.It("Must have ",func() {
-            Expect(spdxlic.IsDeprecatedLicenseID).To(Equal(""))
+        g.It("Must have IsDeprecatedLicenseID",func() {
+            Expect(spdxlic.IsDeprecatedLicenseID).To(Equal("true"))
         })
         g.It("Must have isOsiApproved",func() {
             Expect(spdxlic.IsOsiApproved).To(Equal("true"))
