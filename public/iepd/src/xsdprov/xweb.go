@@ -91,13 +91,16 @@ func index() http.Handler {
 			http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 			return
 		}
-		//http.Redirect(w, r, "https://sevaxsd.specchain.org", 301)
-		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("X-Content-Type-Options", "nosniff")
-		w.WriteHeader(http.StatusOK)
-		fmt.Fprintln(w, "SPDX-XSD 1.0")
-		//fmt.Fprintln(w, temppath)
+		if cfg.Redirect != "" {
+			http.Redirect(w, r, cfg.Redirect, 301)
+		} else {
+			w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+			w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.Header().Set("X-Content-Type-Options", "nosniff")
+			w.WriteHeader(http.StatusOK)
+			fmt.Fprintln(w, "SPDX-XSD 1.0")
+			//fmt.Fprintln(w, temppath)
+		}
 	})
 }
 func update() http.Handler {

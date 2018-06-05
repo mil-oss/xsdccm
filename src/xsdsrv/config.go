@@ -10,6 +10,7 @@ type Cfg struct {
 	Pckg string `json:"pckg,omitempty"`
 	Root string `json:"root,omitempty"`
 	Host string `json:"host,omitempty"`
+	Port string `json:"port,omitempty"`
 }
 
 func getConfig() Cfg {

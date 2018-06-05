@@ -1,10 +1,10 @@
 {
-    "project":"SPD License",
+    "project":"SPDX License",
     "title":"SPDX License XML Schema Confguration Management",
     "pckg": "https://spdx.specchain.org/dload",
     "root": "https://spdx.specchain.org/",
-    "host": "http://spdx-xsd.specchain.org/",
-
+    "host": "https://spdx-xsd.specchain.org/",
+    "port":":8080",
     "xsds": {
         "refXsd": {
             "name": "SPDX Reference XSD",

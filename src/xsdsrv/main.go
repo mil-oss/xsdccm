@@ -56,7 +56,7 @@ func main() {
 	{
 		ng.GET("/")
 	}
-	flag.StringVar(&listenAddr, "listen-addr", ":8181", "server listen address")
+	flag.StringVar(&listenAddr, "listen-addr", cfg.Port, "server listen address")
 	flag.Parse()
 	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
 	logger.Println("Starting HTTP Server. .. ")
