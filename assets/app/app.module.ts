@@ -7,6 +7,7 @@ import { AppComponent } from "./app.component";
 import { HeaderComponent } from "./header/header.component";
 import { HomeComponent } from "./home/home.component";
 import { ProvrptComponent } from "./provrpt/provrpt.component";
+import { LicensesComponent } from "./licenses/licenses.component";
 import { ErrorService } from "./errors/error.service";
 import { ErrorComponent } from "./errors/error.component";
 import { XsdModule } from "./xsdccm/xsd.module";
@@ -28,6 +29,7 @@ import { CommentsModule } from "./comments/comments.module";
     HeaderComponent,
     HomeComponent,
     ProvrptComponent,
+    LicensesComponent,
     ErrorComponent
   ],
   providers: [

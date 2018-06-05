@@ -57,6 +57,7 @@ export class XsdService {
   xsdmode: boolean = true;
   viewmode: string = "xml";
 
+  licensehost: string = root+"license/";
   iepdhost: string = host+"file/";
   iepdroot: string = root;
 
@@ -86,6 +87,7 @@ export class XsdService {
     this.iepdJsonResource("test_instance.json")
     this.iepdJsonResource("provenance_report.json")
     this.iepdJsonResource("resources.json")
+    this.iepdJsonResource("licenses.json")
   }
 
   iepdResource(name: string) {

@@ -5,12 +5,14 @@ import { XsdComponent } from "./xsdccm/xsd.component";
 import { XsdviewComponent } from "./xsdccm/xsdview/xsdview.component";
 import { InstancesComponent } from "./xmlinst/instances/instances.component";
 import { ProvrptComponent } from "./provrpt/provrpt.component";
+import { LicensesComponent } from "./licenses/licenses.component";
 
 
 const APP_ROUTES: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
   { path: "home", component: HomeComponent },
   { path: "provrpt", component: ProvrptComponent },
+  { path: "licenses", component: LicensesComponent },
   { path: "datamodel", component: XsdviewComponent },
   { path: "xsd", component: XsdComponent },
   { path: "xmldata", component: InstancesComponent },

@@ -16,7 +16,7 @@ type License struct {
         AttrXmlns                                string                                   `xml:"xmlns,attr" json:"AttrXmlns,omitempty"`
         LicenseID                                []string                                 `xml:"LicenseID,omitempty"  json:"LicenseID,omitempty"`
         Comment                                  []string                                 `xml:"Comment,omitempty"  json:"Comment,omitempty"`
-        SeeAlso                                  string                                   `xml:"SeeAlso,omitempty"  json:"SeeAlso,omitempty"`
+        SeeAlso                                  []string                                 `xml:"SeeAlso,omitempty"  json:"SeeAlso,omitempty"`
         Name                                     []string                                 `xml:"Name,omitempty"  json:"Name,omitempty"`
         IsDeprecatedLicenseID                    bool                                     `xml:"IsDeprecatedLicenseID,omitempty"  json:"IsDeprecatedLicenseID,omitempty"`
         IsOsiApproved                            bool                                     `xml:"IsOsiApproved,omitempty"  json:"IsOsiApproved,omitempty"`
