@@ -1,22 +1,28 @@
 {
     "project":"SPDX License",
     "title":"SPDX License XML Schema Confguration Management",
-    "pckg": "http://spdx.specchain.org/dload",
-    "root": "http://spdx.specchain.org/",
-    "host": "http://spdx-xsd.specchain.org/",
+    "pckg": "http://localhost:9090/dload",
+    "root": "http://localhost:9090/",
+    "host": "http://localhost:8080/",
     "port":":8080",
     "xsds": {
         "refXsd": {
             "name": "SPDX Reference XSD",
             "value": "refXsd",
-            "file": "ref.xsd",
-            "root": "SpdxDocument"
+            "file": "spdx-ref.xsd",
+            "root": "SpdxElement"
         },
-        "iepXsd": {
+        "licenseXsd": {
             "name": "SPDX License XSD",
-            "value": "iepdXsd",
-            "file": "iep.xsd",
+            "value": "licenseXsd",
+            "file": "spdx-license.xsd",
             "root": "License"
+        },
+        "documentXsd": {
+            "name": "SPDX Document XSD",
+            "value": "documentXsd",
+            "file": "spdx-doc.xsd",
+            "root": "SpdxDocument"
         }
     },
     "files": [{
@@ -26,48 +32,78 @@
         },
         {
             "name": "SPDX XML Reference Schema",
-            "url": "/file/ref.xsd",
+            "url": "/file/spdx-ref.xsd",
             "description": "NIEM Conformant Reference XML Schema for SPDX data"
         },
         {
             "name": "SPDX XML Ref JSON",
-            "url": "/file/ref_xsd.json",
+            "url": "/file/spdx-ref-xsd.json",
             "description": "JSON Representation of SPDX Reference XML Schema"
         },
         {
             "name": "SPDX License Schema",
-            "url": "/file/iep.xsd",
+            "url": "/file/spdx-license.xsd",
             "description": "XML Schema for SPDX license information exchange"
         },
         {
             "name": "SPDX License Schema JSON",
-            "url": "/file/iep_xsd.json",
+            "url": "/file/spdx-license-iep-xsd.json",
             "description": "JSON Representation of SPDX License Schema"
         },
         {
-            "name": "SPDX TEST INSTANCE XML",
-            "url": "/file/test_instance.xml",
+            "name": "SPDX License Test Instance XML",
+            "url": "/file/spdx-license-test-instance.xml",
             "description": "SPDX License XML Test Instance"
         },
         {
-            "name": "SPDX TEST INSTANCE JSON",
-            "url": "/file/test_instance.json",
-            "description": "JSON Representation of SPDX License XML Test Instance"
-        },
-        {
-            "name": "SPDX TEST DATA XML",
-            "url": "/file/test_data.xml",
-            "description": "XML Test data used to generate Test Instances"
-        },
-        {
-            "name": "GOLANG STRUCT",
-            "url": "/file/xsd-struct.go",
+            "name": "License GOLANG STRUCT",
+            "url": "/file/spdx-license-struct.go",
             "description": "Auto-generated code structure for marshalling and unmarshalling XML Instances using Golang"
         },
         {
-            "name": "GOLANG TEST",
-            "url": "/file/xsd-test.go",
+            "name": "License GOLANG TEST",
+            "url": "/file/spdx-license_test.go",
             "description": "Auto-generated code tests for marshalling and unmarshalling XML Instances using Golang"
+        },
+        {
+            "name": "SPDX TEST INSTANCE JSON",
+            "url": "/file/spdx-license-test-instance.json",
+            "description": "JSON Representation of SPDX License XML Test Instance"
+        },
+        {
+            "name": "SPDX Document Schema",
+            "url": "/file/spdx-doc.xsd",
+            "description": "XML Schema for SPDX Document information exchange"
+        },
+        {
+            "name": "SPDX Document Schema JSON",
+            "url": "/file/spdx-doc-iep-xsd.json",
+            "description": "JSON Representation of SPDX Document Schema"
+        },
+        {
+            "name": "SPDX Document Test Instance XML",
+            "url": "/file/spdx-doc-test-instance.xml",
+            "description": "SPDX Document XML Test Instance"
+        },
+        {
+            "name": "SPDX Document Test Instance JSON",
+            "url": "/file/spdx-doc-test-instance.json",
+            "description": "JSON Representation of SPDX Document XML Test Instance"
+        },
+        {
+            "name": "Document GOLANG STRUCT",
+            "url": "/file/spdx-doc-struct.go",
+            "description": "Auto-generated code structure for marshalling and unmarshalling XML Instances using Golang"
+        },
+        {
+            "name": "Document GOLANG TEST",
+            "url": "/file/spdx-doc_test.go",
+            "description": "Auto-generated code tests for marshalling and unmarshalling XML Instances using Golang"
+        },
+        {
+            "name": "SPDX  DATA XML",
+            "url": "/file/spdx-test-data.xml",
+            "description": "XML Test data used to generate Test Instances"
         },
         {
             "name": "SPDX Resource Paths",
