@@ -1,10 +1,10 @@
 {
     "project":"SPDX License",
     "title":"SPDX License XML Schema Confguration Management",
-    "pckg": "http://localhost:9090/dload",
-    "root": "http://localhost:9090/",
-    "host": "http://localhost:8080/",
-    "port":":8080",
+    "pckg": "http://localhost:8080/dload",
+    "root": "http://localhost:8080/",
+    "host": "http://localhost:9090/",
+    "port":":9090",
     "xsds": {
         "refXsd": {
             "name": "SPDX Reference XSD",

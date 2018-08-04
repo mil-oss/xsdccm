@@ -13,31 +13,33 @@ var resdigests = map[string]string{}
 var tempdigests = map[string]string{}
 var resources = map[string]string{}
 var resourcedirs = map[string]string{}
+var temppath string
 var name string
+var tpath string
 var dbloc string
 var cfg Cfg
 var reflink string
 var testlink string
 var port string
 
-//Tpath ...
-var Tpath string
+//LicenceDatastruct ...
+var LicenceDatastruct interface{}
 
-//Datastruct ...
-var Datastruct interface{}
+//SPDXDocDatastruct ...
+var SPDXDocDatastruct interface{}
 
 //Setup ...
-func Setup(temppath string, resrces map[string]string, dirs map[string]string, dstruct interface{}) {
+func Setup(resrces map[string]string, dirs map[string]string) {
 	cfg := getConfig()
-	Datastruct = dstruct
 	dbloc = "/tmp/" + cfg.Project
+	temppath = "/tmp/IEPD/iepd"
 	name = cfg.Project
 	reflink = cfg.Reflink
 	testlink = cfg.Testlink
 	port = cfg.Port
 	resources = resrces
 	resourcedirs = dirs
-	Tpath = temppath
+	tpath = temppath + "/"
 	err = os.MkdirAll(dbloc+"/db", 0777)
 	if err != nil {
 		return
@@ -47,8 +49,8 @@ func Setup(temppath string, resrces map[string]string, dirs map[string]string, d
 	e := TempDir(db)
 	check(e)
 	DirSetup()
-	//BuildIep()
-	//StartWeb(Tpath)
+	BuildIep()
+	StartWeb(temppath)
 }
 
 //TempDir ...
@@ -58,7 +60,7 @@ func TempDir(db *bolt.DB) (err error) {
 	log.Println("TEMPDIR " + tempdir)
 	ferr := os.RemoveAll(tempdir)
 	err = ferr
-	dberr := updateDB(db, "ADMIN", "tempdir", []byte(Tpath))
+	dberr := updateDB(db, "ADMIN", "tempdir", []byte(temppath))
 	err = dberr
 	return err
 }
@@ -67,9 +69,9 @@ func TempDir(db *bolt.DB) (err error) {
 func DirSetup() (e error) {
 	log.Println("DirSetup")
 	for _, rp := range resources {
-		p := filepath.Dir(Tpath + rp)
+		p := filepath.Dir(tpath + rp)
 		os.MkdirAll(p, os.ModePerm)
 	}
-	CopyDirs(Tpath, resourcedirs)
+	CopyDirs(tpath, resourcedirs)
 	return
 }
