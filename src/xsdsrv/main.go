@@ -38,13 +38,13 @@ var (
 
 func main() {
 	cfg := getConfig()
-	log.Println("Pull IEPD from " + cfg.Pckg)
-	wgetIepd("public/iepd.zip", cfg.Pckg)
-	unzip("public/iepd.zip", "public")
+	//log.Println("Pull IEPD from " + cfg.Pckg)
+	//wgetIepd("public/iepd.zip", cfg.Pckg)
+	//unzip("public/iepd.zip", "public")
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
 	})
-	resources = getreslist()
+	//resources = getreslist()
 	router := gin.New()
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())

@@ -8,11 +8,11 @@
     <nav class="col-md-8 col-md-offset" style="font-size:12px; font-weight:bold;">
         <ul class="nav nav-tabs">
             <li [ngClass]="{active : isSel('home')}"><a [routerLink]="['home']" (click)="selTab('home')">Home</a></li>
-            <li [ngClass]="{active : isSel('datamodel')}"><a [routerLink]="['datamodel']" (click)="selTab('datamodel')">{{xsdService.cfg.project}}</a></li>
-            <li [ngClass]="{active : isSel('xsd')}"><a [routerLink]="['xsd']" (click)="selTab('xsd')">XSD Components</a></li>
-            <li [ngClass]="{active : isSel('xmldata')}"><a [routerLink]="['xmldata']" (click)="selTab('xmldata')">XML</a></li>
+            <!-- <li [ngClass]="{active : isSel('datamodel')}"><a [routerLink]="['datamodel']" (click)="selTab('datamodel')">{{xsdService.cfg.project}}</a></li> -->
+            <li [ngClass]="{active : isSel('xsd')}"><a [routerLink]="['xsd']" (click)="selTab('xsd')">XML Schema</a></li>
+            <li [ngClass]="{active : isSel('xmldata')}"><a [routerLink]="['xmldata']" (click)="selTab('xmldata')">Tests</a></li>
             <li [ngClass]="{active : isSel('provrpt')}"><a [routerLink]="['provrpt']" (click)="selTab('provrpt')">Provenance Report</a></li>
-            <li [ngClass]="{active : isSel('licenses')}"><a [routerLink]="['licenses']" (click)="selTab('licenses')">Licenses</a></li>
+            <!-- <li [ngClass]="{active : isSel('licenses')}"><a [routerLink]="['licenses']" (click)="selTab('licenses')">Licenses</a></li> -->
             <!-- <li style="float:right"><a [routerLink]="['auth/logout']">Logout</a></li> -->
             <!-- <li *ngIf="isAdmin()" style="float:right"><a [routerLink]="['auth/admin']">admin</a></li> -->
         </ul>
