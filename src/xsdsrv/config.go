@@ -5,20 +5,27 @@ import (
 	"io/ioutil"
 )
 
-//Cfg ...
-type Cfg struct {
-	Pckg string `json:"pckg,omitempty"`
-	Root string `json:"root,omitempty"`
-	Host string `json:"host,omitempty"`
-	Port string `json:"port,omitempty"`
+//Confg ...
+type Confg struct {
+	Project  string `json:"root,omitempty"`
+	Title    string `json:"root,omitempty"`
+	Host     string `json:"host,omitempty"`
+	Port     string `json:"port,omitempty"`
+	Services []Svce `json:"applications,omitempty"`
 }
 
-func getConfig() Cfg {
+//Svce ...
+type Svce struct {
+	Name string `json:"name,omitempty"`
+	URL  string `json:"url,omitempty"`
+}
+
+func getConfig() Confg {
 	jf, err := ioutil.ReadFile("config/xsdccm.json")
 	if err != nil {
 		panic(err)
 	}
-	var c Cfg
+	var c Confg
 	jerr := json.Unmarshal([]byte(jf), &c)
 	check(jerr)
 	return c
