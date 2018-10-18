@@ -29,6 +29,7 @@ const (
 
 var (
 	cfg        Cfg
+	cfgpath    = "config/xsdccm.json"
 	requestID  string
 	listenAddr string
 	healthy    int32
@@ -37,18 +38,15 @@ var (
 )
 
 func main() {
-	cfg := getConfig()
-	//log.Println("Pull IEPD from " + cfg.Pckg)
-	//wgetIepd("public/iepd.zip", cfg.Pckg)
-	//unzip("public/iepd.zip", "public")
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
 	})
+	readCfgs()
 	//resources = getreslist()
 	router := gin.New()
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
-	router.GET("/xsdccm/*home", redirct)
+	//router.GET("/xsdccm/*home", redirct)
 	router.GET("/file/:name", getResource)
 	router.Use(static.Serve("/", static.LocalFile("public/xsdccm", true)))
 	router.LoadHTMLGlob("public/xsdccm/*.html")
@@ -95,6 +93,19 @@ func main() {
 	}
 	<-done
 	logger.Println("Server stopped")
+}
+
+func readCfgs() {
+	c := ReadConfig(cfgpath)
+	log.Println("Pull Config from " + c.Project)
+	wgetCfg(c.Configfile, c.ConfigURL)
+	xc := ReadConfig(c.Configfile)
+	for i := range xc.Implementations {
+		var imp = xc.Implementations[i]
+		log.Println("Pull Config from " + imp.Name)
+		log.Println("URL " + imp.Src)
+		wgetCfg(imp.Path, imp.Src)
+	}
 }
 
 //Index ...
@@ -174,7 +185,7 @@ func tracing(nextRequestID func() string) func(http.Handler) http.Handler {
 		})
 	}
 }
-func wgetIepd(fpath string, urlstr string) error {
+func wgetCfg(fpath string, urlstr string) error {
 	log.Println("Wget " + urlstr + " Save To: " + fpath)
 	// Create output dir
 	p := filepath.Dir(fpath)

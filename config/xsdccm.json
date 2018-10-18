@@ -1,21 +1,8 @@
 {
     "project": "SPDX XML",
-    "configfile": "config/xsdccm.json",
     "title": "SPDX XML Schema Confguration Management",
-    "pckg": "http://localhost:8080/dload",
-    "host": "http://localhost:9090/",
-    "port": ":9090",
-    "services": [{
-        "name": "SPDX Document Information XML",
-        "url": "https://spdx-xml/spdx-doc"
-    }, {
-        "name": "SPDX License Information XML",
-        "url": "https://spdx-xml/spdx-license"
-    }, {
-        "name": "SPDX Security Information XML",
-        "url": "https://spdx-xml/spdx-security"
-    }, {
-        "name": "SPDX Security Information XML with ISM",
-        "url": "https://spdx-xml/spdx-sec-ism"
-    }]
+    "host": "http://localhost:8080/",
+    "port": ":8080",
+    "configfile": "config/spdx-xml-cfg.json",
+    "configurl": "https://spdx-xml.specchain.org/config"
 }

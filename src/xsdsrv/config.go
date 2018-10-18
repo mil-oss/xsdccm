@@ -5,27 +5,39 @@ import (
 	"io/ioutil"
 )
 
-//Confg ...
-type Confg struct {
-	Project  string `json:"root,omitempty"`
-	Title    string `json:"root,omitempty"`
-	Host     string `json:"host,omitempty"`
-	Port     string `json:"port,omitempty"`
-	Services []Svce `json:"applications,omitempty"`
+// Cfg ...
+type Cfg struct {
+	Project         string     `json:"project,omitempty"`
+	Title           string     `json:"title,omitempty"`
+	Host            string     `json:"host,omitempty"`
+	Port            string     `json:"port,omitempty"`
+	Configfile      string     `json:"configfile,omitempty"`
+	Homeurl         string     `json:"homeurl,omitempty"`
+	ConfigURL       string     `json:"configurl,omitempty"`
+	Reflink         string     `json:"reflink,omitempty"`
+	Testlink        string     `json:"testlink,omitempty"`
+	Dbloc           string     `json:"dbloc,omitempty"`
+	Tempdir         string     `json:"tempdir,omitempty"`
+	Temppath        string     `json:"temppath,omitempty"`
+	Resources       []Resource `json:"resources,omitempty"`
+	Directories     []Resource `json:"directories,omitempty"`
+	Implementations []Resource `json:"implementations,omitempty"`
 }
 
-//Svce ...
-type Svce struct {
+// Resource ...
+type Resource struct {
 	Name string `json:"name,omitempty"`
-	URL  string `json:"url,omitempty"`
+	Src  string `json:"src,omitempty"`
+	Path string `json:"path,omitempty"`
 }
 
-func getConfig() Confg {
-	jf, err := ioutil.ReadFile("config/xsdccm.json")
+//ReadConfig ...
+func ReadConfig(cfgpath string) Cfg {
+	jf, err := ioutil.ReadFile(cfgpath)
 	if err != nil {
 		panic(err)
 	}
-	var c Confg
+	var c Cfg
 	jerr := json.Unmarshal([]byte(jf), &c)
 	check(jerr)
 	return c
