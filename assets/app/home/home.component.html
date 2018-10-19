@@ -1,27 +1,34 @@
 <div class="col-md-8 col-md-offset" style="width:100%; margin-top:10px;">
     <div style="width:100%; text-align:left; font-size:14px; text-align:left;">Resources</div>
 
-    <select class="accordion__tab" name="xsdSelect" [(ngModel)]="xsdService.selected" (change)="getSvce()" style="background-color: #ddd;color: #000;">
+    <!-- <select class="accordion__tab" name="xsdSelect" [(ngModel)]="xsdService.selected" (change)="getSvce()" style="background-color: #ddd;color: #000;">
         <option *ngFor="let c of xsdService.Configs" value="{{c.project}}">{{c.project}}</option>
-    </select>
+    </select>-->
+    <div class="accordion__tab" *ngFor="let c of xsdService.Configs">
+        <div class="accordion__tab-title" (click)="xsdService.openTab(c.project)">{{c.project}}</div>
+        <div class="accordion__tab-content" *ngIf="xsdService.isOpenTab(c.project)">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="ctrtxt">
+                        <th style="width:200px;font-size:12px;">File</th>
+                        <!-- <th class="col2">URL</th> -->
+                        <th style="width:300px;font-size:12px;">Description</th>
+                    </tr>
+                </thead>
+                <tbody class="f12">
+                    <tr *ngFor="let d of c.resources">
+                        <td style="width:200px;font-size:12px;"><a href="{{c.host}}file/{{d.name}}" target=_blank>{{fName(d.path)}}</a></td>
+                        <!-- <td class="w200">{{d.url}}</td> -->
+                        <td style="width:300px;font-size:12px;">{{d.description}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 
     <div *ngFor="let c of configs">
-    <table class="table table-striped">
-        <thead>
-            <tr class="ctrtxt">
-                <th style="width:200px;font-size:12px;">File</th>
-                <!-- <th class="col2">URL</th> -->
-                <th style="width:300px;font-size:12px;">Description</th>
-            </tr>
-        </thead>
-        <tbody class="f12">
-            <tr *ngFor="let d of files">
-                <td style="width:200px;font-size:12px;"><a href="{{d.url}}" target=_blank>{{d.name}}</a></td>
-                <!-- <td class="w200">{{d.url}}</td> -->
-                <td style="width:300px;font-size:12px;">{{d.description}}</td>
-            </tr>
-        </tbody>
-    </table>
+    
     </div>
     <div class="col-md-8 col-md-offset" style="width:100%; min-width:300px; margin-top:10px;">
         <div style="float:right"><i>-  -  -  -  -  -  -  -  -</i></div>

@@ -26,6 +26,7 @@ type Cfg struct {
 // Resource ...
 type Resource struct {
 	Name        string `json:"name,omitempty"`
+	FileName    string `json:"filename,omitempty"`
 	Src         string `json:"src,omitempty"`
 	SrcURL      string `json:"srcurl,omitempty"`
 	Path        string `json:"path,omitempty"`

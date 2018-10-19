@@ -92,7 +92,7 @@ export class XsdService {
         var p = JSON.parse(response["_body"])
         //console.log("Project: " + p.project)
         resp.push(p)
-        resp[p.project]=p
+        //resp[p.project]=p
         for (var i in p.implementations) {
           //console.log("Implementation: " + p.implementations[i].name)
           //console.log("Url: " + p.implementations[i].srcurl)
@@ -100,8 +100,8 @@ export class XsdService {
             (response) => {
               var imp = JSON.parse(response["_body"])
               //console.log("Name: " + imp.project)
-              //resp.push(imp)
-              resp[imp.project]=imp
+              resp.push(imp)
+              //resp[imp.project]=imp
             })
         }
         return resp

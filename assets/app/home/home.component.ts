@@ -23,12 +23,17 @@ export class HomeComponent {
         console.log(this.xsdService.Configs[c])
       }
     }
-
-/*     ngOnInit() {
-
-    } */
   }
-}
+
+  fName(path) {
+    return path.substr(path.lastIndexOf('/') + 1)
+    }
+
+    ngOnInit() {
+
+    } 
+  }
+
   /*   files = [
       {
         name: "SPDX XSD",
