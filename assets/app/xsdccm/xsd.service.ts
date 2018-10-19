@@ -1,16 +1,8 @@
 import "rxjs/Rx";
-declare var Saxon: any;
-import * as crypto from 'crypto';
-import { EventEmitter, Injectable } from "@angular/core";
-import { Headers, Http, Response, ResponseContentType } from "@angular/http";
-import { Observable } from "rxjs";
+import { Injectable } from "@angular/core";
+import { Headers, Http, ResponseContentType } from "@angular/http";
 import { ErrorService } from "./../errors/error.service";
-import { SimpletypesComponent } from './simpletypes/simpletypes.component';
-import { ComplextypesComponent } from './complextypes/complextypes.component';
-import { ElementsComponent } from './elements/elements.component';
-import { SimpletypeComponent } from './simpletypes/simpletype/simpletype.component';
-import { ComplextypeComponent } from './complextypes/complextype/complextype.component';
-import { ElementComponent } from './elements/element/element.component';
+
 import {
   XsdAppinfo,
   XsdEnumeration,
@@ -20,17 +12,16 @@ import {
   XsdSchema,
   Element,
   SimpleType,
-  ComplexType,
-  Config
+  ComplexType
 } from "./xsd.model";
 
-import * as data from "../../../config/xsdccm.json";
+import * as cfgdata from "../../../config/xsdccm.json";
 
-const config = (<any>data)
-const root = (<any>data).root;
-const host = (<any>data).host;
-const xsdcfg = (<any>data).xsds;
-const xsdfiles = (<any>data).files;
+const config = (<any>cfgdata)
+const project = (<any>cfgdata).project;
+const configfile = (<any>cfgdata).configfile;
+const configurl = (<any>cfgdata).configurl;
+const host = (<any>cfgdata).host;
 
 @Injectable()
 export class XsdService {
@@ -56,21 +47,17 @@ export class XsdService {
   selectedxml: any;
   xsdmode: boolean = true;
   viewmode: string = "xml";
-
-  licensehost: string = root+"license/";
-  iepdhost: string = host+"file/";
-  iepdroot: string = root;
-
+  iepdhost: string;
   xmldata: any = {
   };
   jsondata: any = {
   };
-  cfg: any=config;
-  xsds: any=config.xsds;
-  files: any=xsdfiles;
+  Configs: any = []
+  Resources: any =[]
 
   constructor(private http: Http, private errorService: ErrorService) {
-    this.iepdResource("ref.xsd")
+    this.configResources()
+/*     this.iepdResource("ref.xsd")
     this.iepdResource("iep.xsd")
     this.iepdResource("test_data.xml")
     this.iepdResource("test_instance.xml")
@@ -87,7 +74,25 @@ export class XsdService {
     this.iepdJsonResource("test_instance.json")
     this.iepdJsonResource("provenance_report.json")
     this.iepdJsonResource("resources.json")
-    this.iepdJsonResource("licenses.json")
+    this.iepdJsonResource("licenses.json") */
+  }
+
+  configResources() {
+    var resp = {}
+    this.http.get(configurl).subscribe(
+      (response) => {
+        var p = JSON.parse(response["_body"])
+        console.log("Project: " + p.project)
+        this.Configs[p.project] = p
+        for (var i in p.implementations) {
+          this.http.get(configurl).subscribe(
+            (response) => {
+              var imp = JSON.parse(response["_body"])
+              console.log("Implementation: "+ p.implementations[i].name)
+              this.Configs[p.implementations[i].name]=imp
+            })
+        }
+      })
   }
 
   iepdResource(name: string) {

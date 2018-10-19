@@ -28,6 +28,8 @@ const (
 )
 
 var (
+	// Cfgs ...
+	Cfgs       map[string]Cfg
 	cfg        Cfg
 	cfgpath    = "config/xsdccm.json"
 	requestID  string
@@ -46,15 +48,13 @@ func main() {
 	router := gin.New()
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
-	//router.GET("/xsdccm/*home", redirct)
-	router.GET("/file/:name", getResource)
 	router.Use(static.Serve("/", static.LocalFile("public/xsdccm", true)))
 	router.LoadHTMLGlob("public/xsdccm/*.html")
 	ng := router.Group("/", Index)
 	{
 		ng.GET("/")
 	}
-	flag.StringVar(&listenAddr, "listen-addr", cfg.Port, "server listen address")
+	flag.StringVar(&listenAddr, "listen-addr", Cfgs["spdx"].Port, "server listen address")
 	flag.Parse()
 	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
 	logger.Println("Starting HTTP Server. .. ")
@@ -96,15 +96,19 @@ func main() {
 }
 
 func readCfgs() {
+	Cfgs = map[string]Cfg{}
 	c := ReadConfig(cfgpath)
 	log.Println("Pull Config from " + c.Project)
 	wgetCfg(c.Configfile, c.ConfigURL)
 	xc := ReadConfig(c.Configfile)
+	Cfgs[xc.Project] = xc
 	for i := range xc.Implementations {
 		var imp = xc.Implementations[i]
 		log.Println("Pull Config from " + imp.Name)
-		log.Println("URL " + imp.Src)
-		wgetCfg(imp.Path, imp.Src)
+		log.Println("URL " + imp.SrcURL)
+		wgetCfg(imp.Path, imp.SrcURL)
+		xi := ReadConfig(imp.Path)
+		Cfgs[xi.Project] = xi
 	}
 }
 
@@ -123,29 +127,6 @@ func getreslist() map[string]string {
 	check(merr)
 	return r
 }
-
-func getResource(c *gin.Context) {
-	log.Println("getResource")
-	var ft = filepath.Base(c.Request.URL.Path)
-	log.Println(ft)
-	var p = getPath(ft)
-	log.Println(p)
-	var path = "public/iepd/" + p
-	if ft == "iepd.zip" {
-		path = "public/iepd.zip"
-	}
-	f, err := ioutil.ReadFile(path)
-	if err != nil {
-		panic(err)
-	}
-	c.Writer.Header().Set("X-Request-Id", requestID)
-	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
-	c.Writer.Header().Set("Expires", time.Unix(0, 0).Format(time.RFC1123))
-	c.Writer.Header().Set("Cache-Control", "no-cache, private, max-age=0")
-	c.Writer.Header().Set("Pragma", "no-cache")
-	c.Writer.Header().Set("X-Accel-Expires", "0")
-	c.Writer.Write(f)
-}
 func getPath(fname string) string {
 	var p = resources[fname]
 	if p == "" {
@@ -157,7 +138,15 @@ func getPath(fname string) string {
 	}
 	return p
 }
-
+func setHeader(w http.ResponseWriter) {
+	w.Header().Set("X-Content-Type-Options", "nosniff")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("X-Request-Id", requestID)
+	w.Header().Set("Expires", time.Unix(0, 0).Format(time.RFC1123))
+	w.Header().Set("Cache-Control", "no-cache, private, max-age=0")
+	w.Header().Set("Pragma", "no-cache")
+	w.Header().Set("X-Accel-Expires", "0")
+}
 func logging(logger *log.Logger) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
