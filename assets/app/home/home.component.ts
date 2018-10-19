@@ -8,10 +8,27 @@ import { XsdService } from "./../xsdccm/xsd.service";
 })
 export class HomeComponent {
 
-  constructor(public xsdService: XsdService) { };
+  files: any = []
+  svces: any = []
+  configs: any = []
 
-  files = this.xsdService.files;
+  constructor(public xsdService: XsdService) {
 
+  }
+
+  getSvce() {
+    console.log(this.xsdService.selected)
+    for (var c in this.xsdService.Configs) {
+      if (this.xsdService.Configs[c].project === this.xsdService.selected) {
+        console.log(this.xsdService.Configs[c])
+      }
+    }
+
+/*     ngOnInit() {
+
+    } */
+  }
+}
   /*   files = [
       {
         name: "SPDX XSD",
@@ -81,8 +98,3 @@ export class HomeComponent {
       }
     ]; */
 
-
-  ngOnInit() {
-
-  }
-}

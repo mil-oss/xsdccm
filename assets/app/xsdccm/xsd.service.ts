@@ -17,11 +17,11 @@ import {
 
 import * as cfgdata from "../../../config/xsdccm.json";
 
-const config = (<any>cfgdata)
-const project = (<any>cfgdata).project;
-const configfile = (<any>cfgdata).configfile;
-const configurl = (<any>cfgdata).configurl;
-const host = (<any>cfgdata).host;
+const Config = (<any>cfgdata)
+const Project = (<any>cfgdata).project;
+const Configfile = (<any>cfgdata).configfile;
+const Configurl = (<any>cfgdata).configurl;
+const Host = (<any>cfgdata).host;
 
 @Injectable()
 export class XsdService {
@@ -52,52 +52,66 @@ export class XsdService {
   };
   jsondata: any = {
   };
-  Configs: any = []
-  Resources: any =[]
+  cfg: any = Config;
+  Configs: any[] = []
+  Projects: any[] = []
+  Resources: any[] = []
 
   constructor(private http: Http, private errorService: ErrorService) {
-    this.configResources()
-/*     this.iepdResource("ref.xsd")
-    this.iepdResource("iep.xsd")
-    this.iepdResource("test_data.xml")
-    this.iepdResource("test_instance.xml")
-    this.iepdResource("iep_xsd.xsl")
-    this.iepdResource("xml_instance.xsl")
-    this.iepdResource("xsd_json.xsl")
-    this.iepdResource("xml_json.xsl")
-    this.iepdResource("go-gen.xsl")
-    this.iepdResource("go-test-gen.xsl")
-    this.iepdJsonResource("ref_xsd.json")
-    this.xsds.refXsd.json=this.jsondata["iep_xsd.json"]
-    this.iepdJsonResource("iep_xsd.json")
-    this.xsds.iepXsd.json=this.jsondata["iep_xsd.json"]
-    this.iepdJsonResource("test_instance.json")
-    this.iepdJsonResource("provenance_report.json")
-    this.iepdJsonResource("resources.json")
-    this.iepdJsonResource("licenses.json") */
+    this.Configs = this.configResources()
+    console.log(this.Configs)
+    for (var s in this.Configs) {
+      console.log(this.Configs[s])
+    }
+    /*     this.iepdResource("ref.xsd")
+        this.iepdResource("iep.xsd")
+        this.iepdResource("test_data.xml")
+        this.iepdResource("test_instance.xml")
+        this.iepdResource("iep_xsd.xsl")
+        this.iepdResource("xml_instance.xsl")
+        this.iepdResource("xsd_json.xsl")
+        this.iepdResource("xml_json.xsl")
+        this.iepdResource("go-gen.xsl")
+        this.iepdResource("go-test-gen.xsl")
+        this.iepdJsonResource("ref_xsd.json")
+        this.xsds.refXsd.json=this.jsondata["iep_xsd.json"]
+        this.iepdJsonResource("iep_xsd.json")
+        this.xsds.iepXsd.json=this.jsondata["iep_xsd.json"]
+        this.iepdJsonResource("test_instance.json")
+        this.iepdJsonResource("provenance_report.json")
+        this.iepdJsonResource("resources.json")
+        this.iepdJsonResource("licenses.json") */
   }
 
+
   configResources() {
-    var resp = {}
-    this.http.get(configurl).subscribe(
+    var resp: any[]
+    resp=[]
+    this.http.get(Configurl).subscribe(
       (response) => {
         var p = JSON.parse(response["_body"])
-        console.log("Project: " + p.project)
-        this.Configs[p.project] = p
+        //console.log("Project: " + p.project)
+        resp.push(p)
+        resp[p.project]=p
         for (var i in p.implementations) {
-          this.http.get(configurl).subscribe(
+          //console.log("Implementation: " + p.implementations[i].name)
+          //console.log("Url: " + p.implementations[i].srcurl)
+          this.http.get(p.implementations[i].srcurl).subscribe(
             (response) => {
               var imp = JSON.parse(response["_body"])
-              console.log("Implementation: "+ p.implementations[i].name)
-              this.Configs[p.implementations[i].name]=imp
+              //console.log("Name: " + imp.project)
+              //resp.push(imp)
+              resp[imp.project]=imp
             })
         }
+        return resp
       })
+      return resp
   }
 
   iepdResource(name: string) {
     var resp = {}
-    this.http.get(this.iepdhost +name).subscribe(
+    this.http.get(this.iepdhost + name).subscribe(
       (response) => {
         this.xmldata[name] = response["_body"]
       })

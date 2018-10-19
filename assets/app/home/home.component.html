@@ -1,5 +1,11 @@
 <div class="col-md-8 col-md-offset" style="width:100%; margin-top:10px;">
-    <div style="width:100%; text-align:left; font-weight:bold; font-size:16px; text-align:left;">Downloads</div>
+    <div style="width:100%; text-align:left; font-size:14px; text-align:left;">Resources</div>
+
+    <select class="accordion__tab" name="xsdSelect" [(ngModel)]="xsdService.selected" (change)="getSvce()" style="background-color: #ddd;color: #000;">
+        <option *ngFor="let c of xsdService.Configs" value="{{c.project}}">{{c.project}}</option>
+    </select>
+
+    <div *ngFor="let c of configs">
     <table class="table table-striped">
         <thead>
             <tr class="ctrtxt">
@@ -16,6 +22,7 @@
             </tr>
         </tbody>
     </table>
+    </div>
     <div class="col-md-8 col-md-offset" style="width:100%; min-width:300px; margin-top:10px;">
         <div style="float:right"><i>-  -  -  -  -  -  -  -  -</i></div>
     </div>
