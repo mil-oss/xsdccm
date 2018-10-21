@@ -49,6 +49,12 @@ func main() {
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 	router.Use(static.Serve("/", static.LocalFile("public/xsdccm", true)))
+	router.Use(static.Serve("/xsdccm", static.LocalFile("public/xsdccm", true)))
+	router.Use(static.Serve("/xsdccm/home", static.LocalFile("public/xsdccm", true)))
+	router.Use(static.Serve("/xsdccm/xsd", static.LocalFile("public/xsdccm", true)))
+	router.Use(static.Serve("/xsdccm/doc", static.LocalFile("public/xsdccm", true)))
+	router.Use(static.Serve("/xsdccm/xmldata", static.LocalFile("public/xsdccm", true)))
+	router.Use(static.Serve("/xsdccm/provrpt", static.LocalFile("public/xsdccm", true)))
 	router.LoadHTMLGlob("public/xsdccm/*.html")
 	ng := router.Group("/", Index)
 	{

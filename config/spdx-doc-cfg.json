@@ -53,7 +53,6 @@
         },
         {
             "name": "iepxsdxsl",
-            "filename": "spdx-doc-iep.xsl",
             "src": "iepd/spdx-document/xml/xsl/spdx-doc-iep.xsl",
             "path": "xml/xsl/spdx-doc-iep.xsl",
             "description": "XSLT to generate the SPDX Document Implementation Schema"
@@ -61,7 +60,6 @@
         },
         {
             "name": "instancexsl",
-            "filename": "spdx-doc-instance.xsl",
             "src": "iepd/spdx-document/xml/xsl/spdx-doc-instance.xsl",
             "path": "xml/xsl/spdx-doc-instance.xsl",
             "description": "XSLT to generate a SPDX Document instance using test values"
@@ -150,15 +148,13 @@
             "name": "provenancereportjson",
             "filename": "spdx-doc-provenance-report.json",
             "src": "iepd/spdx-document/json/spdx-doc-provenance-report.json",
-            "path": "json/spdx-doc-provenance-report.json",
-            "description": "Report on all generation, verification and validation events"
+            "path": "json/spdx-doc-provenance-report.json"
         },
         {
             "name": "resourcesjson",
             "filename": "spdx-doc-resources.json",
             "src": "iepd/spdx-document/json/spdx-doc-resources.json",
-            "path": "json/spdx-doc-resources.json",
-            "description": "List of resources uses to Implement SPDX Document XML"
+            "path": "json/spdx-doc-resources.json"
         },
         {
             "name": "iepxsl",

@@ -50,19 +50,16 @@ export class XsdService {
   iepdhost: string;
   xmldata: any = {
   };
-  jsondata: any = {
-  };
+  jsondata: any[][] = [];
   cfg: any = Config;
-  Configs: any[] = []
-  Projects: any[] = []
-  Resources: any[] = []
+  Configs: any[][] = []
+  Resources: any[][] = []
 
   constructor(private http: Http, private errorService: ErrorService) {
-    this.Configs = this.configResources()
+    this.configResources()
     console.log(this.Configs)
-    for (var s in this.Configs) {
-      console.log(this.Configs[s])
-    }
+    console.log(this.Resources)
+
     /*     this.iepdResource("ref.xsd")
         this.iepdResource("iep.xsd")
         this.iepdResource("test_data.xml")
@@ -83,46 +80,49 @@ export class XsdService {
         this.iepdJsonResource("licenses.json") */
   }
 
-
   configResources() {
-    var resp: any[]
-    resp=[]
     this.http.get(Configurl).subscribe(
       (response) => {
         var p = JSON.parse(response["_body"])
-        //console.log("Project: " + p.project)
-        resp.push(p)
-        //resp[p.project]=p
+        this.Configs[p.project] = p
+        //this.Configs[p.project].push(p)
         for (var i in p.implementations) {
-          //console.log("Implementation: " + p.implementations[i].name)
-          //console.log("Url: " + p.implementations[i].srcurl)
           this.http.get(p.implementations[i].srcurl).subscribe(
             (response) => {
               var imp = JSON.parse(response["_body"])
-              //console.log("Name: " + imp.project)
-              resp.push(imp)
-              //resp[imp.project]=imp
-            })
+              this.Configs.push(imp)
+              this.Configs[imp.project] = imp
+              this.Resources[imp.project] = []
+              for (var r in imp.resources) {
+                this.Resources[imp.project][imp.resources[r].name] = imp.host + 'file/' + imp.resources[r].name
+              };
+            }
+          )
         }
-        return resp
-      })
-      return resp
-  }
-
-  iepdResource(name: string) {
-    var resp = {}
-    this.http.get(this.iepdhost + name).subscribe(
-      (response) => {
-        this.xmldata[name] = response["_body"]
       })
   }
 
-  iepdJsonResource(name: string) {
-    var resp = {}
-    this.http.get(this.iepdhost + name).subscribe(
+  iepdResource(path: string) {
+    this.http.get(path).subscribe(
       (response) => {
-        this.jsondata[name] = JSON.parse(response["_body"])
+        return response["_body"]
       })
+  }
+
+  iepdJsonResource(svce: string, resname: string, callback) {
+    if (!this.jsondata[svce]) {
+      this.jsondata[svce] = {}
+    }
+    if (this.jsondata[svce][resname]) {
+      return
+    } else {
+      this.http.get(this.Resources[svce][resname]).subscribe(
+        (response) => {
+          this.jsondata[svce][resname] = JSON.parse(response["_body"])
+          this.getComponents(this.jsondata[svce][resname]);
+          callback(this.jsondata[svce][resname])
+        })
+    }
   }
 
   toArray(n) {
@@ -136,8 +136,11 @@ export class XsdService {
     this.simpletypes = [];
     this.complextypes = [];
     this.elements = [];
+    console.log(xsdjsondata);
     for (var n in xsdjsondata) {
+      console.log(n);
       var c = xsdjsondata[n];
+      console.log(c);
       var appinf = new XsdAppinfo();
       if (c.appinfo.ComplexType) {
         appinf.ComplexType = new ComplexType();

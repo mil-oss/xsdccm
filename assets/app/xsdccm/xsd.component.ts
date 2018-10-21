@@ -17,36 +17,37 @@ import { XsdSchema, XsdSimpleType, XsdComplexType, XsdElement } from "./xsd.mode
 })
 export class XsdComponent implements OnInit {
   xsdschema: XsdSchema;
-  stypes: XsdSimpleType[];
-  ctypes: XsdComplexType[];
-  elements: XsdElement[];
+  stypes: XsdSimpleType[][];
+  ctypes: XsdComplexType[][];
+  elements: XsdElement[][];
   nodeSelected: string;
   iepdxsd: any;
-  optionList: any[] = this.xsdService.toArray(this.xsdService.xsds);
 
   constructor(public xsdService: XsdService, public router: Router) {
   }
 
   ngOnInit() {
     this.xsdService.xsdmode = true;
-    this.xsdService.selected = "iepdXsd";
+    this.xsdService.selected = "spdx-doc";
     this.getXsdJson();
   }
 
   getXsdJson() {
     console.log(this.xsdService.selected);
-    this.xsdService.selectedxsd = this.xsdService.xsds[this.xsdService.selected];
+    this.xsdService.selectedxsd = this.xsdService.Configs[this.xsdService.selected];
     if (typeof this.xsdService.selected !== "undefined") {
-      var xsdjson;
-      if(this.xsdService.selected=="iepdXsd"){
-        xsdjson = this.xsdService.jsondata["iep_xsd.json"];
-      }else{
-        xsdjson = this.xsdService.jsondata["ref_xsd.json"];
-      }
-      this.xsdService.getComponents(xsdjson);
-      this.stypes = this.xsdService.simpletypes;
-      this.ctypes = this.xsdService.complextypes;
-      this.elements = this.xsdService.elements;
+      this.xsdService.iepdJsonResource(this.xsdService.selected, "iepxsdjson", function (xsdj) {
+        console.log(xsdj);
+        //this.xsdService.getComponents(xsdj);
+        if (!this.stypes[this.xsdService.selected]) {
+          this.stypes[this.xsdService.selected] = []
+          this.ctypes[this.xsdService.selected] = []
+          this.elements[this.xsdService.selected]=[]
+        }
+        this.stypes[this.xsdService.selected] = this.xsdService.simpletypes;
+        this.ctypes[this.xsdService.selected] = this.xsdService.complextypes;
+        this.elements[this.xsdService.selected] = this.xsdService.elements;
+      });
     };
   }
 }
