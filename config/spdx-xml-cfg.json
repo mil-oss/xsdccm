@@ -3,7 +3,7 @@
     "title":"XML Schema Implementations of SPDX",
     "host":"https://spdx-xml.specchain.org",
     "port":":8080",
-    "configfile": "config/spdx-cfg.json",
+    "configfile": "config/spdx-xml-cfg.json",
     "configurl": "https://spdx-xml.specchain.org/config",
     "tempdir":"tmp/",
     "temppath":"tmp/spdx-xml/",

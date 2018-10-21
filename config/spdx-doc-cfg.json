@@ -26,8 +26,8 @@
         {
             "name": "reftestdataxml",
             "filename": "spdx-test-data.xml",
-            "src": "xml/xsd/spdx-xml-ref.xsd",
-            "path": "xml/xsd/spdx-xml-ref.xsd",
+            "src": "xml/xsd/spdx-test-data.xml",
+            "path": "xml/xsd/spdx-test-data.xml",
             "description": "Test values for all SPDX data items"
         },
         {
@@ -53,6 +53,7 @@
         },
         {
             "name": "iepxsdxsl",
+            "filename": "spdx-doc-iep.xsl",
             "src": "iepd/spdx-document/xml/xsl/spdx-doc-iep.xsl",
             "path": "xml/xsl/spdx-doc-iep.xsl",
             "description": "XSLT to generate the SPDX Document Implementation Schema"
@@ -60,6 +61,7 @@
         },
         {
             "name": "instancexsl",
+            "filename": "spdx-doc-instance.xsl",
             "src": "iepd/spdx-document/xml/xsl/spdx-doc-instance.xsl",
             "path": "xml/xsl/spdx-doc-instance.xsl",
             "description": "XSLT to generate a SPDX Document instance using test values"
@@ -148,13 +150,15 @@
             "name": "provenancereportjson",
             "filename": "spdx-doc-provenance-report.json",
             "src": "iepd/spdx-document/json/spdx-doc-provenance-report.json",
-            "path": "json/spdx-doc-provenance-report.json"
+            "path": "json/spdx-doc-provenance-report.json",
+            "description": "Report on all generation, verification and validation events"
         },
         {
             "name": "resourcesjson",
             "filename": "spdx-doc-resources.json",
             "src": "iepd/spdx-document/json/spdx-doc-resources.json",
-            "path": "json/spdx-doc-resources.json"
+            "path": "json/spdx-doc-resources.json",
+            "description": "List of resources uses to Implement SPDX Document XML"
         },
         {
             "name": "iepxsl",

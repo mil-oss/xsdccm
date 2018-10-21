@@ -8,8 +8,7 @@
     "dbloc": "tmp/spdx-security-iepd/db/spdx-security.db",
     "tempdir": "tmp/",
     "temppath": "tmp/spdx-security-iepd/",
-    "resources": [
-        {
+    "resources": [{
             "name": "config",
             "filename": "spdx-security-cfg.json",
             "src": "config/spdx-security-cfg.json",
@@ -53,17 +52,19 @@
         },
         {
             "name": "iepxsdxsl",
+            "filename": "spdx-security-iep.xsl",
             "src": "iepd/spdx-security/xml/xsl/spdx-security-iep.xsl",
             "path": "xml/xsl/spdx-security-iep.xsl",
             "description": "XSLT to generate the SPDX Security Implementation Schema"
-        
+
         },
         {
             "name": "instancexsl",
+            "filename": "spdx-security-instance.xsl",
             "src": "iepd/spdx-security/xml/xsl/spdx-security-instance.xsl",
             "path": "xml/xsl/spdx-security-instance.xsl",
             "description": "XSLT to generate a SPDX Security instance using test values"
-        
+
         },
         {
             "name": "gogenxsdxsl",
@@ -71,7 +72,7 @@
             "src": "iepd/spdx-security/xml/xsl/spdx-security-go-gen.xsl",
             "path": "xml/xsl/spdx-security-go-gen.xsl",
             "description": "XSLT to generate a GOLANG Struct for SPDX Security information"
-        
+
         },
         {
             "name": "gotestgenxsl",
@@ -79,11 +80,11 @@
             "src": "iepd/spdx-security/xml/xsl/spdx-security-go-test-gen.xsl",
             "path": "xml/xsl/spdx-security-go-test-gen.xsl",
             "description": "XSLT to generate GOLANG Unit Tests for SPDX Security information using test data"
-        
+
         },
         {
             "name": "testdataxml",
-            "filename":"spdx-security-test-data.xml",
+            "filename": "spdx-security-test-data.xml",
             "src": "iepd/spdx-security/xml/instance/spdx-security-test-data.xml",
             "path": "xml/instance/spdx-security-test-data.xml",
             "description": "Test data for SPDX Security information"
@@ -108,7 +109,7 @@
             "src": "src/spdx-security/spdx-security-struct.go",
             "path": "src/spdx-security/spdx-security-struct.go",
             "description": "Auto-generated code structure for marshalling and unmarshalling XML Instances using Golang"
-        
+
         },
         {
             "name": "structtestgo",
@@ -116,7 +117,7 @@
             "src": "src/spdx-security/spdx-security-struct_test.go",
             "path": "src/spdx-security/spdx-security-struct_test.go",
             "description": "Auto-generated code tests for marshalling and unmarshalling XML Instances using Golang"
-       
+
         },
         {
             "name": "maingo",
@@ -150,13 +151,15 @@
             "name": "provenancereportjson",
             "filename": "spdx-security-provenance-report.json",
             "src": "iepd/spdx-security/json/spdx-security-provenance-report.json",
-            "path": "json/spdx-security-provenance-report.json"
+            "path": "json/spdx-security-provenance-report.json",
+            "description": "Report on all generation, verification and validation events"
         },
         {
             "name": "resourcesjson",
             "filename": "spdx-security-resources.json",
             "src": "iepd/spdx-security/json/spdx-security-resources.json",
-            "path": "json/spdx-security-resources.json"
+            "path": "json/spdx-security-resources.json",
+            "description": "List of resources used to Implement SPDX Security XML"
         },
         {
             "name": "iepxsl",
@@ -185,7 +188,7 @@
             "src": "xml/xsl/xsd-json.xsl",
             "path": "xml/xsl/common/xsd-json.xsl",
             "description": "Common XSLT utility for generating a JSON representation of an XML Schema"
-       
+
         },
         {
             "name": "xmljsonxsl",
@@ -202,8 +205,7 @@
             "description": "Zipped archive of all Resources"
         }
     ],
-    "directories": [
-        {
+    "directories": [{
             "name": "niem",
             "src": "xml/xsd/ext/niem",
             "path": "xml/xsd/ext/niem"
