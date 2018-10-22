@@ -24,30 +24,29 @@ export class XsdComponent implements OnInit {
   iepdxsd: any;
 
   constructor(public xsdService: XsdService, public router: Router) {
+    this.getXsdJson();
   }
 
   ngOnInit() {
     this.xsdService.xsdmode = true;
     this.xsdService.selected = "spdx-doc";
-    this.getXsdJson();
   }
 
   getXsdJson() {
     console.log(this.xsdService.selected);
     this.xsdService.selectedxsd = this.xsdService.Configs[this.xsdService.selected];
     if (typeof this.xsdService.selected !== "undefined") {
-      this.xsdService.iepdJsonResource(this.xsdService.selected, "iepxsdjson", function (xsdj) {
-        console.log(xsdj);
-        //this.xsdService.getComponents(xsdj);
-        if (!this.stypes[this.xsdService.selected]) {
-          this.stypes[this.xsdService.selected] = []
-          this.ctypes[this.xsdService.selected] = []
-          this.elements[this.xsdService.selected]=[]
-        }
-        this.stypes[this.xsdService.selected] = this.xsdService.simpletypes;
-        this.ctypes[this.xsdService.selected] = this.xsdService.complextypes;
-        this.elements[this.xsdService.selected] = this.xsdService.elements;
-      });
+      this.xsdService.iepdJsonResource(this.xsdService.selected, "iepxsdjson");
+      this.xsdService.getComponents(this.xsdService.jsondata[this.xsdService.selected]["iepxsdjson"]);
+     /*  if (!this.stypes[this.xsdService.selected]) {
+        this.stypes[this.xsdService.selected] = []
+        this.ctypes[this.xsdService.selected] = []
+        this.elements[this.xsdService.selected] = []
+      } */
+      this.stypes[this.xsdService.selected] = this.xsdService.simpletypes[this.xsdService.selected];
+      this.ctypes[this.xsdService.selected] = this.xsdService.complextypes[this.xsdService.selected];
+      this.elements[this.xsdService.selected] = this.xsdService.elements[this.xsdService.selected];
     };
-  }
+  };
 }
+

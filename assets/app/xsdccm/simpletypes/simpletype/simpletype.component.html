@@ -10,7 +10,7 @@
       <i>xsdnode</i> = {{stype.xsdnode}}</div>
     <div *ngIf="stype.datatype">
       <i>datatype</i> = {{stype.datatype}}</div>
-    <div *ngIf="!editst()">
+    <div *ngIf="!editst() && stype.appinfo.SimpleType">
       <i>label</i> = {{stype.appinfo.SimpleType.name}}</div>
     <div *ngIf="editst()">
       <i>label</i> =
@@ -38,5 +38,10 @@
         <div>
           <i>documentation</i> = {{c.documentation}}</div>
       </div>
+    </div>
+    <div>
+      <pre>
+        {{getJSON(stype)}}
+      </pre>
     </div>
   </div>

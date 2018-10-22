@@ -16,6 +16,7 @@ import {
 } from "./xsd.model";
 
 import * as cfgdata from "../../../config/xsdccm.json";
+import { not } from "rxjs/internal/util/not";
 
 const Config = (<any>cfgdata)
 const Project = (<any>cfgdata).project;
@@ -109,18 +110,20 @@ export class XsdService {
       })
   }
 
-  iepdJsonResource(svce: string, resname: string, callback) {
+  iepdJsonResource(svce: string, resname: string) {
+    console.log("iepdJsonResource");
     if (!this.jsondata[svce]) {
       this.jsondata[svce] = {}
     }
     if (this.jsondata[svce][resname]) {
+      console.log(this.jsondata[svce][resname])
       return
     } else {
       this.http.get(this.Resources[svce][resname]).subscribe(
         (response) => {
           this.jsondata[svce][resname] = JSON.parse(response["_body"])
           this.getComponents(this.jsondata[svce][resname]);
-          callback(this.jsondata[svce][resname])
+          //console.log("callback: " + svce + ", " + resname)
         })
     }
   }
@@ -136,28 +139,30 @@ export class XsdService {
     this.simpletypes = [];
     this.complextypes = [];
     this.elements = [];
-    console.log(xsdjsondata);
+    //console.log(xsdjsondata);
     for (var n in xsdjsondata) {
-      console.log(n);
+      //console.log(n);
       var c = xsdjsondata[n];
-      console.log(c);
+      //console.log(c);
       var appinf = new XsdAppinfo();
-      if (c.appinfo.ComplexType) {
-        appinf.ComplexType = new ComplexType();
-        for (var a in c.appinfo.ComplexType) {
-          appinf.ComplexType[a] = c.appinfo.ComplexType[a];
+      if (c.appinfo) {
+        if (c.appinfo.ComplexType) {
+          appinf.ComplexType = new ComplexType();
+          for (var a in c.appinfo.ComplexType) {
+            appinf.ComplexType[a] = c.appinfo.ComplexType[a];
+          }
         }
-      }
-      if (c.appinfo.SimpleType) {
-        appinf.SimpleType = new SimpleType();
-        for (var a in c.appinfo.SimpleType) {
-          appinf.SimpleType[a] = c.appinfo.SimpleType[a];
+        if (c.appinfo.SimpleType) {
+          appinf.SimpleType = new SimpleType();
+          for (var a in c.appinfo.SimpleType) {
+            appinf.SimpleType[a] = c.appinfo.SimpleType[a];
+          }
         }
-      }
-      if (c.appinfo.Element) {
-        appinf.Element = new Element();
-        for (var a in c.appinfo.Element) {
-          appinf.Element[a] = c.appinfo.Element[a];
+        if (c.appinfo.Element) {
+          appinf.Element = new Element();
+          for (var a in c.appinfo.Element) {
+            appinf.Element[a] = c.appinfo.Element[a];
+          }
         }
       }
       if (c.xsdnode === 'simpleType') {
@@ -246,6 +251,26 @@ export class XsdService {
       }
     );
   }
+
+  selectProject(name: string) {
+    //console.log("selectProject " + name);
+    this.openTab(name)
+    this.selectedxsd = name;
+    if (!this.jsondata[name]) {
+      this.jsondata[name] = []
+      this.iepdJsonResource(name, "iepxsdjson");
+    }else if (this.jsondata[name]["iepxsdjson"]) {
+      return
+    } else {
+      this.iepdJsonResource(name, "iepxsdjson");
+    }
+  }
+  isProjSel(n) {
+    if (this.selectedxsd === n) {
+      return true;
+    }
+  };
+
   openTab(tab) {
     //console.log(tab);
     this.tabview = tab;

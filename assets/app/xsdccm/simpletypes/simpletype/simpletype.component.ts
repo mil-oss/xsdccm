@@ -89,4 +89,8 @@ export class SimpletypeComponent implements OnInit {
     this.xsdService.editMode = false;
   }
 
+  getJSON(s: any) {
+    return JSON.stringify(s);
+  }
+
 }
