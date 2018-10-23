@@ -21,7 +21,7 @@ export class ElementsComponent implements OnInit {
   elvaluefilter() {
     var txt = this.xsdService.txtFilter;
     var result = [];
-    var mlist = this.xsdService.elements;
+    var mlist = this.xsdService.elements[this.xsdService.selectedxsd];
     if (txt === "" || typeof txt === "undefined") {
       return mlist;
     } else {

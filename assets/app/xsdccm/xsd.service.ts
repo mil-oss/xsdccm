@@ -26,15 +26,15 @@ const Host = (<any>cfgdata).host;
 
 @Injectable()
 export class XsdService {
-  xsd: XsdSchema;
+  xsd: XsdSchema[] = [];
   rawview: boolean = false;
   rawmode: boolean = false;
   seldocvalid: boolean = false;
   seldocverified: boolean = false;
   validate: boolean = false;
-  simpletypes: XsdSimpleType[] = [];
-  complextypes: XsdComplexType[] = [];
-  elements: XsdElement[] = [];
+  simpletypes: XsdSimpleType[][] = [];
+  complextypes: XsdComplexType[][] = [];
+  elements: XsdElement[][] = [];
   txtFilter: string;
   tabview: string;
   activeTabs: string[] = [];
@@ -60,33 +60,18 @@ export class XsdService {
     this.configResources()
     console.log(this.Configs)
     console.log(this.Resources)
-
-    /*     this.iepdResource("ref.xsd")
-        this.iepdResource("iep.xsd")
-        this.iepdResource("test_data.xml")
-        this.iepdResource("test_instance.xml")
-        this.iepdResource("iep_xsd.xsl")
-        this.iepdResource("xml_instance.xsl")
-        this.iepdResource("xsd_json.xsl")
-        this.iepdResource("xml_json.xsl")
-        this.iepdResource("go-gen.xsl")
-        this.iepdResource("go-test-gen.xsl")
-        this.iepdJsonResource("ref_xsd.json")
-        this.xsds.refXsd.json=this.jsondata["iep_xsd.json"]
-        this.iepdJsonResource("iep_xsd.json")
-        this.xsds.iepXsd.json=this.jsondata["iep_xsd.json"]
-        this.iepdJsonResource("test_instance.json")
-        this.iepdJsonResource("provenance_report.json")
-        this.iepdJsonResource("resources.json")
-        this.iepdJsonResource("licenses.json") */
   }
 
   configResources() {
     this.http.get(Configurl).subscribe(
       (response) => {
         var p = JSON.parse(response["_body"])
+        this.Configs.push(p)
         this.Configs[p.project] = p
-        //this.Configs[p.project].push(p)
+        this.Resources[p.project]=[]
+        for (var r in p.resources) {
+          this.Resources[p.project][p.resources[r].name] = p.host + 'file/' + p.resources[r].name
+        };
         for (var i in p.implementations) {
           this.http.get(p.implementations[i].srcurl).subscribe(
             (response) => {
@@ -110,19 +95,19 @@ export class XsdService {
       })
   }
 
-  iepdJsonResource(svce: string, resname: string) {
-    console.log("iepdJsonResource");
-    if (!this.jsondata[svce]) {
-      this.jsondata[svce] = {}
+  iepdJsonResource(resname: string) {
+    //console.log("iepdJsonResource");
+    if (!this.jsondata[this.selectedxsd]) {
+      this.jsondata[this.selectedxsd] = []
     }
-    if (this.jsondata[svce][resname]) {
-      console.log(this.jsondata[svce][resname])
+    if (this.jsondata[this.selectedxsd][resname]) {
+      console.log(this.jsondata[this.selectedxsd][resname])
       return
     } else {
-      this.http.get(this.Resources[svce][resname]).subscribe(
+      this.http.get(this.Resources[this.selectedxsd][resname]).subscribe(
         (response) => {
-          this.jsondata[svce][resname] = JSON.parse(response["_body"])
-          this.getComponents(this.jsondata[svce][resname]);
+          this.jsondata[this.selectedxsd][resname] = JSON.parse(response["_body"])
+          this.getComponents(this.jsondata[this.selectedxsd][resname]);
           //console.log("callback: " + svce + ", " + resname)
         })
     }
@@ -136,9 +121,10 @@ export class XsdService {
     return a;
   }
   getComponents(xsdjsondata: object) {
-    this.simpletypes = [];
-    this.complextypes = [];
-    this.elements = [];
+    this.simpletypes[this.selectedxsd] = [];
+    this.complextypes[this.selectedxsd] = [];
+    this.elements[this.selectedxsd] = [];
+    this.xsd[this.selectedxsd] = new XsdSchema();
     //console.log(xsdjsondata);
     for (var n in xsdjsondata) {
       //console.log(n);
@@ -184,7 +170,7 @@ export class XsdService {
         if (enums.length > 0) {
           st.enumerations = enums;
         }
-        this.simpletypes.push(st);
+        this.simpletypes[this.selectedxsd].push(st);
       }
       if (c.xsdnode === 'complexType') {
         var ct = new XsdComplexType();
@@ -216,7 +202,7 @@ export class XsdService {
           }
           ct.choice = els;
         }
-        this.complextypes.push(ct);
+        this.complextypes[this.selectedxsd].push(ct);
       }
       if (c.xsdnode === 'element') {
         var et = new XsdElement();
@@ -226,15 +212,15 @@ export class XsdService {
           }
         }
         et.appinfo = appinf;
-        this.elements.push(et);
+        this.elements[this.selectedxsd].push(et);
       }
     }
-    this.xsd = new XsdSchema();
-    this.xsd.complextypes = this.complextypes;
-    this.xsd.simpletypes = this.simpletypes;
-    this.xsd.elements = this.elements;
+    this.xsd[this.selectedxsd] = new XsdSchema();
+    this.xsd[this.selectedxsd].complextypes = this.complextypes[this.selectedxsd];
+    this.xsd[this.selectedxsd].simpletypes = this.simpletypes[this.selectedxsd];
+    this.xsd[this.selectedxsd].elements = this.elements[this.selectedxsd];
     //console.log(this.xsd);
-    return this.xsd;
+    return this.xsd[this.selectedxsd];
   }
   nameList(narray: any[]) {
     let nl: string[] = [];
@@ -256,13 +242,24 @@ export class XsdService {
     //console.log("selectProject " + name);
     this.openTab(name)
     this.selectedxsd = name;
-    if (!this.jsondata[name]) {
-      this.jsondata[name] = []
-      this.iepdJsonResource(name, "iepxsdjson");
-    }else if (this.jsondata[name]["iepxsdjson"]) {
-      return
+    if (this.Configs[name]["implementations"]) {
+      if (!this.jsondata[name]) {
+        this.jsondata[name] = []
+        this.iepdJsonResource("refxsdjson");
+      } else if (this.jsondata[name]["refxsdjson"]) {
+        return
+      } else {
+        this.iepdJsonResource("refxsdjson");
+      }
     } else {
-      this.iepdJsonResource(name, "iepxsdjson");
+      if (!this.jsondata[name]) {
+        this.jsondata[name] = []
+        this.iepdJsonResource("iepxsdjson");
+      } else if (this.jsondata[name]["iepxsdjson"]) {
+        return
+      } else {
+        this.iepdJsonResource("iepxsdjson");
+      }
     }
   }
   isProjSel(n) {
@@ -287,44 +284,44 @@ export class XsdService {
       return false;
     }
   };
-  selElement(nodename) {
+  selElement(nodename: string) {
     this.editMode = false;
     if (this.xsd) {
-      for (var n in this.xsd.elements) {
-        if (this.xsd.elements[n].name === nodename) {
+      for (var n in this.xsd[this.selectedxsd].elements) {
+        if (this.xsd[this.selectedxsd].elements[n].name === nodename) {
           //console.log("Sel: " + nodename);
-          this.nodeSelected = this.xsd.elements[n];
+          this.nodeSelected = this.xsd[this.selectedxsd].elements[n];
           this.getNodeAttributes();
           //this.router.navigate([{ outlets: { xsd: [ 'simpletype', nodename ] }}]); 
-          return this.xsd.elements[n];
+          return this.xsd[this.selectedxsd].elements[n];
         }
       }
     }
   };
-  selSimpleType(nodename) {
+  selSimpleType(nodename: string) {
     this.editMode = false;
     if (this.xsd) {
-      for (var n in this.xsd.simpletypes) {
-        if (this.xsd.simpletypes[n].name === nodename) {
+      for (var n in this.xsd[this.selectedxsd].simpletypes) {
+        if (this.xsd[this.selectedxsd].simpletypes[n].name === nodename) {
           //console.log("Sel: " + nodename);
-          this.nodeSelected = this.xsd.simpletypes[n];
+          this.nodeSelected = this.xsd[this.selectedxsd].simpletypes[n];
           this.getNodeAttributes();
           //this.router.navigate([{ outlets: { xsd: [ 'simpletype', nodename ] }}]); 
-          return this.xsd.simpletypes[n];
+          return this.xsd[this.selectedxsd].simpletypes[n];
         }
       }
     }
   };
-  selComplexType(nodename) {
+  selComplexType(nodename: string) {
     this.editMode = false;
     if (this.xsd) {
-      for (var n in this.xsd.complextypes)
-        if (this.xsd.complextypes[n].name === nodename) {
+      for (var n in this.xsd[this.selectedxsd].complextypes)
+        if (this.xsd[this.selectedxsd].complextypes[n].name === nodename) {
           //console.log("Sel: " + nodename);
-          this.nodeSelected = this.xsd.complextypes[n];
+          this.nodeSelected = this.xsd[this.selectedxsd].complextypes[n];
           this.getNodeAttributes();
           //this.router.navigate([{ outlets: { xsd: [ 'complextype', nodename ] }}]);  
-          return this.xsd.complextypes[n];
+          return this.xsd[this.selectedxsd].complextypes[n];
         }
     }
   };

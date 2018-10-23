@@ -19,7 +19,7 @@ export class ComplextypesComponent implements OnInit {
   ctvaluefilter() {
     var txt = this.xsdService.txtFilter;
     var result = [];
-    var mlist = this.xsdService.complextypes;
+    var mlist = this.xsdService.complextypes[this.xsdService.selectedxsd];
     if (txt === "" || typeof txt=== "undefined") {
       return mlist;
     } else {

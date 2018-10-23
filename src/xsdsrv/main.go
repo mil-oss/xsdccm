@@ -37,6 +37,7 @@ var (
 	healthy    int32
 	xsdstruct  interface{}
 	resources  map[string]string
+	router     = gin.New()
 )
 
 func main() {
@@ -45,7 +46,6 @@ func main() {
 	})
 	readCfgs()
 	//resources = getreslist()
-	router := gin.New()
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 	router.Use(static.Serve("/", static.LocalFile("public/xsdccm", true)))
@@ -56,10 +56,15 @@ func main() {
 	router.Use(static.Serve("/xsdccm/xmldata", static.LocalFile("public/xsdccm", true)))
 	router.Use(static.Serve("/xsdccm/provrpt", static.LocalFile("public/xsdccm", true)))
 	router.LoadHTMLGlob("public/xsdccm/*.html")
-	ng := router.Group("/", Index)
+
+	/* ng := router.Group("/", Index)
 	{
 		ng.GET("/")
-	}
+	} */
+	router.NoRoute(func(c *gin.Context) {
+		c.Request.URL.Path = "/xsdccm"
+		router.HandleContext(c)
+	})
 	flag.StringVar(&listenAddr, "listen-addr", Cfgs["spdx"].Port, "server listen address")
 	flag.Parse()
 	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
@@ -120,8 +125,11 @@ func readCfgs() {
 
 //Index ...
 func Index(c *gin.Context) {
-	c.HTML(200, "index.html", gin.H{})
+	c.Request.URL.Path = "/xsdccm"
+	router.HandleContext(c)
+	//c.HTML(200, "index.html", gin.H{})
 }
+
 func redirct(c *gin.Context) {
 	c.Redirect(307, "/")
 }

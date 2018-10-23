@@ -19,7 +19,7 @@ export class HomeComponent {
   getSvce() {
     console.log(this.xsdService.selected)
     for (var c in this.xsdService.Configs) {
-      if (this.xsdService.Configs[c].project === this.xsdService.selected) {
+      if (this.xsdService.Configs[c]["project"] === this.xsdService.selected) {
         console.log(this.xsdService.Configs[c])
       }
     }

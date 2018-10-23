@@ -5,7 +5,7 @@
         <option *ngFor="let c of xsdService.Configs" value="{{c.project}}">{{c.project}}</option>
     </select>-->
     <div class="accordion__tab" *ngFor="let c of xsdService.Configs">
-        <div class="accordion__tab-title" (click)="xsdService.openTab(c['project'])">{{c['project']}}</div>
+        <div class="accordion__tab-title" (click)="xsdService.openTab(c['project'])">{{c['project'] | uppercase}}</div>
         <div class="accordion__tab-content" *ngIf="xsdService.isOpenTab(c['project'])">
             <table class="table table-striped">
                 <thead>
