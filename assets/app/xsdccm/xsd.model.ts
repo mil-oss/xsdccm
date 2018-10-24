@@ -29,20 +29,17 @@ export class FileInfo {
 
 export class Element {
     public name: string;
-    public mapvar: string;
     public xpath: string;
     public comment: string;
 }
 
 export class SimpleType {
     public name: string;
-    public mapvar: string;
     public comment: string;
 }
 
 export class ComplexType {
     public name: string;
-    public mapvar: string;
     public comment: string;
 }
 

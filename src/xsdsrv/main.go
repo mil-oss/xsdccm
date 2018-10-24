@@ -65,7 +65,7 @@ func main() {
 		c.Request.URL.Path = "/xsdccm"
 		router.HandleContext(c)
 	})
-	flag.StringVar(&listenAddr, "listen-addr", Cfgs["spdx"].Port, "server listen address")
+	flag.StringVar(&listenAddr, "listen-addr", Cfgs["spdx-xml"].Port, "server listen address")
 	flag.Parse()
 	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
 	logger.Println("Starting HTTP Server. .. ")
