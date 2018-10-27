@@ -1,17 +1,8 @@
-import "rxjs/Rx";
-declare var Saxon: any;
-import * as crypto from 'crypto';
-import { EventEmitter, Injectable } from "@angular/core";
-import { Headers, Http, Response, ResponseContentType } from "@angular/http";
-import { Observable } from "rxjs";
+
+import { Injectable } from "@angular/core";
+import { Headers, Http, ResponseContentType } from "@angular/http";
 import { ErrorService } from "./../errors/error.service";
 import { XsdService } from "./../xsdccm/xsd.service";
-
-const httpOptions = {
-  headers: new Headers({
-    'Content-Type': 'application/x-www-form-urlencoded'
-  })
-};
 
 
 @Injectable()
@@ -21,32 +12,6 @@ export class XmlService {
   seldocvalid: boolean = false;
   seldocverified: boolean = false;
   validate: boolean = false;
-  xmldata: any = {
-    Schema: {
-      refXsd: {
-        name: "SEvA Reference XSD",
-        value: "refXsd",
-        root: "SoftwareEvidenceArchive"
-      },
-      iepdXsd: {
-        name: "SEvA Implementation XSD",
-        value: "iepdXsd",
-        root: "SoftwareEvidenceArchive"
-      }
-    },
-    Instances: {
-    },
-    Transforms: {
-      "iep_xsd.xsl": { name: "iep_xsd.xsl" },
-      "xml_instance.xsl": { name: "xml_instance.xsl" },
-      "xsd_json.xsl": { name: "xsd_json.xsl" },
-      "xml_json.xsl": { name: "xml_json.xsl" },
-      "go-gen.xsl": { name: "go-gen.xsl" },
-      "go-test-gen.xsl": { name: "go-test-gen.xsl" }
-    },
-    Tests: {
-    }
-  };
   txtFilter: string;
   tabview: string;
   activeTabs: string[] = [];
@@ -61,6 +26,81 @@ export class XmlService {
   xsdmode: boolean = true;
   valerrors: any[] = [];
   viewmode: string = "xml";
+
+  xmldata: any = {
+    Schema: {
+      refxsd: {
+        "name": "refxsd",
+        "description": "NIEM Conformant Reference XML Schema",
+        "jsondata": "refxsdjson"
+      },
+      iepxsd: {
+        "name": "iepxsd",
+        "description": "Implementation XML Schema",
+        "jsondata": "iepxsdjson"
+      }
+    },
+    Instances: {
+      instancexml: {
+        "name": "instancexml",
+        "description": "Instance generated using XSLT",
+        "jsondata": "instancejson"
+      },
+      instancegolangxml: {
+        "name": "instancegolangxml",
+        "description": "Instance marshalled using GOLANG",
+        "jsondata": "instancejson"
+      }
+    },
+    Transforms: {
+      iepxsdxsl: {
+        "name": "iepxsdxsl",
+        "description": "XSLT to generate Implementation Schema"
+      },
+      instancexsl: {
+        "name": "instancexsl",
+        "description": "XSLT to generate an instance using test values"
+      },
+      gogenxsdxsl: {
+        "name": "gogenxsdxsl",
+        "description": "XSLT to generate a GOLANG Struct for SPDX License information"
+      },
+      gotestgenxsl: {
+        "name": "gotestgenxsl",
+        "description": "XSLT to generate GOLANG Unit Tests for SPDX License information using test data"
+      },
+      iepxsl: {
+        "name": "iepxsl",
+        "description": "Common XSLT utility for generating Implementaion XSDs from Reference XSDs"
+      },
+      xmlinstancexsl: {
+        "name": "xmlinstancexsl",
+        "description": "Common XSLT utility for generating XML Instances from Implemtation XSDs using test data"
+      },
+      gogenxsl: {
+        "name": "gogenxsl",
+        "description": "Common XSLT utility for generating GOLANG structs and Unit Tests from Implemtation XSDs using test data"
+      },
+      xsdjsonxsl: {
+        "name": "xsdjsonxsl",
+        "description": "Common XSLT utility for generating a JSON representation of an XML Schema"
+      },
+      xmljsonxsl: {
+        "name": "xmljsonxsl",
+        "description": "Common XSLT utility for generating a JSON representation of an XML Instance"
+      },
+      gendocxsl: {
+        "name": "gendocxsl",
+        "description": "XSLT to generate Documentation from XML Schema"
+      }
+    },
+    TestData: {
+      testdataxml: {
+        "name": "testdataxml",
+        "description": "Test Data used to generated instances and code tests"
+      }
+    }
+  };
 
   constructor(private http: Http, private errorService: ErrorService, private xsdService: XsdService) {
   }
@@ -81,28 +121,6 @@ export class XmlService {
     this.http.get(this.xsdService.iepdhost + "test_data.xml").subscribe(
       (response) => {
         this.xmldata.Tests[params.name] = { name: params.name, file: "test_data.xml", content: response["_body"] };
-      });
-  }
-  //valdata:{xmlname: string, xmlstring: string, xsdname: string}
-  validateXml(valdata) {
-    this.http.post(this.xsdService.iepdroot.concat('validate'), valdata, httpOptions).subscribe(
-      (response) => {
-        var vresp = JSON.parse(response['_body']);
-        if (vresp.status) {
-          this.seldocvalid = vresp.status;
-        } else {
-          this.seldocvalid = false;
-          this.valerrors = vresp;
-          console.log(this.valerrors)
-        }
-      });
-  };
-  verifyStr(name: string, str: string) {
-    var digest = crypto.createHash('sha256').update(str, 'utf8').digest('hex');
-    this.http.post(this.xsdService.iepdroot.concat('verify'), { id: name, digest: digest }).subscribe(
-      (response) => {
-        var vresp = JSON.parse(response['_body']);
-        this.seldocverified = vresp.status;
       });
   }
   toArray(n) {

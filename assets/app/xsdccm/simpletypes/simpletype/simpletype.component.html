@@ -31,7 +31,7 @@
     </div>
     <div *ngIf="stype.enumerations">
       <b>Enumerations</b>
-      <div *ngFor="let c of enums" class="blockindent">
+      <div *ngFor="let c of stype.enumerations" class="blockindent">
         <b>{{c.value}}</b>
         <div>
           <i>dataitem</i> = {{c.value}}</div>

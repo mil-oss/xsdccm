@@ -34,8 +34,9 @@ export class XsdComponent implements OnInit {
   getXsdJson() {
     this.xsdService.selectedxsd = this.xsdService.Configs[this.xsdService.selected];
     if (typeof this.xsdService.selected !== "undefined") {
-      this.xsdService.iepdJsonResource("iepxsdjson");
-      this.xsdService.getComponents(this.xsdService.jsondata[this.xsdService.selected]["iepxsdjson"]);
+      this.xsdService.iepdJsonResource(this.xsdService.selected, "iepxsdjson").subscribe(
+        () => { this.xsdService.getComponents(this.xsdService.jsondata[this.xsdService.selected]["iepxsdjson"]); }
+      )
      /*  if (!this.stypes[this.xsdService.selected]) {
         this.stypes[this.xsdService.selected] = []
         this.ctypes[this.xsdService.selected] = []

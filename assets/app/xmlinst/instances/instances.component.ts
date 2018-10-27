@@ -10,64 +10,52 @@ import { XmlService } from '../xml.service';
 export class InstancesComponent implements OnInit {
   datetime: Date;
 
-  constructor(public xmlService: XmlService,public xsdService: XsdService) { }
-  
+  constructor(public xmlService: XmlService, public xsdService: XsdService) { }
+
   ngOnInit() {
-    if (!this.xmlService.xmldata.Instances.Default) {
-      this.xmlService.getInstance({name:"Test Instance 1"});
-      this.xmlService.getInstance({name:"Test Instance 2"});
-      this.xmlService.getTestData({name:"Test Dataset 1"});
-      this.xmlService.getTestData({name:"Test Dataset 2"});
-    }
+
   }
-  
-  selectInstance(i) {
-    this.xmlService.selectedxml = i;
+
+  selectInstance(selxsd: any, i: any) {
+    this.xsdService.selectedxsd = selxsd['project'];
+    this.xmlService.selectedxml = i['name'];
     this.xmlService.seldocvalid = false;
-    this.xmlService.rawmode=false;
-    if (typeof i.json === "string") {
-      this.xmlService.selectedxml.json = JSON.parse(i.json);
-    }
-    this.xmlService.validate=true;
+    this.xsdService.validate = true;
+    this.xmlService.rawmode = true;
+    this.xmlService.rawview = true;
     console.log("selectInstance " + i.name);
-    this.xmlService.validateXml({xmlname:i.name,xmlstr:i.content,xsdname:"iep.xsd"});
-    this.xmlService.verifyStr(i.file,i.content);
+    this.xsdService.iepdXMLResource(this.xsdService.selectedxsd, this.xmlService.selectedxml)
   }
-  
-  selectTestData(d) {
-    this.xView()
-    this.xmlService.validate=false;
-    this.xmlService.rawmode=false;
-    this.xmlService.rawview=true;
-    d.content=this.xsdService.xmldata[d.file];
-    this.xmlService.selectedxml = d;
-    if (typeof d.json === "string") {
-      this.xmlService.selectedxml.json = JSON.parse(d.json);
-    }
-    this.xmlService.verifyStr(d.file,d.content);
+  selectTestData(selxsd: any, d: any) {
+    this.xsdService.selectedxsd = selxsd['project'];
+    this.xmlService.selectedxml = d['name'];
+    this.xmlService.viewmode = "xml";
+    this.xmlService.validate = false;
+    this.xmlService.rawmode = true;
+    this.xmlService.rawview = true;
+    this.xsdService.iepdXMLResource(this.xsdService.selectedxsd, this.xmlService.selectedxml)
   }
-  
-  selectXsd(s) {
-    this.xmlService.validate=false;
+
+  selectXsd(selxsd: any, s: any) {
+    this.xsdService.selectedxsd = selxsd['project'];
+    this.xmlService.selectedxml = s['name'];
+    this.xmlService.validate = false;
     this.xmlService.seldocvalid = false;
-    this.xmlService.rawmode=true;
-    this.xmlService.rawview=true;
-    s.content=this.xsdService.xmldata[s.file];
-    this.xmlService.selectedxml = s;
-    //this.xmlService.validateXml({xmlname:s.file,xmlstr:this.xsdService.xmldata[s.file],xsdname:"XMLSchema.xsd"})
-    this.xmlService.verifyStr(s.file,this.xsdService.xmldata[s.file]);
+    this.xmlService.rawmode = true;
+    this.xmlService.rawview = true;
+    this.xsdService.iepdXMLResource(this.xsdService.selectedxsd, this.xmlService.selectedxml)
   }
-  
-  selectXsl(s) {
-    this.xmlService.validate=false;
+
+  selectXsl(selxsd: any, s: any) {
+    this.xsdService.selectedxsd = selxsd['project'];
+    this.xmlService.selectedxml = s['name'];
+    this.xmlService.validate = false;
     this.xmlService.seldocvalid = false;
-    this.xmlService.selectedxml = s;
-    this.xmlService.rawmode=true;
-    this.xmlService.rawview=true;
-    s.content=this.xsdService.xmldata[s.name];
-    this.xmlService.verifyStr(s.name,s.content);
+    this.xmlService.rawmode = true;
+    this.xmlService.rawview = true;
+    this.xsdService.iepdXMLResource(this.xsdService.selectedxsd, this.xmlService.selectedxml)
   }
-  
+
   xView() {
     this.xmlService.viewmode = "xml";
   }

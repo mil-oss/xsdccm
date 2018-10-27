@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { XsdService } from '../../../xsdccm/xsd.service';
 import { XmlService } from '../../xml.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class InstanceComponent implements OnInit {
   ct: string = '</';
   rt: string = '>';
 
-  constructor(public xmlService: XmlService) {
+  constructor(public xmlService: XmlService,public xsdService: XsdService) {
   }
 
   ngOnInit() {

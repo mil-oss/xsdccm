@@ -1,7 +1,7 @@
-import "rxjs/Rx";
 import { Injectable } from "@angular/core";
-import { Headers, Http, ResponseContentType } from "@angular/http";
+import { Headers, Http, ResponseContentType} from "@angular/http";
 import { ErrorService } from "./../errors/error.service";
+import * as crypto from 'crypto';
 
 import {
   XsdAppinfo,
@@ -16,14 +16,15 @@ import {
 } from "./xsd.model";
 
 import * as cfgdata from "../../../config/xsdccm.json";
-import { not } from "rxjs/internal/util/not";
 
 const Config = (<any>cfgdata)
-const Project = (<any>cfgdata).project;
-const Configfile = (<any>cfgdata).configfile;
 const Configurl = (<any>cfgdata).configurl;
-const Host = (<any>cfgdata).host;
-
+const httpOptions = {
+  headers: new Headers({
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Access-Control-Allow-Origin': '*'
+  })
+};
 @Injectable()
 export class XsdService {
   xsd: XsdSchema[] = [];
@@ -49,19 +50,18 @@ export class XsdService {
   xsdmode: boolean = true;
   viewmode: string = "xml";
   iepdhost: string;
-  xmldata: any = {
-  };
+  xmldata: any[][] = [];
   jsondata: any[][] = [];
   cfg: any = Config;
   Configs: any[][] = []
   Resources: any[][] = []
+  valerrors: any[] = [];
 
   constructor(private http: Http, private errorService: ErrorService) {
     this.configResources()
     console.log(this.Configs)
     console.log(this.Resources)
   }
-
   configResources() {
     this.http.get(Configurl).subscribe(
       (response) => {
@@ -87,32 +87,66 @@ export class XsdService {
         }
       })
   }
-
-  iepdResource(path: string) {
-    this.http.get(path).subscribe(
-      (response) => {
-        return response["_body"]
-      })
-  }
-
-  iepdJsonResource(resname: string) {
-    //console.log("iepdJsonResource");
-    if (!this.jsondata[this.selectedxsd]) {
-      this.jsondata[this.selectedxsd] = []
+  iepdXMLResource(xsdsel: string,resname: string) {
+    console.log("iepdXMLResource " + xsdsel + " - " + resname);
+    console.log("validate: "+this.validate)
+    if (!this.xmldata[xsdsel]) {
+      this.xmldata[xsdsel] = []
     }
-    if (this.jsondata[this.selectedxsd][resname]) {
-      console.log(this.jsondata[this.selectedxsd][resname])
-      return
+    if (this.xmldata[xsdsel][resname]) {
+      if(this.validate){
+        this.validateXml(this.xmldata[xsdsel][resname],"iepxsd")
+      }
+      return this.xmldata[xsdsel][resname]
     } else {
-      this.http.get(this.Resources[this.selectedxsd][resname]).subscribe(
+      this.http.get(this.Resources[xsdsel][resname]).subscribe(
         (response) => {
-          this.jsondata[this.selectedxsd][resname] = JSON.parse(response["_body"])
-          this.getComponents(this.jsondata[this.selectedxsd][resname]);
-          //console.log("callback: " + svce + ", " + resname)
+          this.xmldata[xsdsel][resname] = response["_body"]
+          if(this.validate){
+            this.validateXml(this.xmldata[xsdsel][resname],"iepxsd")
+          }
+          return this.xmldata[xsdsel][resname]
         })
     }
   }
-
+  iepdJsonResource(xsdsel: string,resname: string) {
+    console.log("iepdJsonResource "+xsdsel+" - "+resname);
+    if (!this.jsondata[xsdsel]) {
+      this.jsondata[xsdsel] = []
+    }
+    if (this.jsondata[xsdsel][resname]) {
+      //console.log(this.jsondata[xsdsel][resname])
+      return this.jsondata[xsdsel][resname]
+    } else {
+      this.http.get(this.Resources[xsdsel][resname]).subscribe(
+        (response) => {
+          this.jsondata[xsdsel][resname] = JSON.parse(response["_body"])
+          return this.jsondata[xsdsel][resname]
+        })
+    }
+  }
+  validateXml(xmlstrng: string, xsdn: string) {
+    var valdata = { xmlstr: xmlstrng, xsdname: xsdn };
+    this.http.post(this.cfg.host.concat('validate'), valdata).subscribe(
+      (response) => {
+        var vresp = JSON.parse(response['_body']);
+        if (vresp.status) {
+          this.seldocvalid = vresp.status;
+        } else {
+          this.seldocvalid = false;
+          this.valerrors = vresp;
+          console.log(this.valerrors)
+        }
+      });
+  };
+  verifyStr(cfg: any, name: string, str: string) {
+    var digest = crypto.createHash('sha256').update(str, 'utf8').digest('hex');
+    this.http.post(cfg['host'].concat('verify'), { id: name, digest: digest }).subscribe(
+      (response) => {
+        var vresp = JSON.parse(response['_body']);
+        this.seldocverified = vresp.status;
+      });
+  }
   toArray(n) {
     var a = [];
     for (var i in n) {
@@ -237,28 +271,27 @@ export class XsdService {
       }
     );
   }
-
   selectProject(name: string) {
-    //console.log("selectProject " + name);
+    console.log("selectProject " + name);
     this.openTab(name)
     this.selectedxsd = name;
     if (this.Configs[name]["implementations"]) {
       if (!this.jsondata[name]) {
         this.jsondata[name] = []
-        this.iepdJsonResource("refxsdjson");
+        return this.iepdJsonResource(name, "refxsdjson");
       } else if (this.jsondata[name]["refxsdjson"]) {
         return
       } else {
-        this.iepdJsonResource("refxsdjson");
+        return this.iepdJsonResource(name, "refxsdjson");
       }
     } else {
       if (!this.jsondata[name]) {
         this.jsondata[name] = []
-        this.iepdJsonResource("iepxsdjson");
+        return this.iepdJsonResource(name, "iepxsdjson");
       } else if (this.jsondata[name]["iepxsdjson"]) {
-        return
+        return this.jsondata[name]["iepxsdjson"]
       } else {
-        this.iepdJsonResource("iepxsdjson");
+        return this.iepdJsonResource(name, "iepxsdjson");
       }
     }
   }
@@ -267,7 +300,6 @@ export class XsdService {
       return true;
     }
   };
-
   openTab(tab) {
     //console.log(tab);
     this.tabview = tab;

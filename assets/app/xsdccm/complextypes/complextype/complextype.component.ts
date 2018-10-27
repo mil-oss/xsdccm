@@ -63,7 +63,6 @@ export class ComplextypeComponent implements OnInit {
   doedit() {
     this.editDoc = this.ctype.documentation;
     this.editLabel = this.ctype.appinfo.ComplexType.name;
-    this.editVar = this.ctype.appinfo.ComplexType.mapvar;
     this.editComment = this.ctype.appinfo.ComplexType.comment;
     this.xsdService.editMode = true;
   }
@@ -71,7 +70,6 @@ export class ComplextypeComponent implements OnInit {
   submit() {
     this.ctype.documentation = this.editDoc;
     this.ctype.appinfo.ComplexType.name = this.editLabel;
-    this.ctype.appinfo.ComplexType.mapvar = this.editVar;
     this.ctype.appinfo.ComplexType.comment = this.editComment;
     this.xsdService.editMode = false;
   }
