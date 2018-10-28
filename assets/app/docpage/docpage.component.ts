@@ -14,6 +14,7 @@ export class DocpageComponent {
 
   docpage: any
 
+
   htmlSnippet: string = "<script>safeCode()</script>";
 
   constructor(public xsdService: XsdService) {
@@ -27,18 +28,29 @@ export class DocpageComponent {
   ngOnInit() {
   }
 
-  getDocs(c) {
+  getDocs(c: any) {
     //var r = this.xsdService.iepdXMLResource(c['project'], 'dochtml');
-    this.xsdService.iepdXMLResource(c['project'], 'dochtml').subscribe(
-      docd=>{
-        let parser = new DOMParser();
-        let parsedHtml = parser.parseFromString(docd, 'text/html');
-        if (parsedHtml.querySelectorAll("body")) {
-          let elements = parsedHtml.querySelectorAll("body");
-          return elements[0].innerHTML;
-        }
-      }
-    )
+    var xsdsel = c['project']
+    if (!this.xsdService.xmldata[xsdsel]) {
+      this.xsdService.xmldata[xsdsel] = []
+    }
+    if (this.xsdService.xmldata[xsdsel]['dochtml']) {
+      return this.getBody(this.xsdService.xmldata[xsdsel]['dochtml'])
+    } else {
+      this.xsdService.iepdXMLResource(xsdsel, 'dochtml').subscribe(
+        (docd => {
+          this.xsdService.docloaded=true
+          return this.getBody(docd)
+        })
+      )
+    }
+  }
+  getBody(d: string) {
+    let parser = new DOMParser();
+    let parsedHtml = parser.parseFromString(d, 'text/html');
+    if (parsedHtml.querySelectorAll("body")) {
+      let elements = parsedHtml.querySelectorAll("body");
+      return elements[0].innerHTML;
+    }
   }
 }
-

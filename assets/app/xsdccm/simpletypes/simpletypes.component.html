@@ -1,4 +1,4 @@
-<div class="accordion__tab" *ngIf="xsdService.simpletypes[xsdService.selectedxsd] && xsdService.simpletypes[xsdService.selectedxsd].length&gt;0">
+<div class="accordion__tab">
     <div class="accordion__tab-title" (click)="xsdService.openTab(xsdService.selectedxsd+'stypes')">Simple Types</div>
      <div class="accordion__tab-content" *ngIf="xsdService.isOpenTab(xsdService.selectedxsd+'stypes')">
         <div class="menulist">

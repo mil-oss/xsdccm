@@ -22,7 +22,8 @@ export class XmlService {
   rjson: any;
   selected: string;
   selectedxsd: any;
-  selectedxml: any;
+  selectedxmldoc: any;
+  selectedxml: string;
   xsdmode: boolean = true;
   valerrors: any[] = [];
   viewmode: string = "xml";
@@ -101,7 +102,6 @@ export class XmlService {
       }
     }
   };
-
   constructor(private http: Http, private errorService: ErrorService, private xsdService: XsdService) {
   }
   //{name,ism}
@@ -136,14 +136,6 @@ export class XmlService {
       nl.push(narray[n].name);
     }
     return nl;
-  }
-  downloadResource(url: string, name: string, callback) {
-    const headers = new Headers({ responseType: ResponseContentType.Text });
-    this.http.get(url, { headers: headers, responseType: ResponseContentType.Text }).subscribe(
-      (response) => {
-        callback(name, response.text());
-      }
-    );
   }
   openTab(tab) {
     //console.log(tab);

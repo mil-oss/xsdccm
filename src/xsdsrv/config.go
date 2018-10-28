@@ -10,6 +10,7 @@ type Cfg struct {
 	Project         string     `json:"project,omitempty"`
 	Title           string     `json:"title,omitempty"`
 	Host            string     `json:"host,omitempty"`
+	RemoteHost      string     `json:"remotehost,omitempty"`
 	Port            string     `json:"port,omitempty"`
 	Configfile      string     `json:"configfile,omitempty"`
 	ConfigURL       string     `json:"configurl,omitempty"`

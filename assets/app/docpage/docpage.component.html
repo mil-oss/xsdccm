@@ -3,7 +3,7 @@
     <div class="accordion__tab" *ngFor="let c of xsdService.Configs">
         <div class="accordion__tab-title" (click)="xsdService.openTab(c['project'])" *ngIf="c['project']!='spdx-xml'">{{c['project'] | uppercase}}</div>
         <div class="accordion__tab-content" *ngIf="xsdService.isOpenTab(c['project']) && c['project']!='spdx-xml'">
-                <pre [innerHtml]="getDocs(c) | safe: 'html'"></pre>
+                <pre [innerHtml]="getDocs(c) | safe: 'html'" *ngIf="getDocs(c)"></pre>
         </div>
     </div>
 </div>

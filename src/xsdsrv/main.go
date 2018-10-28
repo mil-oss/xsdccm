@@ -15,6 +15,7 @@ import (
 	"path/filepath"
 	"sync/atomic"
 	"time"
+	"xmlsrv"
 
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
@@ -38,14 +39,16 @@ var (
 	xsdstruct  interface{}
 	resources  map[string]string
 	router     = gin.New()
+	valCache   = map[string]bool{}
 )
 
 func main() {
-	c := cors.New(cors.Options{
+	crs := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
+		Debug:          true,
 	})
 	readCfgs()
-	//resources = getreslist()
+
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 	router.Use(static.Serve("/", static.LocalFile("public/xsdccm", true)))
@@ -56,11 +59,9 @@ func main() {
 	router.Use(static.Serve("/xsdccm/xmldata", static.LocalFile("public/xsdccm", true)))
 	router.Use(static.Serve("/xsdccm/provrpt", static.LocalFile("public/xsdccm", true)))
 	router.LoadHTMLGlob("public/xsdccm/*.html")
-
-	/* ng := router.Group("/", Index)
-	{
-		ng.GET("/")
-	} */
+	router.POST("/validate", func(context *gin.Context) {
+		validate(context)
+	})
 	router.NoRoute(func(c *gin.Context) {
 		c.Request.URL.Path = "/xsdccm"
 		router.HandleContext(c)
@@ -74,7 +75,7 @@ func main() {
 	}
 	server := &http.Server{
 		Addr:         listenAddr,
-		Handler:      tracing(nextRequestID)(logging(logger)(c.Handler(router))),
+		Handler:      tracing(nextRequestID)(logging(logger)(crs.Handler(router))),
 		ErrorLog:     logger,
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
@@ -108,10 +109,10 @@ func main() {
 
 func readCfgs() {
 	Cfgs = map[string]Cfg{}
-	c := ReadConfig(cfgpath)
-	log.Println("Pull Config from " + c.Project)
-	wgetCfg(c.Configfile, c.ConfigURL)
-	xc := ReadConfig(c.Configfile)
+	cfg := ReadConfig(cfgpath)
+	log.Println("Pull Config from " + cfg.Project)
+	wgetCfg(cfg.Configfile, cfg.ConfigURL)
+	xc := ReadConfig(cfg.Configfile)
 	Cfgs[xc.Project] = xc
 	for i := range xc.Implementations {
 		var imp = xc.Implementations[i]
@@ -130,17 +131,84 @@ func Index(c *gin.Context) {
 	//c.HTML(200, "index.html", gin.H{})
 }
 
+func validate(c *gin.Context) {
+	var valdata ValidationData
+	err := c.BindJSON(&valdata)
+	if err != nil {
+		HandleError(c, 500, "Internal Server Error", "Error reading data from body", err)
+		return
+	}
+	log.Println(valdata.Package)
+	if valCache[valdata.Package+valdata.XSDName] {
+		log.Println("Validation Successful")
+		valCache = map[string]bool{}
+		HandleSuccess(c, Success{Status: true})
+	} else {
+		log.Println("Cfgs[valdata.Package].Host: ", Cfgs[valdata.Package].Host)
+		xsdstr, err := wgetRsrc(Cfgs[valdata.Package].Host + "file/" + valdata.XSDName)
+		check(err)
+		valfunc := func(v bool, e []error) {
+			if v {
+				log.Println("Validation Successful")
+				valCache[valdata.Package+valdata.XSDName] = true
+				HandleSuccess(c, Success{Status: true})
+			} else {
+				HandleValidationErrors(c, "Validation Errors", e)
+			}
+		}
+		xmlsrv.ValidateXML(valdata.XMLString, xsdstr, valfunc)
+	}
+}
+
+func docVerify(c *gin.Context) {
+	var verifydata VerifyData
+	err := c.BindJSON(&verifydata)
+	if err != nil {
+		HandleError(c, 500, "Internal Server Error", "Error reading data from body", err)
+		return
+	}
+	verified := verify(verifydata.ID, verifydata.Digest)
+	if verified {
+		HandleSuccess(c, Success{Status: true})
+	} else {
+		HandleError(c, 500, "Verification Error", "Verification Error", err)
+		return
+	}
+}
+
+func transform(c *gin.Context) {
+	var transdata TransformData
+	err := c.BindJSON(&transdata)
+	if err != nil {
+		HandleError(c, 500, "Internal Server Error", "Error reading data from body", err)
+	} else {
+		rslt, err := xmlsrv.TransformXML(transdata.XMLString, transdata.XSLString)
+		if err != nil {
+			HandleError(c, 500, "Internal Server Error", "Transformation error", err)
+			return
+		}
+		HandleSuccess(c, Success{Status: true, Content: fmt.Sprint(rslt)})
+	}
+
+}
+
+func verify(docid string, digest string) bool {
+	//resdigests = getDigests(resources, temppath, "Sha256")
+	//log.Println("Verify")
+	log.Println("verifydata.ID " + docid)
+	log.Println("verifydata.Digest " + digest)
+	/* log.Println("src.Digest " + resdigests[verifydata.ID])
+	if resdigests[verifydata.ID] == verifydata.Digest {
+		log.Println("Verification Successful")
+		return true
+	} */
+	return false
+}
+
 func redirct(c *gin.Context) {
 	c.Redirect(307, "/")
 }
-func getreslist() map[string]string {
-	res, err := ioutil.ReadFile("public/iepd/json/resources.json")
-	check(err)
-	var r = map[string]string{}
-	merr := json.Unmarshal(res, &r)
-	check(merr)
-	return r
-}
+
 func getPath(fname string) string {
 	var p = resources[fname]
 	if p == "" {
@@ -211,6 +279,58 @@ func wgetCfg(fpath string, urlstr string) error {
 	log.Printf("Downloaded %d byte file.\n", numBytesWritten)
 	return err
 }
+func wgetRsrc(urlstr string) (string, error) {
+	log.Println("Wget " + urlstr)
+	// HTTP GET
+	response, err := http.Get(urlstr)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer response.Body.Close()
+	if response.StatusCode == http.StatusOK {
+		bodyBytes, err2 := ioutil.ReadAll(response.Body)
+		bs := string(bodyBytes)
+		return bs, err2
+	}
+	return "", err
+}
+
+//HandleSuccess ... handle success response
+func HandleSuccess(c *gin.Context, result interface{}) {
+	marshalled, err := json.Marshal(result)
+	if err != nil {
+		HandleError(c, 500, "Internal Server Error", "Error marshalling response JSON", err)
+		return
+	}
+	c.String(http.StatusOK, string(marshalled))
+	return
+}
+
+//HandleError ... handle error response
+func HandleError(c *gin.Context, code int, responseText string, logMessage string, err error) {
+	errorMessage := ""
+	if err != nil {
+		errorMessage = err.Error()
+		return
+	}
+	log.Println(logMessage, errorMessage)
+	c.String(code, responseText)
+}
+
+//HandleValidationErrors ... handle error response
+func HandleValidationErrors(c *gin.Context, logMessage string, errors []error) {
+	errs := []ValErr{}
+	for _, errorMessage := range errors {
+		errs = append(errs, ValErr{Message: errorMessage.Error()})
+		return
+	}
+	allerrs, err := json.Marshal(errs)
+	if err != nil {
+		panic(err)
+	}
+	c.String(http.StatusOK, string(allerrs))
+}
+
 func unzip(src string, dest string) ([]string, error) {
 	var filenames []string
 	r, err := zip.OpenReader(src)

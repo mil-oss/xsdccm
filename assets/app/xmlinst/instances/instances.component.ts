@@ -17,44 +17,126 @@ export class InstancesComponent implements OnInit {
   }
 
   selectInstance(selxsd: any, i: any) {
-    this.xsdService.selectedxsd = selxsd['project'];
-    this.xmlService.selectedxml = i['name'];
+    this.xsdService.selectedcfg = selxsd;
+    this.xsdService.selectedxsd = selxsd["project"];
+    this.xmlService.selectedxmldoc = i;
+    this.xmlService.selectedxml = i["name"];
     this.xmlService.seldocvalid = false;
     this.xsdService.validate = true;
-    this.xmlService.rawmode = true;
-    this.xmlService.rawview = true;
     console.log("selectInstance " + i.name);
-    this.xsdService.iepdXMLResource(this.xsdService.selectedxsd, this.xmlService.selectedxml)
+    if (this.xsdService.xmlResource(this.xsdService.selectedxsd, this.xmlService.selectedxml)) {
+      if (this.xsdService.validate) {
+        this.xsdService.validateXml(this.xsdService.xmldata[this.xsdService.selectedxsd][this.xmlService.selectedxml], 'iepxsd').subscribe(
+          (vx => { return vx }))
+      }
+      return this.xsdService.xmldata[this.xsdService.selectedxsd][this.xmlService.selectedxml]
+    } else {
+      this.xsdService.iepdXMLResource(this.xsdService.selectedxsd, this.xmlService.selectedxml).subscribe(
+        (docd => {
+          if (this.xsdService.validate) {
+            this.xsdService.validateXml(docd, 'iepxsd').subscribe(
+              (vx => { return vx }))
+          }
+          return docd
+        })
+      )
+    }
   }
+
   selectTestData(selxsd: any, d: any) {
-    this.xsdService.selectedxsd = selxsd['project'];
-    this.xmlService.selectedxml = d['name'];
-    this.xmlService.viewmode = "xml";
-    this.xmlService.validate = false;
-    this.xmlService.rawmode = true;
-    this.xmlService.rawview = true;
-    this.xsdService.iepdXMLResource(this.xsdService.selectedxsd, this.xmlService.selectedxml)
+    this.xsdService.selectedcfg = selxsd;
+    this.xsdService.selectedxsd = selxsd["project"];
+    this.xsdService.seldocvalid = false;
+    this.xsdService.validate = false;
+
+    this.xmlService.selectedxmldoc = d;
+    this.xmlService.selectedxml = d["name"];
+
+    if (this.xsdService.xmlResource(this.xsdService.selectedxsd, this.xmlService.selectedxml)) {
+      return this.xsdService.xmldata[this.xsdService.selectedxsd][this.xmlService.selectedxml]
+    } else {
+      this.xsdService.iepdXMLResource(this.xsdService.selectedxsd, this.xmlService.selectedxml).subscribe(
+        (docd => { return docd })
+      )
+    }
   }
 
   selectXsd(selxsd: any, s: any) {
-    this.xsdService.selectedxsd = selxsd['project'];
-    this.xmlService.selectedxml = s['name'];
-    this.xmlService.validate = false;
-    this.xmlService.seldocvalid = false;
-    this.xmlService.rawmode = true;
-    this.xmlService.rawview = true;
-    this.xsdService.iepdXMLResource(this.xsdService.selectedxsd, this.xmlService.selectedxml)
+    this.xsdService.selectedcfg = selxsd;
+    this.xsdService.selectedxsd = selxsd["project"];
+    this.xsdService.seldocvalid = false;
+    this.xsdService.validate = true;
+    this.xmlService.selectedxmldoc = s;
+    this.xmlService.selectedxml = s["name"];
+    if (this.xsdService.xmlResource(this.xsdService.selectedxsd, this.xmlService.selectedxml)) {
+      if (this.xsdService.validate) {
+        this.xsdService.validateXml(this.xsdService.xmldata[this.xsdService.selectedxsd][this.xmlService.selectedxml], 'xmlschemaxsd').subscribe(
+          (vx => { return vx }))
+      }
+      return this.xsdService.xmldata[this.xsdService.selectedxsd][this.xmlService.selectedxml]
+    } else {
+      this.xsdService.iepdXMLResource(this.xsdService.selectedxsd, this.xmlService.selectedxml).subscribe(
+        (docd => {
+          if (this.xsdService.validate) {
+            this.xsdService.validateXml(docd, 'xmlschemaxsd').subscribe(
+              (vx => { return vx }))
+          }
+          return docd
+        })
+      )
+    }
   }
 
   selectXsl(selxsd: any, s: any) {
-    this.xsdService.selectedxsd = selxsd['project'];
-    this.xmlService.selectedxml = s['name'];
-    this.xmlService.validate = false;
-    this.xmlService.seldocvalid = false;
-    this.xmlService.rawmode = true;
-    this.xmlService.rawview = true;
-    this.xsdService.iepdXMLResource(this.xsdService.selectedxsd, this.xmlService.selectedxml)
+    this.xsdService.selectedcfg = selxsd;
+    this.xsdService.selectedxsd = selxsd["project"];
+    this.xsdService.seldocvalid = false;
+    this.xsdService.validate = false;
+
+    this.xmlService.selectedxmldoc = s;
+    this.xmlService.selectedxml = s["name"];
+
+    if (this.xsdService.xmlResource(this.xsdService.selectedxsd, this.xmlService.selectedxml)) {
+      if (this.xsdService.validate) {
+        this.xsdService.validateXml(this.xsdService.xmldata[this.xsdService.selectedxsd][this.xmlService.selectedxml], 'xsltxsd').subscribe(
+          (vx => { return vx }))
+      }
+      return this.xsdService.xmldata[this.xsdService.selectedxsd][this.xmlService.selectedxml]
+    } else {
+      this.xsdService.iepdXMLResource(this.xsdService.selectedxsd, this.xmlService.selectedxml).subscribe(
+        (docd => {
+          if (this.xsdService.validate) {
+            this.xsdService.validateXml(docd, 'xsltxsd').subscribe(
+              (vx => { return vx }))
+          }
+          return docd
+        })
+      )
+    }
   }
+
+  /*  validateInstance(xmlstr: string, xsdname: string) {
+     console.log("validateInstance")
+     if (this.xsdService.xmldata[this.xsdService.selectedxsd][xsdname]) {
+       this.xsdService.validateXml(xmlstr, this.xsdService.xmldata[this.xsdService.selectedxsd][xsdname]).subscribe(
+         (v => {
+           console.log(this.xsdService.seldocvalid)
+           return v
+         })
+       )
+     } else {
+       this.xsdService.iepdXMLResource(this.xsdService.selectedxsd, xsdname).subscribe(
+         (xsdd => {
+           this.xsdService.validateXml(xmlstr, xsdd).subscribe(
+             (v => {
+               console.log(this.xsdService.seldocvalid)
+               return v
+             })
+           )
+         })
+       )
+     }
+   } */
 
   xView() {
     this.xmlService.viewmode = "xml";

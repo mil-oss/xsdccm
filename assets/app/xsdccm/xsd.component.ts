@@ -28,23 +28,29 @@ export class XsdComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.xsdService.xsdmode = true;
+
   }
 
   getXsdJson() {
-    this.xsdService.selectedxsd = this.xsdService.Configs[this.xsdService.selected];
-    if (typeof this.xsdService.selected !== "undefined") {
-      this.xsdService.iepdJsonResource(this.xsdService.selected, "iepxsdjson").subscribe(
-        () => { this.xsdService.getComponents(this.xsdService.jsondata[this.xsdService.selected]["iepxsdjson"]); }
-      )
-     /*  if (!this.stypes[this.xsdService.selected]) {
-        this.stypes[this.xsdService.selected] = []
-        this.ctypes[this.xsdService.selected] = []
-        this.elements[this.xsdService.selected] = []
-      } */
-      this.stypes[this.xsdService.selected] = this.xsdService.simpletypes[this.xsdService.selected];
-      this.ctypes[this.xsdService.selected] = this.xsdService.complextypes[this.xsdService.selected];
-      this.elements[this.xsdService.selected] = this.xsdService.elements[this.xsdService.selected];
+    this.xsdService.selectedcfg = this.xsdService.Configs[this.xsdService.selectedxsd];
+    if (typeof this.xsdService.selectedcfg !== "undefined") {
+      if (this.xsdService.jsonResource(this.xsdService.selectedcfg["project"], "iepxsdjson")) {
+        if (typeof this.stypes !=='undefined') {
+          this.stypes[this.xsdService.selectedxsd] = this.xsdService.simpletypes[this.xsdService.selectedxsd];
+          this.ctypes[this.xsdService.selectedxsd] = this.xsdService.complextypes[this.xsdService.selectedxsd];
+          this.elements[this.xsdService.selectedxsd] = this.xsdService.elements[this.xsdService.selectedxsd];
+        }
+      }else{
+      this.xsdService.iepdJsonResource(this.xsdService.selectedcfg["project"], "iepxsdjson").subscribe(
+        (xsdj => {
+          this.xsdService.getComponents(xsdj)
+          if (typeof this.stypes !=='undefined') {
+            this.stypes[this.xsdService.selectedxsd] = this.xsdService.simpletypes[this.xsdService.selectedxsd];
+            this.ctypes[this.xsdService.selectedxsd] = this.xsdService.complextypes[this.xsdService.selectedxsd];
+            this.elements[this.xsdService.selectedxsd] = this.xsdService.elements[this.xsdService.selectedxsd];
+          }
+        }))
+      }
     };
   };
 }

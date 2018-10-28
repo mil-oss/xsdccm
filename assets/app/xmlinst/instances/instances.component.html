@@ -1,7 +1,7 @@
 <div class="page grid">
   <div class="vgrid" data-ng-cloak="true">
     <div class="accordion__tab" *ngFor="let c of xsdService.Configs">
-      <div class="accordion__tab-title" (click)="xsdService.selectProject(c['project'])" [ngClass]="{selected : xsdService.isProjSel(c['project'])}" *ngIf="!c['implementations']">{{c['project']
+      <div class="accordion__tab-title" (click)="xsdService.selectProject(c)" [ngClass]="{selected : xsdService.isProjSel(c['project'])}" *ngIf="!c['implementations']">{{c['project']
         | uppercase}}</div>
       <div class="accordion__tab-content" *ngIf="xsdService.isOpenTab(c['project']) && !c['implementations']">
         <div class="menuCol" style="padding:4px;">

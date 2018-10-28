@@ -27,7 +27,7 @@ export class SimpletypeComponent implements OnInit {
       console.log(p.name);
       if (this.xsdService.xsd) {
         this.stype = this.xsdService.selSimpleType(p.name);
-        if (this.stype[this.xsdService.selected] && this.stype[this.xsdService.selected].enumerations) {
+        if (this.stype[this.xsdService.selectedxsd] && this.stype[this.xsdService.selectedxsd].enumerations) {
           this.enums = [];
           for (var s in this.xsdService.nodeSelected.enumerations) {
             this.enums.push(this.xsdService.nodeSelected.enumerations[s]);
