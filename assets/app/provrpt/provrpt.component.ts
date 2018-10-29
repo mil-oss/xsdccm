@@ -9,15 +9,38 @@ import { XsdService } from "./../xsdccm/xsd.service";
 export class ProvrptComponent {
 
   constructor(public xsdService: XsdService) {
-
   }
 
-  fName(path:string){
+  provRpts: any[][] = []
+
+  getReport(xsdsel) {
+    console.log("xsdsel " + xsdsel)
+    if (this.xsdService.jsonResource(xsdsel,'provenancereportjson')) {
+      return this.xsdService.jsondata[xsdsel]['provenancereportjson']
+    } else {
+      this.xsdService.iepdJsonResource(xsdsel, 'provenancereportjson').subscribe(
+        (docd => {
+          return docd
+        })
+      )
+    }
+  }
+
+  toArray(n) {
+    var a = []
+    for (var i in n) {
+      a.push(n[i])
+    }
+    console.log(a)
+    return a
+  }
+
+  fName(path: string) {
     return path.split('\\').pop().split('/').pop();
   }
 
-  getRes(filename:string){
-    return this.xsdService.iepdhost+this.fName(filename);
+  getRes(resname: string) {
+    return this.xsdService.Resources[this.xsdService.selectedxsd][this.fName(resname)];
   }
 
   ngOnInit() {

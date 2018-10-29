@@ -105,8 +105,8 @@ export class XsdService {
         this.xmldata[xsdsel][resname] = response["_body"]
         return this.xmldata[xsdsel][resname]
       }).catch((error: Response) => {
-        this.errorService.handleError(error.json())
-        return Observable.throw(error.json())
+        this.errorService.handleError(error)
+        return Observable.throw(error)
       })
   }
 
@@ -123,13 +123,17 @@ export class XsdService {
 
   iepdJsonResource(xsdsel: string, resname: string) {
     console.log("iepdJsonResource " + xsdsel + " - " + resname)
-    return this.http.get(this.Resources[xsdsel][resname]).map(
+    return this.http.get(this.Resources[xsdsel][resname])
+      .map(
       (response: Response) => {
+        if (!this.jsondata[xsdsel]) {
+          this.jsondata[xsdsel] = []
+        }
         this.jsondata[xsdsel][resname] = JSON.parse(response["_body"])
         return this.jsondata[xsdsel][resname]
       }).catch((error: Response) => {
         this.errorService.handleError(error)
-        return Observable.throw(error.json())
+        return Observable.throw(error)
       })
   }
 
