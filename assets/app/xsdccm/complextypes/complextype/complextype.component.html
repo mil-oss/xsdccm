@@ -6,6 +6,9 @@
   </div>
   <div class="nodevw">
     <b>{{ctype.name}}</b>
+    <div *ngIf="ctype.appinfo.ComplexType.rdf">
+      <i>rdf</i> = <a href="{{ctype.appinfo.ComplexType.rdf}}">{{ctype.appinfo.ComplexType.rdf}}</a>
+    </div>
     <div>
       <i>xsdnode</i> = {{ctype.xsdnode}}</div>
     <div *ngIf="ctype.datatype" routerLinkActive="active">

@@ -242,6 +242,8 @@ body {
 
 .accordion__tab-content {
     background: #FFF;
-    color: blue;
     padding: 2px;
+}
+.blu {
+    color:blue;
 }

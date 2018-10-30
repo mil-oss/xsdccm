@@ -33,7 +33,6 @@ export class XsdService {
   editMode: boolean = false
   validate: boolean = false
   verify: boolean = false
-  docloaded: boolean = true
 
   Configs: any[][] = []
   Resources: any[][] = []
@@ -57,8 +56,8 @@ export class XsdService {
 
   constructor(private http: Http, private errorService: ErrorService) {
     this.configResources()
-    console.log(this.Configs)
-    console.log(this.Resources)
+    //console.log(this.Configs)
+    //console.log(this.Resources)
   }
 
   configResources() {
@@ -122,7 +121,7 @@ export class XsdService {
   }
 
   iepdJsonResource(xsdsel: string, resname: string) {
-    console.log("iepdJsonResource " + xsdsel + " - " + resname)
+    //console.log("iepdJsonResource " + xsdsel + " - " + resname)
     return this.http.get(this.Resources[xsdsel][resname])
       .map(
       (response: Response) => {
@@ -138,22 +137,22 @@ export class XsdService {
   }
 
   validateXml(xmlstrng: string, xsdname: string) {
-    console.log("validateXml")
+    //console.log("validateXml")
     var valdata = { package: this.selectedxsd, xmlstr: xmlstrng, xsdname: xsdname }
-    return this.http.post(this.cfg.host.concat('validate'), valdata, httpOptions)
+    return this.http.post(this.cfg.remotehost.concat('validate'), valdata)
       .retry(1)
       .map(
         (response: Response) => {
           // var b=response['_body']
           // var vresp = JSON.parse(b.substring(0,b.indexOf('[')))
-          var vresp = JSON.parse(response['_body'])
-          console.log(vresp)
-          if (vresp.status) {
-            this.seldocvalid = vresp.status
+          var vresp = response.json
+         // console.log(vresp)
+          if (vresp['status']) {
+            this.seldocvalid = vresp['status']
             return this.seldocvalid
           } else {
             this.seldocvalid = false
-            this.valerrors = vresp
+            this.valerrors = vresp['status']
             console.log(this.valerrors)
             return this.valerrors
           }
@@ -301,7 +300,7 @@ export class XsdService {
     })
   }
   selectProject(cfg: any) {
-    console.log("selectProject " + cfg["project"])
+    //console.log("selectProject " + cfg["project"])
     this.openTab(cfg["project"])
     if (this.isOpenTab(cfg["project"])) {
       this.selectedcfg = cfg

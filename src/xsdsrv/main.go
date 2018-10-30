@@ -1,7 +1,12 @@
 package main
 
 import (
+	"io"
 	"log"
+	"net/http"
+	"os"
+	"path/filepath"
+	"strings"
 )
 
 var (
@@ -15,6 +20,7 @@ var (
 
 func main() {
 	readCfgs()
+	loadXsds()
 	xsdweb()
 }
 
@@ -33,4 +39,40 @@ func readCfgs() {
 		xi := ReadConfig(imp.Path)
 		Cfgs[xi.Project] = xi
 	}
+}
+
+func loadXsds() {
+	for c := range Cfgs {
+		var rs = Cfgs[c].Resources
+		for r := range rs {
+			if strings.HasSuffix(rs[r].FileName, ".xsd") {
+				WgetFile(rs[r].Src, rs[r].SrcURL)
+			}
+		}
+	}
+}
+
+// WgetFile ...
+func WgetFile(fpath string, urlstr string) error {
+	log.Println("Wget Save To: " + fpath)
+	// Create output dir
+	p := filepath.Dir(fpath)
+	os.MkdirAll(p, os.ModePerm)
+	newFile, err := os.Create(fpath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer newFile.Close()
+	// HTTP GET
+	response, err := http.Get(urlstr)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer response.Body.Close()
+	numBytesWritten, err := io.Copy(newFile, response.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Printf("Downloaded %d byte file.\n", numBytesWritten)
+	return err
 }

@@ -29,17 +29,26 @@ export class FileInfo {
 
 export class Element {
     public name: string;
+    public rdf: string;
     public xpath: string;
+    public comment: string;
+}
+
+export class Enum {
+    public name: string;
+    public rdf: string;
     public comment: string;
 }
 
 export class SimpleType {
     public name: string;
+    public rdf: string;
     public comment: string;
 }
 
 export class ComplexType {
     public name: string;
+    public rdf: string;
     public comment: string;
 }
 
@@ -48,11 +57,13 @@ export class XsdAppinfo {
     public SimpleType?: SimpleType;
     public ComplexType?: ComplexType;
     public Choice?: XsdElement[];
+    public Enum?: Enum;
 }
 
 export class XsdEnumeration {
     public value: string;
     public dataitem: string;
+    public rdf: string;
     public documentation: string;
 }
 
@@ -71,6 +82,7 @@ export class XsdElement {
 export class XsdSimpleType {
     public xsdnode?: string;
     public name?: string;
+    public rdf?: string;
     public documentation?: string;
     public appinfo?: XsdAppinfo;
     public datatype?: string;
@@ -90,13 +102,13 @@ export class XsdSimpleType {
 export class XsdComplexType {
     public xsdnode?: string;
     public name?: string;
+    public rdf?: string;
     public datatype?: string;
     public documentation?: string;
     public sequence?: XsdElement[];
     public choice?: XsdElement[];
     public appinfo?: XsdAppinfo;
 }
-
 export class XsdSchema {
     public simpletypes?: XsdSimpleType[];
     public complextypes?: XsdComplexType[];

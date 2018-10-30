@@ -14,7 +14,6 @@ export class ProvrptComponent {
   provRpts: any[][] = []
 
   getReport(xsdsel) {
-    console.log("xsdsel " + xsdsel)
     if (this.xsdService.jsonResource(xsdsel,'provenancereportjson')) {
       return this.xsdService.jsondata[xsdsel]['provenancereportjson']
     } else {
@@ -39,8 +38,13 @@ export class ProvrptComponent {
     return path.split('\\').pop().split('/').pop();
   }
 
-  getRes(resname: string) {
-    return this.xsdService.Resources[this.xsdService.selectedxsd][this.fName(resname)];
+  getRes(res: any, fpath: string) {
+    var n = this.fName(fpath)
+    for (var r in res.resources) {
+      if (res.resources[r].filename === n) {
+        return "file/" + res.resources[r].name;
+      }
+    }
   }
 
   ngOnInit() {
