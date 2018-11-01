@@ -91,7 +91,7 @@ export class InstancesComponent implements OnInit {
     this.xsdService.selectedcfg = selxsd;
     this.xsdService.selectedxsd = selxsd["project"];
     this.xsdService.seldocvalid = false;
-    this.xsdService.validate = false;
+    this.xsdService.validate = true;
 
     this.xmlService.selectedxmldoc = s;
     this.xmlService.selectedxml = s["name"];

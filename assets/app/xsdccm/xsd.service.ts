@@ -139,14 +139,13 @@ export class XsdService {
   validateXml(xmlstrng: string, xsdname: string) {
     //console.log("validateXml")
     var valdata = { package: this.selectedxsd, xmlstr: xmlstrng, xsdname: xsdname }
-    return this.http.post(this.cfg.remotehost.concat('validate'), valdata)
+    console.log(this.cfg['host'].concat('validate'))
+    return this.http.post(this.cfg['host'].concat('validate'), valdata)
       .retry(1)
       .map(
         (response: Response) => {
-          // var b=response['_body']
-          // var vresp = JSON.parse(b.substring(0,b.indexOf('[')))
-          var vresp = response.json
-         // console.log(vresp)
+          var vresp = JSON.parse(response['_body'])
+          console.log(vresp)
           if (vresp['status']) {
             this.seldocvalid = vresp['status']
             return this.seldocvalid

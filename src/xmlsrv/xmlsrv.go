@@ -42,12 +42,19 @@ func WriteStructXML(filepath string, xsdstruct interface{}) string {
 type ValidFunc func(valid bool, err []error)
 
 // ValidateXML ... validate XML against XSD
-func ValidateXML(xmlstr string, xsdstr string, fn ValidFunc) (bool, []error) {
+func ValidateXML(xmlstr string, xsdpath string, fn ValidFunc) (bool, []error) {
 	log.Println("ValidateXML")
-	var xsddoc, derr = xsd.Parse([]byte(xsdstr))
-	check(derr)
-	doc, err := libxml2.ParseString(xmlstr)
+	log.Println(xsdpath)
+	f, err := os.Open(xsdpath)
 	check(err)
+	defer f.Close()
+	buf, err := ioutil.ReadAll(f)
+	check(err)
+	var xsddoc, derr = xsd.Parse(buf)
+	check(derr)
+	defer xsddoc.Free()
+	doc, err := libxml2.ParseString(xmlstr)
+	//check(err)
 	if err := xsddoc.Validate(doc); err != nil {
 		log.Println("Not Valid")
 		fn(false, err.(xsd.SchemaValidationError).Errors())

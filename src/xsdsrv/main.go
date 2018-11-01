@@ -15,7 +15,7 @@ var (
 	cfg       Cfg
 	cfgpath   = "config/xsdccm.json"
 	xsdstruct interface{}
-	resources map[string]string
+	resources = map[string]string{}
 )
 
 func main() {
@@ -38,6 +38,9 @@ func readCfgs() {
 		wgetCfg(imp.Path, imp.SrcURL)
 		xi := ReadConfig(imp.Path)
 		Cfgs[xi.Project] = xi
+		for r := range xi.Resources {
+			resources[xc.Project+xi.Resources[r].Name] = xi.Resources[r].Path
+		}
 	}
 }
 
@@ -46,7 +49,7 @@ func loadXsds() {
 		var rs = Cfgs[c].Resources
 		for r := range rs {
 			if strings.HasSuffix(rs[r].FileName, ".xsd") {
-				WgetFile(rs[r].Src, rs[r].SrcURL)
+				WgetFile(rs[r].Path, Cfgs[c].Host+"file/"+rs[r].Name)
 			}
 		}
 	}

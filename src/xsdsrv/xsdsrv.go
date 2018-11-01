@@ -115,13 +115,14 @@ func validate(c *gin.Context) {
 		return
 	}
 	log.Println(valdata.Package)
+	log.Println(valdata.XSDName)
 	if valCache[valdata.Package+valdata.XSDName] {
 		log.Println("Validation Successful")
 		valCache = map[string]bool{}
 		HandleSuccess(c, Success{Status: true})
 	} else {
-		log.Println("Cfgs[valdata.Package].Host: ", Cfgs[valdata.Package].Host)
-		xsdstr, err := wgetRsrc(Cfgs[valdata.Package].Host + "file/" + valdata.XSDName)
+		var xsdpath = xsdPath(valdata.Package, valdata.XSDName)
+		log.Println("xsdpath " + xsdpath)
 		check(err)
 		valfunc := func(v bool, e []error) {
 			if v {
@@ -132,8 +133,18 @@ func validate(c *gin.Context) {
 				HandleValidationErrors(c, "Validation Errors", e)
 			}
 		}
-		xmlsrv.ValidateXML(valdata.XMLString, xsdstr, valfunc)
+		xmlsrv.ValidateXML(valdata.XMLString, xsdpath, valfunc)
 	}
+}
+
+func xsdPath(project string, name string) string {
+	var rs = Cfgs[project].Resources
+	for r := range rs {
+		if rs[r].Name == name {
+			return rs[r].Path
+		}
+	}
+	return ""
 }
 
 func docVerify(c *gin.Context) {
