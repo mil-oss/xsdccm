@@ -17,7 +17,7 @@ export class LicensesComponent {
   }
 
   getRes(filename:string){
-    return this.xsdService.licensehost+this.fName(filename);
+    //return this.xsdService.licensehost+this.fName(filename);
   }
 
   ngOnInit() {
