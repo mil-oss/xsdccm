@@ -1,32 +1,23 @@
 var webpack = require('webpack');
 
 module.exports = {
-    entry: {
-        'app': './assets/app/main.ts'
-    },
-
+    entry: './assets/app/main.ts',
     resolve: {
         extensions: ['.js', '.ts']
     },
-
     module: {
-        rules: [{
+        rules: [
+            {
                 test: /\.html$/,
-                use: [{
-                    loader: 'html-loader'
-                }]
+                loaders: ['html-loader']
             },
             {
                 test: /\.css$/,
-                use: [{
-                    loader: 'raw-loader'
-                }]
+                loaders: ['raw-loader']
             },
             {
                 test: /\.(xml|xsd|xsl)$/,
-                use: [
-                    'raw-loader'
-                ]
+                use: ['raw-loader']
             }, 
             {
                 test: /\.png$/,
@@ -35,6 +26,5 @@ module.exports = {
             }
         ],
         exprContextCritical: false
-
     }
 };

@@ -37,7 +37,6 @@ export class ElementComponent implements OnInit {
   doedit() {
     this.editDoc = this.elmnt.documentation;
     this.editLabel = this.elmnt.appinfo.Element.name;
-    this.editVar = this.elmnt.appinfo.Element.mapvar;
     this.editComment = this.elmnt.appinfo.Element.comment;
     this.xsdService.editMode = true;
   }
@@ -51,7 +50,6 @@ export class ElementComponent implements OnInit {
   submit() {
     this.elmnt.documentation = this.editDoc;
     this.elmnt.appinfo.Element.name = this.editLabel;
-    this.elmnt.appinfo.Element.mapvar = this.editVar;
     this.elmnt.appinfo.Element.comment = this.editComment;
     this.xsdService.editMode = false;
   }
@@ -61,7 +59,6 @@ export class ElementComponent implements OnInit {
       this.elmnt = this.xsdService.nodeSelected;
       this.editDoc = this.elmnt.documentation;
       this.editLabel = this.elmnt.appinfo.Element.name;
-      this.editVar = this.elmnt.appinfo.Element.mapvar;
       this.editComment = this.elmnt.appinfo.Element.comment;
       //this.selatts = [];
       return true;

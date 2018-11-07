@@ -4,7 +4,6 @@ import { Observable } from "rxjs"
 import { Headers, Http, RequestOptions, Response, ResponseContentType } from "@angular/http"
 import { ErrorService } from "./../errors/error.service"
 import * as crypto from 'crypto'
-
 import {
   XsdAppinfo,
   XsdEnumeration,
@@ -14,12 +13,21 @@ import {
   XsdSchema,
   Element,
   SimpleType,
-  ComplexType
+  ComplexType,
+  Config
 } from "./xsd.model"
 
-import * as cfgdata from "../../../config/xsdccm.json"
 
-const Config = (<any>cfgdata)
+const Cnfig = {
+    "project": "SPDX XML",
+    "title": "SPDX XML Schema Confguration Management",
+    "host": "http://localhost:8080/",
+    "remotehost":"https://spdx-xml.specchain.org/",
+    "port": ":8080",
+    "configfile": "config/spdx-xml-cfg.json",
+    "configurl": "https://spdx-xml.specchain.org/config"
+}
+
 const httpOptions = {
   headers: new Headers({
     'Content-Type': 'application/x-www-form-urlencoded',
@@ -52,7 +60,7 @@ export class XsdService {
   txtFilter: string
   selectedxsd: string
   iepdhost: string
-  cfg: any = Config
+  cfg: any = Cnfig
 
   constructor(private http: Http, private errorService: ErrorService) {
     this.configResources()
@@ -61,7 +69,7 @@ export class XsdService {
   }
 
   configResources() {
-    this.http.get(Config.configurl).subscribe(
+    this.http.get(Cnfig.configurl).subscribe(
       (response) => {
         var p = JSON.parse(response["_body"])
         this.Configs.push(p)

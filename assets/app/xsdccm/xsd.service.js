@@ -14,8 +14,15 @@ import { Headers, Http, ResponseContentType } from "@angular/http";
 import { ErrorService } from "./../errors/error.service";
 import * as crypto from 'crypto';
 import { XsdAppinfo, XsdEnumeration, XsdSimpleType, XsdComplexType, XsdElement, XsdSchema, Element, SimpleType, ComplexType } from "./xsd.model";
-import * as cfgdata from "../../../config/xsdccm.json";
-const Config = cfgdata;
+const Cnfig = {
+    "project": "SPDX XML",
+    "title": "SPDX XML Schema Confguration Management",
+    "host": "http://localhost:8080/",
+    "remotehost": "https://spdx-xml.specchain.org/",
+    "port": ":8080",
+    "configfile": "config/spdx-xml-cfg.json",
+    "configurl": "https://spdx-xml.specchain.org/config"
+};
 const httpOptions = {
     headers: new Headers({
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -42,13 +49,13 @@ let XsdService = class XsdService {
         this.elements = [];
         this.activeTabs = [];
         this.nodeattributes = [];
-        this.cfg = Config;
+        this.cfg = Cnfig;
         this.configResources();
         //console.log(this.Configs)
         //console.log(this.Resources)
     }
     configResources() {
-        this.http.get(Config.configurl).subscribe((response) => {
+        this.http.get(Cnfig.configurl).subscribe((response) => {
             var p = JSON.parse(response["_body"]);
             this.Configs.push(p);
             this.Configs[p.project] = p;
