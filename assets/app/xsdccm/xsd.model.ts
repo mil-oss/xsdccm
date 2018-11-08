@@ -96,7 +96,6 @@ export class XsdComplexType {
     public choice?: XsdElement[];
     public appinfo?: XsdAppinfo;
 }
-
 export class XsdSchema {
     public simpletypes?: XsdSimpleType[];
     public complextypes?: XsdComplexType[];

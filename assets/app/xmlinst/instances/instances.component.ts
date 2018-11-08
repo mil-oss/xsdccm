@@ -23,7 +23,7 @@ export class InstancesComponent implements OnInit {
     this.xmlService.selectedxml = i["name"];
     this.xmlService.seldocvalid = false;
     this.xsdService.validate = true;
-    console.log("selectInstance " + i.name);
+    //console.log("selectInstance " + i.name);
     if (this.xsdService.xmlResource(this.xsdService.selectedxsd, this.xmlService.selectedxml)) {
       if (this.xsdService.validate) {
         this.xsdService.validateXml(this.xsdService.xmldata[this.xsdService.selectedxsd][this.xmlService.selectedxml], 'iepxsd').subscribe(
