@@ -6,15 +6,12 @@ import { HttpModule } from "@angular/http";
 import { AppComponent } from "./app.component";
 import { HeaderComponent } from "./header/header.component";
 import { HomeComponent } from "./home/home.component";
-import { DocpageComponent } from "./docpage/docpage.component";
 import { ProvrptComponent } from "./provrpt/provrpt.component";
-import { LicensesComponent } from "./licenses/licenses.component";
 import { ErrorService } from "./errors/error.service";
 import { ErrorComponent } from "./errors/error.component";
 import { XsdModule } from "./xsdccm/xsd.module";
 import { XmlinstModule } from "./xmlinst/xmlinst.module";
-import { SafePipe } from "./safe.pipe";
-
+import { CommentsModule } from "./comments/comments.module";
 
 @NgModule({
   imports: [
@@ -30,11 +27,8 @@ import { SafePipe } from "./safe.pipe";
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    DocpageComponent,
     ProvrptComponent,
-    LicensesComponent,
-    ErrorComponent,
-    SafePipe
+    ErrorComponent
   ],
   providers: [
     ErrorService

@@ -4,7 +4,7 @@ pre {
 }
 
 .instanceHdr {
-    font-size: 14px;
+    font-size: 16px;
     padding-right: 75px;
     margin-left: 20px;
     width: 95%;
@@ -13,12 +13,12 @@ pre {
 }
 
 .viewSelected {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: bold;
 }
 
 .indent {
-    margin-left: 12px;
+    margin-left: 15px;
 }
 
 .instview {

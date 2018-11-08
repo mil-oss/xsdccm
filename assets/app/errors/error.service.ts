@@ -4,6 +4,7 @@ import { Error} from "./error.model";
 
 export class ErrorService{
     errorOccurred=new EventEmitter<Error>();
+
     handleError(error:any){
       if(error._body){
         console.log(JSON.parse(error._body));

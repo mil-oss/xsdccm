@@ -11,6 +11,7 @@ import 'rxjs/add/operator/switchMap'
   styleUrls: ['./../../xsd.component.css']
 })
 export class SimpletypeComponent implements OnInit {
+
   stypes: XsdSimpleType[];
   stype: XsdSimpleType;
   enums: XsdEnumeration[];
@@ -27,7 +28,7 @@ export class SimpletypeComponent implements OnInit {
       //console.log(p.name);
       if (this.xsdService.xsd) {
         this.stype = this.xsdService.selSimpleType(p.name);
-        if (this.stype[this.xsdService.selectedxsd] && this.stype[this.xsdService.selectedxsd].enumerations) {
+        if (this.stype.enumerations) {
           this.enums = [];
           for (var s in this.xsdService.nodeSelected.enumerations) {
             this.enums.push(this.xsdService.nodeSelected.enumerations[s]);
@@ -44,11 +45,6 @@ export class SimpletypeComponent implements OnInit {
         }
       });
   }
-
-  selectStype(node: XsdSimpleType) {
-    this.xsdService.selSimpleType(node.name);
-    this.router.navigate(['xsd/simpletype', node.name]);
-  };
 
   selectedStype() {
     if (this.xsdService.nodeSelected) {
@@ -80,6 +76,7 @@ export class SimpletypeComponent implements OnInit {
   doedit() {
     this.editDoc = this.stype.documentation;
     this.editLabel = this.stype.appinfo.SimpleType.name;
+    this.editVar = this.stype.appinfo.SimpleType.mapvar;
     this.editComment = this.stype.appinfo.SimpleType.comment;
     this.xsdService.editMode = true;
   }
@@ -87,12 +84,9 @@ export class SimpletypeComponent implements OnInit {
   submit() {
     this.stype.documentation=this.editDoc;
     this.stype.appinfo.SimpleType.name=this.editLabel;
+    this.stype.appinfo.SimpleType.mapvar=this.editVar;
     this.stype.appinfo.SimpleType.comment=this.editComment;
     this.xsdService.editMode = false;
-  }
-
-  getJSON(s: any) {
-    return JSON.stringify(s);
   }
 
 }

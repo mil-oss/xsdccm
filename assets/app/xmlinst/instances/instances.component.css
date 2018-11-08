@@ -44,11 +44,6 @@ body {
     flex: 0 0 10%;
 }
 
-.blu {
-    color: blue;
-    font-weight: bold;
-}
-
 .vgrid {
     display: flex;
     flex-direction: column;
@@ -74,7 +69,7 @@ body {
     max-width: 285px;
     top: 30px;
     border: thin solid blue;
-    max-height: 460px;
+    height: 600px;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -98,6 +93,7 @@ body {
 
 .accordion__tab-content {
     background: #FFF;
+    color: blue;
     padding: 2px;
 }
 

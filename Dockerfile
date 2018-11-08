@@ -9,7 +9,6 @@ RUN apk add --update wget gcc g++ make curl bash zip
 RUN apk --no-cache add openssh curl 
 
 ADD src /go/src
-ADD  config /go/src/xsdsrv/config
 WORKDIR /go/src/xsdsrv
 
 ADD public /go/src/xsdsrv/public
@@ -22,4 +21,3 @@ RUN go install xsdsrv
 EXPOSE 8080
 ENTRYPOINT ["xsdsrv"]
 
-CMD []

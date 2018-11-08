@@ -223,27 +223,15 @@ body {
 .w60 {
     width: 60px;
 }
-.accordion__tab {
-    color: #000;
-    border-bottom: 1px solid white;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 2px;
-}
 
-.accordion__tab-title {
-    background: white;
-    border: thin solid lightgray;
-    border-radius: 2px;
-    box-shadow: 2px 2px 2px #b7c1fa;
-    padding: 2px;
-    cursor: pointer;
+#scrolltable {
+    margin-top: 30px;
+    height: 500px;
+    overflow: auto;
 }
-
-.accordion__tab-content {
-    background: #FFF;
-    padding: 2px;
+.grntxt {
+    color: green;
 }
-.blu {
-    color:blue;
+.redtxt {
+    color: red;
 }

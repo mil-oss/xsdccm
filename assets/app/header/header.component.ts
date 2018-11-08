@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { XsdService } from "./../xsdccm/xsd.service";
 
 @Component({
   selector: "app-header",
@@ -9,9 +8,10 @@ import { XsdService } from "./../xsdccm/xsd.service";
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public xsdService: XsdService, private router: Router) { }
-
-  tabSelected = "home"
+  constructor(
+    private router: Router
+  ) { }
+  tabSelected="home"
   ngOnInit() {
 
   }
@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
   isSel(n) {
     if (this.tabSelected === n) {
       return true;
-    } else {
+    }else{
       return false;
     }
   };
