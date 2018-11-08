@@ -1,0 +1,50 @@
+<div class="col-md-8 col-md-offset" style="width:100%; margin-top:10px;">
+    <div style="width:100%; text-align:left; font-weight:bold; font-size:16px; text-align:left;">Resource Verification,
+        Validation, and Generation</div>
+    <div id="scrolltable">
+        <div class="accordion__tab" *ngFor="let c of xsdService.Configs">
+            <div class="accordion__tab-title" (click)="xsdService.openTab(c['project'])" *ngIf="!c['implementations']">{{c['project']
+                | uppercase}}</div>
+            <div class="accordion__tab-content" *ngIf="xsdService.isOpenTab(c['project']) && !c['implementations']">
+                <table class="table table-striped">
+                    <thead id="scrolltable">
+                        <tr class="ctrtxt">
+                            <th>
+                                <div style="width:100px;font-size:12px;position: absolute; margin-top: -10px;">Test</div>
+                            </th>
+                            <th>
+                                <div style="width:40px;font-size:12px;position: absolute; margin-top: -10px;">Status</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-size:12px; overflow: auto;">
+                        <tr *ngFor="let d of xsdService.toArray(getReport(c['project']))">
+                            <td style="width:100px;font-size:12px;">
+                                <div>
+                                    <b>{{d.entrytype}}:
+                                        <a [attr.href]="c['host']+getRes(c,d.filepath)">{{fName(d.filepath)}}</a>
+                                    </b>
+                                </div>
+                                <div>File: <span class="blu">{{d.filepath}}</span></div>
+                                <div>Digest: <span class="blu">{{d.digest}}</span></div>
+                                <div *ngIf="d.xslpath">XSL: <span class="blu">{{d.xslpath}}</span></div>
+                                <div *ngIf="d.xsdpath">XSD: <span class="blu">{{d.xsdpath}}</span></div>
+                                <div *ngIf="d.message">Message: <span class="blu">{{d.message}}</span></div>
+                            </td>
+                            <td style="width:40px;font-size:12px;color:green">
+                                <div>
+                                    <b [ngClass]="{redtxt : d.status!=='Pass'}">{{d.status}}</b>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 col-md-offset" style="width:100%; min-width:300px; margin-top:10px;">
+        <div style="float:right">
+            <i>- - - - - - - - -</i>
+        </div>
+    </div>
+</div>

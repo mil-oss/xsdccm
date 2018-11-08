@@ -1,0 +1,208 @@
+body {
+    font-family: monospace;
+    font-size: 10px;
+    overflow-y: hidden;
+    margin-bottom: 4px;
+    height: 100%;
+    max-height: 850px;
+}
+
+.ptr {
+    cursor: pointer;
+}
+
+.page {
+    min-width: 600px;
+    max-width: 1020px;
+    height: 99%;
+    min-height: 600px;
+    margin-bottom: 2px;
+}
+
+.vwarea {
+    width: 99%;
+    border: thin solid blue;
+    max-width: 784px;
+    padding: 3px;
+}
+
+.grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.gridflx {
+    flex: 1;
+}
+
+.grid80 {
+    flex: 0 0 80%
+}
+
+.grid10 {
+    flex: 0 0 10%;
+}
+
+.blu {
+    color: blue;
+    font-weight: bold;
+}
+
+.vgrid {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.hdr {
+    top: 0px;
+    width: 100%;
+    min-width: 500px;
+    max-width: 1024px;
+    height: 80px;
+    border: solid blue thin
+}
+
+.colhdr {
+    top: 0px;
+    max-width: 285px;
+    border: solid blue thin
+}
+
+.menuCol {
+    max-width: 285px;
+    top: 30px;
+    border: thin solid blue;
+    max-height: 460px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.accordion__tab {
+    color: #000;
+    border-bottom: 1px solid white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px;
+}
+
+.accordion__tab-title {
+    background: white;
+    border: thin solid lightgray;
+    border-radius: 2px;
+    box-shadow: 2px 2px 2px #b7c1fa;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.accordion__tab-content {
+    background: #FFF;
+    padding: 2px;
+}
+
+.menulist {
+    padding-left: 3px;
+    margin-right: 2px;
+    /* max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden; */
+}
+
+.menulisting {
+    width: 100%;
+    max-height: 60px;
+    cursor: pointer;
+    padding: 2px;
+    /* margin: 2px; */
+    text-align: left;
+    font-size: 12px;
+    font-weight: normal;
+    background-color: white;
+    border: none;
+}
+
+.selected {
+    background-color: yellow;
+}
+
+.tab-title {
+    background: #BEDFD5;
+    font-size: 12px;
+    padding: 5px;
+    cursor: pointer;
+    border: thin solid grey;
+}
+
+.tab-content {
+    background: #FFF;
+    height: 99%;
+    width: 218px;
+    margin: 2px;
+}
+
+.content {
+    background: #EFF2FB;
+    padding-left: 8px;
+    color: black;
+    padding: 4px;
+    width: auto;
+    max-width: 800px;
+    flex: 1;
+    max-height: 640px;
+    border: thin blue solid;
+    overflow-x:auto;
+    overflow-y:auto;
+}
+
+.srchbox {
+    max-height: 65px;
+    cursor: pointer;
+    border: thin solid black;
+    border-radius: 2px;
+    padding: 4px;
+    box-shadow: 2px 2px 2px #888888;
+    margin: 2px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: normal;
+    background-color: white;
+}
+
+.spc {
+    margin-left: 2em;
+}
+
+.fleft {
+    width: 100%;
+    float: left;
+}
+
+.blockindent {
+    margin-left: 20px;
+    margin-bottom: 5px;
+}
+
+.docedit {
+    height: auto;
+    max-height: 80px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 600px;
+    background: white;
+    border: thin solid darkgray;
+    margin-bottom: 4px;
+}
+
+.nodevw {
+    min-height: 400px;
+    padding: 20px;
+    border-top: thin solid green
+}
+
+.editBtns {
+    font-size: 12px;
+    padding-right: 50px;
+    width: 100%;
+    text-align: right;
+}

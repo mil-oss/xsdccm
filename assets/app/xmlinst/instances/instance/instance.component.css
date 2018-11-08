@@ -1,0 +1,66 @@
+pre {
+    max-width: 800px;
+    max-height: 540px;
+}
+
+.instanceHdr {
+    font-size: 14px;
+    padding-right: 75px;
+    margin-left: 20px;
+    width: 95%;
+    text-align: right;
+    border-bottom: darkgreen solid thin;
+}
+
+.viewSelected {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.indent {
+    margin-left: 12px;
+}
+
+.instview {
+    padding-left: 8px;
+    color: black;
+    padding: 4px;
+    flex: 1;
+    height: 560px;
+    width: auto;
+    overflow: auto;
+}
+
+.rawview {
+    padding-left: 8px;
+    color: black;
+    padding: 4px;
+    flex: 1;
+    height: 560px;
+    width: 100%;
+    overflow: auto;
+}
+
+.blu {
+    color: blue;
+    font-weight: bold;
+}
+
+.elname {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.toggle {
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 4px;
+}
+
+.hidden {
+    visibility: hidden;
+}
+.colorgreen{
+    color:green;
+}

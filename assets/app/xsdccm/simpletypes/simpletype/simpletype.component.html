@@ -1,0 +1,50 @@
+<div *ngIf="stype">
+  <div class="editBtns">
+    <a *ngIf="!editst()" (click)="doedit()">Edit</a>
+    <a *ngIf="editst()" (click)="submit()">Submit</a>
+    <a *ngIf="editst()" (click)="cancel()" class="spc">Cancel</a>
+  </div>
+  <div class="nodevw">
+    <b>{{stype.name}}</b>
+    <div><i>xsdnode</i> = {{stype.xsdnode}}</div>
+    <div *ngIf="stype.pattern"><i>pattern</i> = {{stype.pattern}}</div>
+    <div *ngIf="stype.minLength"><i>minLength</i> = {{stype.minLength}}</div>
+    <div *ngIf="stype.maxLength"><i>maxLength</i> = {{stype.maxLength}}</div>
+    <div *ngIf="stype.minInclusive"><i>minInclusive</i> = {{stype.minInclusive}}</div>
+    <div *ngIf="stype.maxInclusive"><i>maxInclusive</i> = {{stype.maxInclusive}}</div>
+    <div *ngIf="stype.length"><i>length</i> = {{stype.length}}</div>
+    <div *ngIf="stype.datatype"><i>datatype</i> = {{stype.datatype}}</div>
+    <div *ngIf="!editst() && stype.appinfo.SimpleType"><i>label</i> = {{stype.appinfo.SimpleType.name}}</div>
+    <div *ngIf="editst()"><i>label</i> =
+      <input style="height:20px;width:555px;" [(ngModel)]="editLabel" type="text" value="{editLabel}}" />
+    </div>
+    <div *ngIf="!editst()">
+      <i>documentation</i> = {{stype.documentation}}</div>
+    <div *ngIf="editst()">
+      <i>documentation</i> =</div>
+    <div *ngIf="editst()">
+      <div contenteditable=true [textContent]="editDoc" (input)="editDoc=$event.target.textContent" class="docedit"></div>
+    </div>
+    <div *ngIf="editst()">
+      <b>Comments:</b>
+    </div>
+    <div *ngIf="editst()">
+      <div contenteditable=true [textContent]="editComment" (input)="editComment=$event.target.textContent" class="docedit"></div>
+    </div>
+    <div *ngIf="stype.enumerations">
+      <b>Enumerations</b>
+      <div *ngFor="let c of stype.enumerations" class="blockindent">
+        <b>{{c.value}}</b>
+        <div>
+          <i>dataitem</i> = {{c.value}}</div>
+        <div>
+          <i>documentation</i> = {{c.documentation}}</div>
+      </div>
+    </div>
+  </div>
+  <!-- 
+     <div>
+      <pre style="max-height:300px; overflow-y:auto">{{ stype | json}}</pre>
+    </div>
+  -->
+</div>

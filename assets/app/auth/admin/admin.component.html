@@ -1,0 +1,19 @@
+<div class="page grid">
+  <div class="vgrid" data-ng-cloak="true">
+    <div class="colhdr grid form-control">
+      <input type="text" class="gridflx srchbox" [(ngModel)]="txtFilter" />
+      <img class="srchicon" alt="srchicon" src="../../../img/ic_search_black_24dp_1x.png" />
+    </div>
+    <div class="colhdr">
+      <h5>USERS</h5>
+    </div>
+    <div class="menuCol">
+      <div *ngFor="let u of uvaluefilter()">
+        <div style="cursor: pointer;" (click)="selectUser(u)" [ngClass]="{selected : uSelected(u)}">{{u.email}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <app-profile></app-profile>
+  </div>
+</div>

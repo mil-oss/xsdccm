@@ -1,0 +1,18 @@
+<div class="instanceHdr" style="width:100%;" *ngIf="xmlService.selectedxml">
+  <span style="float:left;min-width:80px;font-weight:bold;">{{xmlService.selectedxml}}</span>
+  <span *ngIf="xsdService.validate" style="float:left;min-width:80px;margin-left:20px;">valid:
+    <span [ngClass]="{colorgreen : xsdService.seldocvalid}">{{xsdService.seldocvalid}}</span>
+  </span>
+  <span *ngIf="xsdService.verify" style="float:left;min-width:80px;margin-left:20px;">verified:
+    <span [ngClass]="{colorgreen : xsdService.seldocverified}">{{xsdService.seldocverified}}</span>
+  </span>
+</div>
+ 
+<div *ngIf="xsdService.xmldata && xsdService.xmldata[xsdService.selectedxsd] && xmlService.selectedxml">
+  <div class="rawview" *ngIf="xsdService.xmldata[xsdService.selectedxsd][xmlService.selectedxml]">
+    <pre>{{xsdService.xmldata[xsdService.selectedxsd][xmlService.selectedxml] | xml}}</pre>
+  </div>
+  <div class="rawview" *ngIf="xsdService.jsondata &&  xsdService.jsondata[xsdService.selectedxsd][xmlService.selectedxml]">
+    <pre>{{xsdService.jsondata[xsdService.selectedxsd][xmlService.selectedxml] | json}}</pre>
+  </div>
+</div>

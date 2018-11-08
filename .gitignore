@@ -1,0 +1,13 @@
+/node_modules
+/.idea
+/typings
+/public/iepd/
+/public/xsdccm/
+npm-debug.log
+.DS_Store
+.zip
+bin/
+pkg/
+src/github.com/
+src/golang.org/
+src/gopkg.in/
