@@ -17,36 +17,41 @@ import { XsdSchema, XsdSimpleType, XsdComplexType, XsdElement } from "./xsd.mode
 })
 export class XsdComponent implements OnInit {
   xsdschema: XsdSchema;
-  stypes: XsdSimpleType[];
-  ctypes: XsdComplexType[];
-  elements: XsdElement[];
+  stypes: XsdSimpleType[][];
+  ctypes: XsdComplexType[][];
+  elements: XsdElement[][];
   nodeSelected: string;
   iepdxsd: any;
-  optionList: any[] = this.xsdService.toArray(this.xsdService.xsds);
 
   constructor(public xsdService: XsdService, public router: Router) {
-  }
-
-  ngOnInit() {
-    this.xsdService.xsdmode = true;
-    this.xsdService.selected = "iepdXsd";
     this.getXsdJson();
   }
 
-  getXsdJson() {
-    console.log(this.xsdService.selected);
-    this.xsdService.selectedxsd = this.xsdService.xsds[this.xsdService.selected];
-    if (typeof this.xsdService.selected !== "undefined") {
-      var xsdjson;
-      if(this.xsdService.selected=="iepdXsd"){
-        xsdjson = this.xsdService.jsondata["iep_xsd.json"];
-      }else{
-        xsdjson = this.xsdService.jsondata["ref_xsd.json"];
-      }
-      this.xsdService.getComponents(xsdjson);
-      this.stypes = this.xsdService.simpletypes;
-      this.ctypes = this.xsdService.complextypes;
-      this.elements = this.xsdService.elements;
-    };
+  ngOnInit() {
+
   }
+
+  getXsdJson() {
+    this.xsdService.selectedcfg = this.xsdService.Configs[this.xsdService.selectedxsd];
+    if (typeof this.xsdService.selectedcfg !== "undefined") {
+      if (this.xsdService.jsonResource(this.xsdService.selectedcfg["project"], "iepxsdjson")) {
+        if (typeof this.stypes !=='undefined') {
+          this.stypes[this.xsdService.selectedxsd] = this.xsdService.simpletypes[this.xsdService.selectedxsd];
+          this.ctypes[this.xsdService.selectedxsd] = this.xsdService.complextypes[this.xsdService.selectedxsd];
+          this.elements[this.xsdService.selectedxsd] = this.xsdService.elements[this.xsdService.selectedxsd];
+        }
+      }else{
+      this.xsdService.iepdJsonResource(this.xsdService.selectedcfg["project"], "iepxsdjson").subscribe(
+        (xsdj => {
+          this.xsdService.getComponents(xsdj)
+          if (typeof this.stypes !=='undefined') {
+            this.stypes[this.xsdService.selectedxsd] = this.xsdService.simpletypes[this.xsdService.selectedxsd];
+            this.ctypes[this.xsdService.selectedxsd] = this.xsdService.complextypes[this.xsdService.selectedxsd];
+            this.elements[this.xsdService.selectedxsd] = this.xsdService.elements[this.xsdService.selectedxsd];
+          }
+        }))
+      }
+    };
+  };
 }
+

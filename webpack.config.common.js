@@ -1,32 +1,19 @@
-var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: {
-        'app': './assets/app/main.ts'
-    },
-
+    entry: './assets/app/main.ts',
     resolve: {
         extensions: ['.js', '.ts']
     },
-
     module: {
-        rules: [{
+        rules: [
+            {
                 test: /\.html$/,
-                use: [{
-                    loader: 'html-loader'
-                }]
+                loaders: ['html-loader']
             },
             {
                 test: /\.css$/,
-                use: [{
-                    loader: 'raw-loader'
-                }]
-            },
-            {
-                test: /\.(xml|xsd|xsl)$/,
-                use: [
-                    'raw-loader'
-                ]
+                loaders: ['raw-loader']
             }, 
             {
                 test: /\.png$/,
@@ -35,6 +22,10 @@ module.exports = {
             }
         ],
         exprContextCritical: false
-
-    }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: 'assets/index.html'
+        })
+    ]
 };

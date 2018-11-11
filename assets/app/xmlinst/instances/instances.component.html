@@ -1,20 +1,26 @@
 <div class="page grid">
   <div class="vgrid" data-ng-cloak="true">
-    <div class="menuCol" style="padding:4px;" (click)="xView()">
-      <b>Test Instances</b>
-      <div *ngFor="let i of xmlService.toArray(xmlService.xmldata.Instances)" class="ptr" (click)="selectInstance(i)">{{i.name}}</div>
-      <br/>
-      <b>Test Data</b>
-      <div *ngFor="let d of xmlService.toArray(xmlService.xmldata.Tests)" class="ptr" (click)="selectTestData(d)">{{d.name}}</div>
-      <br/>
-      <b>XML Schema</b>
-      <div *ngFor="let s of xmlService.toArray(xsdService.xsds)" class="ptr" (click)="selectXsd(s)">{{s.name}}</div>
-      <br/>
-      <b>XSLT</b>
-      <div *ngFor="let t of xmlService.toArray(xmlService.xmldata.Transforms)" class="ptr" (click)="selectXsl(t)">{{t.name}}</div>
+    <div class="accordion__tab" *ngFor="let c of xsdService.Configs">
+      <div class="accordion__tab-title" (click)="xsdService.selectProject(c)" [ngClass]="{selected : xsdService.isProjSel(c['project'])}" *ngIf="!c['implementations']">{{c['project']
+        | uppercase}}</div>
+      <div class="accordion__tab-content" *ngIf="xsdService.isOpenTab(c['project']) && !c['implementations']">
+        <div class="menuCol" style="padding:4px;">
+          <b><u>Test Instances</u></b>
+          <div *ngFor="let i of xmlService.toArray(xmlService.xmldata.Instances)" class="ptr spc blu" (click)="selectInstance(c,i)">{{i.name}}</div>
+          <br />
+          <b><u>Test Data</u></b>
+          <div *ngFor="let d of xmlService.toArray(xmlService.xmldata.TestData)" class="ptr spc blu" (click)="selectTestData(c,d)">{{d.name}}</div>
+          <br />
+          <b><u>XML Schema</u></b>
+          <div *ngFor="let s of xmlService.toArray(xmlService.xmldata.Schema)" class="ptr spc blu" (click)="selectXsd(c,s)">{{s.name}}</div>
+          <br />
+          <b><u>XSLT</u></b>
+          <div *ngFor="let t of xmlService.toArray(xmlService.xmldata.Transforms)" class="ptr spc blu" (click)="selectXsl(c,t)">{{t.name}}</div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="content">
+  <div>
     <app-instance></app-instance>
   </div>
 </div>

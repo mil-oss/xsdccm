@@ -1,6 +1,6 @@
 <div class="accordion__tab">
-    <div class="accordion__tab-title" (click)="xsdService.openTab('stypes')">Simple Types</div>
-     <div class="accordion__tab-content" *ngIf="xsdService.isOpenTab('stypes')">
+    <div class="accordion__tab-title" (click)="xsdService.openTab(xsdService.selectedxsd+'stypes')">Simple Types</div>
+     <div class="accordion__tab-content" *ngIf="xsdService.isOpenTab(xsdService.selectedxsd+'stypes')">
         <div class="menulist">
             <div *ngFor="let s of stvaluefilter()">
                 <button class="menulisting" (click)="selectStype(s)" [ngClass]="{selected : xsdService.isSel(s)}">{{s.name}}</button>

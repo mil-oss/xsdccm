@@ -69,7 +69,7 @@ body {
     max-width: 285px;
     top: 30px;
     border: thin solid blue;
-    height: 600px;
+    max-height: 400px;
     overflow-y: auto;
     overflow-x: hidden;
 }

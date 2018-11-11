@@ -4,13 +4,15 @@
             <input type="text" class="gridflx srchbox" [(ngModel)]="xsdService.txtFilter" />
             <img src="/img/ic_search_black_24dp_1x.png" alt="srchicon">
         </div>
-        <select class="accordion__tab" name="xsdSelect" [(ngModel)]="xsdService.selected" (change)="getXsdJson()" style="background-color: #ddd;color: #000;">
-            <option *ngFor="let x of optionList" value="{{x.value}}">{{x.name}}</option>
-        </select>
-        <div class="menuCol">
-            <app-simpletypes></app-simpletypes>
-            <app-complextypes></app-complextypes>
-            <app-elements></app-elements>
+        <div class="accordion__tab" *ngFor="let c of xsdService.Configs">
+            <div class="accordion__tab-title" (click)="xsdService.selectProject(c)" [ngClass]="{selected : xsdService.isProjSel(c['project'])}">{{c['project'] | uppercase}}</div>
+            <div class="accordion__tab-content" *ngIf="xsdService.isOpenTab(c['project'])">
+                <div class="menuCol">
+                    <app-simpletypes></app-simpletypes>
+                    <app-complextypes></app-complextypes>
+                    <app-elements></app-elements>
+                </div>
+            </div>
         </div>
     </div>
     <div class="content">
