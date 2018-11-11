@@ -39,7 +39,6 @@ export class DocpageComponent {
     } else {
       this.xsdService.iepdXMLResource(xsdsel, 'dochtml').subscribe(
         (docd => {
-          this.xsdService.docloaded=true
           return this.getBody(docd)
         })
       )

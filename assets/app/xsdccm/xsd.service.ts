@@ -2,7 +2,7 @@ import { Injectable, EventEmitter } from "@angular/core"
 import 'rxjs/Rx'
 import { Observable } from "rxjs"
 import { Headers, Http, RequestOptions, Response, ResponseContentType } from "@angular/http"
-import { ErrorService } from "./../errors/error.service"
+import { ErrorService } from "../errors/error.service"
 import * as crypto from 'crypto'
 
 import {
@@ -17,9 +17,16 @@ import {
   ComplexType
 } from "./xsd.model"
 
-import * as cfgdata from "../../../config/xsdccm.json"
 
-const Config = (<any>cfgdata)
+const Config = {
+  "project": "SPDX XML",
+  "title": "SPDX XML Schema Confguration Management",
+  "host": "http://localhost:8080/",
+  "remotehost":"https://spdx-xml.specchain.org/",
+  "port": ":8080",
+  "configfile": "config/spdx-xml-cfg.json",
+  "configurl": "https://spdx-xml.specchain.org/config"
+}
 const httpOptions = {
   headers: new Headers({
     'Content-Type': 'application/x-www-form-urlencoded',
