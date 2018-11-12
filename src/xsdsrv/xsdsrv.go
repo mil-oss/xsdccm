@@ -99,14 +99,12 @@ func xsdweb() {
 	<-done
 	logger.Println("Server stopped")
 }
-
 //Index ...
 func Index(c *gin.Context) {
 	c.Request.URL.Path = "/xsdccm"
 	router.HandleContext(c)
 	//c.HTML(200, "index.html", gin.H{})
 }
-
 func validate(c *gin.Context) {
 	var valdata ValidationData
 	err := c.BindJSON(&valdata)
@@ -114,7 +112,7 @@ func validate(c *gin.Context) {
 		HandleError(c, 500, "Internal Server Error", "Error reading data from body", err)
 		return
 	}
-	log.Println(valdata.Package)
+	log.Println("Validate "+valdata.XMLName+" with "+valdata.XSDName)
 	if valCache[valdata.Package+valdata.XSDName] {
 		log.Println("Validation Successful")
 		valCache = map[string]bool{}
@@ -135,7 +133,6 @@ func validate(c *gin.Context) {
 		xmlsrv.ValidateXML(valdata.XMLString, xsdstr, valfunc)
 	}
 }
-
 func docVerify(c *gin.Context) {
 	var verifydata VerifyData
 	err := c.BindJSON(&verifydata)
@@ -151,7 +148,6 @@ func docVerify(c *gin.Context) {
 		return
 	}
 }
-
 func transform(c *gin.Context) {
 	var transdata TransformData
 	err := c.BindJSON(&transdata)
@@ -167,7 +163,6 @@ func transform(c *gin.Context) {
 	}
 
 }
-
 func verify(docid string, digest string) bool {
 	//resdigests = getDigests(resources, temppath, "Sha256")
 	//log.Println("Verify")
@@ -180,11 +175,9 @@ func verify(docid string, digest string) bool {
 	} */
 	return false
 }
-
 func redirct(c *gin.Context) {
 	c.Redirect(307, "/")
 }
-
 func getPath(fname string) string {
 	var p = resources[fname]
 	if p == "" {
@@ -270,7 +263,6 @@ func wgetRsrc(urlstr string) (string, error) {
 	}
 	return "", err
 }
-
 //HandleSuccess ... handle success response
 func HandleSuccess(c *gin.Context, result interface{}) {
 	marshalled, err := json.Marshal(result)
@@ -281,7 +273,6 @@ func HandleSuccess(c *gin.Context, result interface{}) {
 	c.String(http.StatusOK, string(marshalled))
 	return
 }
-
 //HandleError ... handle error response
 func HandleError(c *gin.Context, code int, responseText string, logMessage string, err error) {
 	errorMessage := ""
@@ -292,7 +283,6 @@ func HandleError(c *gin.Context, code int, responseText string, logMessage strin
 	log.Println(logMessage, errorMessage)
 	c.String(code, responseText)
 }
-
 //HandleValidationErrors ... handle error response
 func HandleValidationErrors(c *gin.Context, logMessage string, errors []error) {
 	errs := []ValErr{}
@@ -306,7 +296,6 @@ func HandleValidationErrors(c *gin.Context, logMessage string, errors []error) {
 	}
 	c.String(http.StatusOK, string(allerrs))
 }
-
 func unzip(src string, dest string) ([]string, error) {
 	var filenames []string
 	r, err := zip.OpenReader(src)
