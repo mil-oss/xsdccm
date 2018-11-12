@@ -1,7 +1,7 @@
-import { Injectable, EventEmitter } from "@angular/core"
-import 'rxjs/Rx'
-import { Observable } from "rxjs"
-import { Headers, Http, RequestOptions, Response, ResponseContentType } from "@angular/http"
+import { Injectable } from "@angular/core"
+import { Observable } from "rxjs/Observable"
+import { map } from 'rxjs/operators';
+import { Headers, Http, Response, ResponseContentType } from "@angular/http"
 import { ErrorService } from "../errors/error.service"
 import * as crypto from 'crypto'
 
@@ -40,7 +40,7 @@ export class XsdService {
   editMode: boolean = false
   validate: boolean = false
   verify: boolean = false
-
+  validating: boolean = false
   Configs: any[][] = []
   Resources: any[][] = []
   valerrors: any[][] = []
@@ -54,7 +54,7 @@ export class XsdService {
   nodeattributes: string[] = []
   selectedcfg: any
   nodeSelected: any
-
+  loading: boolean = false
   tabview: string
   txtFilter: string
   selectedxsd: string
@@ -106,14 +106,13 @@ export class XsdService {
   iepdXMLResource(xsdsel: string, resname: string) {
     //console.log("iepdXMLResource " + xsdsel + " - " + resname)
     //console.log("url: " + this.Resources[xsdsel][resname])
-    return this.http.get(this.Resources[xsdsel][resname]).map(
+    return this.http.get(this.Resources[xsdsel][resname]).pipe(
+      map(
       (response: Response) => {
         this.xmldata[xsdsel][resname] = response["_body"]
         return this.xmldata[xsdsel][resname]
-      }).catch((error: Response) => {
-        this.errorService.handleError(error)
-        return Observable.throw(error)
       })
+    )
   }
 
   jsonResource(xsdsel: string, resname: string) {
@@ -129,55 +128,52 @@ export class XsdService {
 
   iepdJsonResource(xsdsel: string, resname: string) {
     //console.log("iepdJsonResource " + xsdsel + " - " + resname)
-    return this.http.get(this.Resources[xsdsel][resname])
-      .map(
+    return this.http.get(this.Resources[xsdsel][resname]).pipe(
+      map(
       (response: Response) => {
         if (!this.jsondata[xsdsel]) {
           this.jsondata[xsdsel] = []
         }
         this.jsondata[xsdsel][resname] = JSON.parse(response["_body"])
         return this.jsondata[xsdsel][resname]
-      }).catch((error: Response) => {
-        this.errorService.handleError(error)
-        return Observable.throw(error)
       })
+      )
   }
 
   validateXml(xmlstrng: string, xsdname: string) {
     //console.log("validateXml")
+    this.validating = true
     var valdata = { package: this.selectedxsd, xmlstr: xmlstrng, xsdname: xsdname }
-    return this.http.post(this.cfg.remotehost.concat('validate'), valdata)
-      .retry(1)
-      .map(
+    return this.http.post(this.cfg.host.concat('validate'), valdata).pipe(
+      map(
         (response: Response) => {
           // var b=response['_body']
-          // var vresp = JSON.parse(b.substring(0,b.indexOf('[')))
-          var vresp = response.json
+          var vresp = JSON.parse(response['_body'])
+          //var vresp = response.json
          // console.log(vresp)
           if (vresp['status']) {
             this.seldocvalid = vresp['status']
+            this.validating = false
             return this.seldocvalid
           } else {
+            this.validating = false
             this.seldocvalid = false
             this.valerrors = vresp['status']
             console.log(this.valerrors)
             return this.valerrors
           }
-        }).catch((error: Response) => {
-          this.errorService.handleError(error.json())
-          return Observable.throw(error.json())
         })
+        )
   }
   verifyStr(cfg: any, name: string, str: string) {
     var digest = crypto.createHash('sha256').update(str, 'utf8').digest('hex')
-    return this.http.post(cfg['host'].concat('verify'), { id: name, digest: digest }).map(
+    return this.http.post(cfg['host'].concat('verify'), { id: name, digest: digest }).pipe(
+      map(
       (response) => {
         var vresp = JSON.parse(response['_body'])
         this.seldocverified = vresp.status
-      }).catch((error: Response) => {
-        this.errorService.handleError(error.json())
-        return Observable.throw(error.json())
       })
+      )
   }
   toArray(n) {
     var a = []

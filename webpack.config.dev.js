@@ -6,7 +6,7 @@ var commonConfig = require('./webpack.config.common');
 module.exports = webpackMerge(commonConfig, {
     devtool: 'cheap-module-eval-source-map',
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'public/xsdccm/'),
         publicPath: '/',
         filename: 'bundle.js',
         chunkFilename: '[id].chunk.js'
@@ -17,7 +17,7 @@ module.exports = webpackMerge(commonConfig, {
             {
                 test: /\.ts$/,
                 use: [
-                    { loader: 'awesome-typescript-loader', options: {
+                    { loader: 'ts-loader', options: {
                         transpileOnly: true
                     }},
                     { loader: 'angular2-template-loader' },

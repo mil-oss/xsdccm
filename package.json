@@ -1,9 +1,9 @@
 {
-  "name": "ng4-xsdccm-guide",
+  "name": "xsdccm",
   "version": "1.0.0",
   "scripts": {
-    "build": "del-cli public/xsdccm/js/app && webpack-dev-server --inline --progress --port 8080 --config webpack.config.dev.js",
-    "build:prod": "del-cli public/xsdccm/js/app && ngc -p tsconfig.aot.json && ngc -p tsconfig.aot.json && webpack --config webpack.config.prod.js --progress --profile --bail && del-cli 'assets/app/**/*.js' 'assets/app/**/*.ngfactory.ts' 'assets/app/**/*.js.map' 'assets/app/**/*.shim.ts' 'assets/app/**/*.ngsummary.json' 'assets/app/**/*.ngstyle.ts' 'public/xsdccm/js/app' 'assets/polyfills.ngsummary.json'",
+    "build": "del-cli public/xsdccm/js/app && webpack --config webpack.config.dev.js --progress --profile --watch",
+    "build:prod": "del-cli public/xsdccm/bundle.js && ngc -p tsconfig.aot.json && ngc -p tsconfig.aot.json && webpack --config webpack.config.prod.js --progress --profile --bail && del-cli 'assets/app/**/*.js' 'assets/app/**/*.ngfactory.ts' 'assets/app/**/*.js.map' 'assets/app/**/*.shim.ts' 'assets/app/**/*.ngsummary.json' 'assets/app/**/*.ngstyle.ts' 'public/xsdccm/js/app' 'assets/polyfills.ngsummary.json'",
     "serve": "lite-server"
   },
   "dependencies": {
@@ -20,8 +20,10 @@
     "@angular/router": "^6.0.0",
     "@angular/upgrade": "^6.0.0",
     "core-js": "^2.4.1",
+    "css-loader": "^1.0.1",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.3.3",
+    "style-loader": "^0.23.1",
     "vkbeautify": "^0.99.3",
     "zone.js": "^0.8.5"
   },
@@ -31,7 +33,7 @@
     "@types/node": "^6.0.45",
     "angular-router-loader": "^0.6.0",
     "angular2-template-loader": "^0.6.2",
-    "awesome-typescript-loader": "^3.5.0",
+    "ts-loader": "^5.3.0",
     "del-cli": "^0.2.1",
     "html-loader": "^0.4.5",
     "file-loader": "^2.0.0",

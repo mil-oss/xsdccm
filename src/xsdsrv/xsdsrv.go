@@ -55,13 +55,13 @@ func xsdweb() {
 	router.POST("/validate", func(context *gin.Context) {
 		validate(context)
 	})
+	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
 	router.NoRoute(func(c *gin.Context) {
 		c.Request.URL.Path = "/xsdccm"
 		router.HandleContext(c)
 	})
 	flag.StringVar(&listenAddr, "listen-addr", Cfgs["spdx-xml"].Port, "server listen address")
 	flag.Parse()
-	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
 	logger.Println("Starting HTTP Server. .. ")
 	nextRequestID := func() string {
 		return fmt.Sprintf("%d", time.Now().UnixNano())

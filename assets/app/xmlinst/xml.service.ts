@@ -27,6 +27,7 @@ export class XmlService {
   xsdmode: boolean = true;
   valerrors: any[] = [];
   viewmode: string = "xml";
+  loading: boolean = false;
 
   xmldata: any = {
     Schema: {

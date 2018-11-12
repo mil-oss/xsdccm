@@ -3,7 +3,7 @@
     "title": "SPDX XML Schema Confguration Management",
     "host": "http://localhost:8080/",
     "remotehost":"https://spdx-xml.specchain.org/",
-    "port": ":8080",
+    "port": ":8081",
     "configfile": "config/spdx-xml-cfg.json",
     "configurl": "https://spdx-xml.specchain.org/config"
 }

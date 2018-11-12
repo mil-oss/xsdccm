@@ -8,7 +8,7 @@ import { XmlService } from '../xml.service';
   styleUrls: ['./instances.component.css']
 })
 export class InstancesComponent implements OnInit {
-  datetime: Date;
+  datetime: Date
 
   constructor(public xmlService: XmlService, public xsdService: XsdService) { }
 
@@ -17,6 +17,7 @@ export class InstancesComponent implements OnInit {
   }
 
   selectInstance(selxsd: any, i: any) {
+    this.xsdService.loading=true
     this.xsdService.selectedcfg = selxsd;
     this.xsdService.selectedxsd = selxsd["project"];
     this.xmlService.selectedxmldoc = i;
@@ -44,6 +45,7 @@ export class InstancesComponent implements OnInit {
   }
 
   selectTestData(selxsd: any, d: any) {
+    this.xsdService.loading=true
     this.xsdService.selectedcfg = selxsd;
     this.xsdService.selectedxsd = selxsd["project"];
     this.xsdService.seldocvalid = false;
@@ -62,6 +64,7 @@ export class InstancesComponent implements OnInit {
   }
 
   selectXsd(selxsd: any, s: any) {
+    this.xsdService.loading=true
     this.xsdService.selectedcfg = selxsd;
     this.xsdService.selectedxsd = selxsd["project"];
     this.xsdService.seldocvalid = false;
@@ -88,14 +91,13 @@ export class InstancesComponent implements OnInit {
   }
 
   selectXsl(selxsd: any, s: any) {
+    this.xsdService.loading=true
     this.xsdService.selectedcfg = selxsd;
     this.xsdService.selectedxsd = selxsd["project"];
     this.xsdService.seldocvalid = false;
     this.xsdService.validate = false;
-
     this.xmlService.selectedxmldoc = s;
     this.xmlService.selectedxml = s["name"];
-
     if (this.xsdService.xmlResource(this.xsdService.selectedxsd, this.xmlService.selectedxml)) {
       if (this.xsdService.validate) {
         this.xsdService.validateXml(this.xsdService.xmldata[this.xsdService.selectedxsd][this.xmlService.selectedxml], 'xsltxsd').subscribe(

@@ -5,8 +5,10 @@ pre {
 
 .instanceHdr {
     font-size: 14px;
+    height:25px;
     padding-right: 75px;
     margin-left: 20px;
+    margin-top: 10px;
     width: 95%;
     text-align: right;
     border-bottom: darkgreen solid thin;
@@ -61,6 +63,64 @@ pre {
 .hidden {
     visibility: hidden;
 }
-.colorgreen{
-    color:green;
+
+.colorgreen {
+    color: green;
+}
+
+.spin-loading {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.spinner {
+    height: 20px;
+    width: 20px;
+    animation: rotate 2s linear infinite;
+    transform-origin: center center;
+    position: relative;
+    margin-top: -5px;
+}
+
+.load-spinner {
+    height: 200px;
+    width: 200px;
+    animation: rotate 2s linear infinite;
+    transform-origin: center center;
+    position: absolute;
+}
+
+.spinner .path {
+    stroke-dasharray: 1, 20;
+    stroke-dashoffset: 0;
+    animation: dash 1.5s ease-in-out infinite;
+    stroke-linecap: round;
+    stroke: rgb(34, 156, 65);
+}
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dash {
+    0% {
+        stroke-dasharray: 1, 20;
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        stroke-dasharray: 89, 20;
+        stroke-dashoffset: -5px;
+    }
+
+    100% {
+        stroke-dasharray: 89, 20;
+        stroke-dashoffset: -12px;
+    }
 }

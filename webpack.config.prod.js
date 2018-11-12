@@ -8,7 +8,7 @@ var ngw = require('@ngtools/webpack');
 module.exports = webpackMerge(commonConfig, {
   entry: './assets/app/main.aot.ts',
   output: {
-    path: path.resolve(__dirname, 'public'),
+    path: path.resolve(__dirname, './public/xsdccm/'),
     publicPath: '/',
     filename: '[hash].js',
     chunkFilename: '[id].[hash].chunk.js'
