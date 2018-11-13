@@ -17,20 +17,10 @@ import {
   ComplexType
 } from "./xsd.model"
 
-
-/* const Config = {
-  "project": "SPDX XML",
-  "title": "SPDX XML Schema Confguration Management",
-  "host": "https://spdx-ccm.specchain.org/",
-  "remotehost":"https://spdx-xml.specchain.org/",
-  "port": ":8080",
-  "configfile": "config/spdx-xml-cfg.json",
-  "configurl": "https://spdx-xml.specchain.org/config"
-} */
 const Config = {
   "project": "SPDX XML",
   "title": "SPDX XML Schema Confguration Management",
-  "host": "http://localhost:8080/",
+  "host": "https://spdx-ccm.specchain.org/",
   "remotehost":"https://spdx-xml.specchain.org/",
   "port": ":8080",
   "configfile": "config/spdx-xml-cfg.json",
