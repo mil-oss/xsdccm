@@ -46,15 +46,15 @@ func loadResources(temppath string) {
 		for _, r := range cfg.Resources {
 			if strings.HasSuffix(r.FileName, ".xsd") {
 				wgetRsrc(temppath+r.Path, cfg.Host+"file/"+r.Name)
-				Rsrcs[r.Name] = temppath + r.Path
+				Rsrcs[cfg.Project+r.Name] = temppath + r.Path
 			}
 			if strings.HasSuffix(r.FileName, ".xml") {
 				wgetRsrc(temppath+r.Path, cfg.Host+"file/"+r.Name)
-				Rsrcs[r.Name] = temppath + r.Path
+				Rsrcs[cfg.Project+r.Name] = temppath + r.Path
 			}
 			if strings.HasSuffix(r.FileName, ".json") {
 				wgetRsrc(temppath+r.Path, cfg.Host+"file/"+r.Name)
-				Rsrcs[r.Name] = temppath + r.Path
+				Rsrcs[cfg.Project+r.Name] = temppath + r.Path
 			}
 		}
 	}

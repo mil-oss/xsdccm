@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "del-cli public/xsdccm/js/app && webpack --config webpack.config.dev.js --progress --profile --watch",
-    "build:prod": "del-cli public/xsdccm/bundle.js && ngc -p tsconfig.aot.json && ngc -p tsconfig.aot.json && webpack --config webpack.config.prod.js --progress --profile --bail && del-cli 'assets/app/**/*.js' 'assets/app/**/*.ngfactory.ts' 'assets/app/**/*.js.map' 'assets/app/**/*.shim.ts' 'assets/app/**/*.ngsummary.json' 'assets/app/**/*.ngstyle.ts' 'public/xsdccm/js/app' 'assets/polyfills.ngsummary.json'",
+    "build:prod": "del-cli public/xsdccm/bundle.js && ngc -p tsconfig.aot.json && ngc -p tsconfig.aot.json && webpack --config webpack.config.prod.js --progress --profile --bail && del-cli 'assets/app/**/*.js' 'assets/app/**/*.ngfactory.ts' 'assets/app/**/*.js.map' 'assets/app/**/*.shim.ts' 'assets/app/**/*.ngsummary.json' 'assets/app/**/*.ngstyle.ts' 'assets/polyfills.ngsummary.json'",
     "serve": "lite-server"
   },
   "dependencies": {

@@ -112,25 +112,24 @@ func validate(c *gin.Context) {
 		HandleError(c, 500, "Internal Server Error", "Error reading data from body", err)
 		return
 	}
-	log.Println("Validate " + valdata.XMLName + " with " + valdata.XSDName)
+	log.Println("Validate " + valdata.Package + " - " + valdata.XSDName)
 	if valCache[valdata.Package+valdata.XSDName] {
 		log.Println("Validation Successful")
 		valCache = map[string]bool{}
 		HandleSuccess(c, Success{Status: true})
 	} else {
-		log.Println("Cfgs[valdata.Package].Host: ", Cfgs[valdata.Package].Host)
-		//xsdstr, err := wgetRsrc("",Cfgs[valdata.Package].Host + "file/" + valdata.XSDName)
 		check(err)
-		valfunc := func(v bool, ve string) {
+		valfunc := func(v bool, ve []error) {
 			if v {
 				log.Println("Validation Successful")
 				valCache[valdata.Package+valdata.XSDName] = true
 				HandleSuccess(c, Success{Status: true})
 			} else {
-				HandleValidationErrors(c, "Validation Errors", ve)
+				//HandleSuccess(c, Success{Status: false})
+				HandleValidationErrors(c, ve)
 			}
 		}
-		xmlsrv.ValidateXML(valdata.XMLString, Rsrcs[valdata.XSDName], valfunc)
+		xmlsrv.ValidateXML(valdata.XMLString, Rsrcs[valdata.Package+valdata.XSDName], valfunc)
 	}
 }
 func docVerify(c *gin.Context) {
@@ -269,12 +268,24 @@ func HandleError(c *gin.Context, code int, responseText string, logMessage strin
 	}
 	log.Println(logMessage, errorMessage)
 	c.String(code, responseText)
+	return
 }
 
 //HandleValidationErrors ... handle error response
-func HandleValidationErrors(c *gin.Context, logMessage string, errors string) {
-	c.String(http.StatusOK, errors)
+func HandleValidationErrors(c *gin.Context, errors []error) {
+	errs := []ValErr{}
+	for _, errorMessage := range errors {
+		errs = append(errs, ValErr{Message: errorMessage.Error()})
+	}
+	errs = append(errs)
+	allerrs, err := json.Marshal(errs)
+	if err != nil {
+		panic(err)
+	}
+	c.String(http.StatusOK, string(allerrs))
+	return
 }
+
 func unzip(src string, dest string) ([]string, error) {
 	var filenames []string
 	r, err := zip.OpenReader(src)

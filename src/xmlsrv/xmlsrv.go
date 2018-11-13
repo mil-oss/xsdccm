@@ -1,7 +1,6 @@
 package xmlsrv
 
 import (
-	"encoding/json"
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
@@ -11,7 +10,8 @@ import (
 	"os/exec"
 	"time"
 
-	"github.com/terminalstatic/go-xsd-validate"
+	"github.com/lestrrat/go-libxml2"
+	"github.com/lestrrat/go-libxml2/xsd"
 )
 
 // ReadStructXML ...
@@ -38,11 +38,8 @@ func WriteStructXML(filepath string, xsdstruct interface{}) string {
 	return filepath
 }
 
-// ValidFunc ...
-type ValidFunc func(valid bool, xmlerr string)
-
 // ValidateXML ... validate XML against XSD
-func ValidateXML(xmlstr string, xsdfile string, valfn ValidFunc) (bool, string) {
+/* func ValidateXML(xmlstr string, xsdfile string, valfn ValidFunc) (bool, string) {
 	log.Println("ValidateXML " + xsdfile)
 	xsdvalidate.Init()
 	defer xsdvalidate.Cleanup()
@@ -70,8 +67,66 @@ func ValidateXML(xmlstr string, xsdfile string, valfn ValidFunc) (bool, string) 
 	log.Println("Valid")
 	valfn(true, "")
 	return true, ""
+} */
+
+// ValidFunc ...
+type ValidFunc func(valid bool, err []error)
+
+// ValidateXML ... validate XML against XSD
+func ValidateXML(xmlstr string, xsdpath string, valfn ValidFunc) {
+	log.Println("ValidateXML - " + xsdpath)
+	var xsddoc, derr = xsd.ParseFromFile(xsdpath)
+	check(derr)
+	defer xsddoc.Free()
+	//ioutil.ReadFile(validationdata.XMLPath)
+	doc, err := libxml2.ParseString(xmlstr)
+	check(err)
+	if err := xsddoc.Validate(doc); err != nil {
+		log.Println("Not Valid")
+		valfn(false, err.(xsd.SchemaValidationError).Errors())
+		return
+	}
+	log.Println("Valid")
+	valfn(true, nil)
+	return
 }
 
+/* func ValidateXML(xmlstr string, xsdfile string, valfn ValidFunc) {
+	log.Printf("xsdfile: %s", xsdfile)
+	f, err := os.Open(xsdfile)
+	if err != nil {
+		log.Printf("failed to open file: %s", err)
+		return
+	}
+	defer f.Close()
+	buf, err := ioutil.ReadAll(f)
+	if err != nil {
+		log.Printf("failed to read file: %s", err)
+		return
+	}
+	s, err := xsd.Parse(buf)
+	if err != nil {
+		log.Printf("failed to parse XSD: %s", err)
+		return
+	}
+	defer s.Free()
+	d, err := libxml2.ParseString(xmlstr)
+	if err != nil {
+		log.Printf("failed to parse XML: %s", err)
+		return
+	}
+	if err := s.Validate(d); err != nil {
+		for _, e := range err.(xsd.SchemaValidationError).Errors() {
+			log.Println("Not Valid")
+			log.Printf("error: %s", e.Error())
+			valfn(false, err.(xsd.SchemaValidationError).Errors())
+			return
+		}
+	}
+	log.Println("Valid")
+	valfn(true, nil)
+}
+*/
 // TransformXML ... generate a resource using XSLT
 func TransformXML(xmlstr string, xslstr string) ([]byte, error) {
 	log.Println("transformXML")

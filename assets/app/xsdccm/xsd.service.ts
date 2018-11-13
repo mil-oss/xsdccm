@@ -169,7 +169,7 @@ export class XsdService {
             this.seldocvalid = false
             this.valerrors = vresp['status']
             console.log(this.valerrors)
-            return this.valerrors
+            return this.seldocvalid
           }
         })
         )
