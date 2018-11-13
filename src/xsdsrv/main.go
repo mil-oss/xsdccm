@@ -1,8 +1,9 @@
 package main
 
 import (
-	"log"
 	"io/ioutil"
+	"log"
+	"strings"
 )
 
 var (
@@ -11,8 +12,9 @@ var (
 	cfg       Cfg
 	cfgpath   = "config/xsdccm.json"
 	xsdstruct interface{}
-	resources map[string]string
-	temppath string
+	temppath  string
+	// Rsrcs ...
+	Rsrcs = map[string]string{}
 )
 
 func main() {
@@ -23,18 +25,38 @@ func main() {
 func readCfgs() {
 	Cfgs = map[string]Cfg{}
 	cfg := ReadConfig(cfgpath)
-	temppath := mkTempDir(cfg.Tempdir)
+	temppath := mkTempDir(cfg.Tempdir) + "/"
 	log.Println("Pull Config from " + cfg.Project)
-	wgetCfg(temppath+cfg.Configfile, cfg.ConfigURL)
-	xc := ReadConfig(temppath+cfg.Configfile)
+	wgetRsrc(temppath+cfg.Configfile, cfg.ConfigURL)
+	xc := ReadConfig(temppath + cfg.Configfile)
 	Cfgs[xc.Project] = xc
 	for i := range xc.Implementations {
 		var imp = xc.Implementations[i]
 		log.Println("Pull Config from " + imp.Name)
 		log.Println("URL " + imp.SrcURL)
-		wgetCfg(temppath+imp.Path, imp.SrcURL)
-		xi := ReadConfig(temppath+imp.Path)
+		wgetRsrc(temppath+imp.Path, imp.SrcURL)
+		xi := ReadConfig(temppath + imp.Path)
 		Cfgs[xi.Project] = xi
+	}
+	loadResources(temppath)
+}
+
+func loadResources(temppath string) {
+	for _, cfg := range Cfgs {
+		for _, r := range cfg.Resources {
+			if strings.HasSuffix(r.FileName, ".xsd") {
+				wgetRsrc(temppath+r.Path, cfg.Host+"file/"+r.Name)
+				Rsrcs[r.Name] = temppath + r.Path
+			}
+			if strings.HasSuffix(r.FileName, ".xml") {
+				wgetRsrc(temppath+r.Path, cfg.Host+"file/"+r.Name)
+				Rsrcs[r.Name] = temppath + r.Path
+			}
+			if strings.HasSuffix(r.FileName, ".json") {
+				wgetRsrc(temppath+r.Path, cfg.Host+"file/"+r.Name)
+				Rsrcs[r.Name] = temppath + r.Path
+			}
+		}
 	}
 }
 

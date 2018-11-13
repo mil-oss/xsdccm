@@ -36,11 +36,13 @@ type Success struct {
 	Content string `json:"content,omitempty"`
 }
 
-// ValErr ... http error id
+// ValErr ... Validation Error
 type ValErr struct {
-	Status  bool   `json:"status,omitempty"`
-	Error   string `json:"error,omitempty"`
-	Message string `json:"message,omitempty"`
+	Code     int    `json:"code,omitempty"`
+	Message  string `json:"message,omitempty"`
+	Level    int    `json:"level,omitempty"`
+	Line     int    `json:"line,omitempty"`
+	NodeName string `json:"nodename,omitempty"`
 }
 
 // ValErrs ... list of Errors

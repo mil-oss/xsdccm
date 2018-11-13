@@ -7,7 +7,6 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -99,6 +98,7 @@ func xsdweb() {
 	<-done
 	logger.Println("Server stopped")
 }
+
 //Index ...
 func Index(c *gin.Context) {
 	c.Request.URL.Path = "/xsdccm"
@@ -112,25 +112,25 @@ func validate(c *gin.Context) {
 		HandleError(c, 500, "Internal Server Error", "Error reading data from body", err)
 		return
 	}
-	log.Println("Validate "+valdata.XMLName+" with "+valdata.XSDName)
+	log.Println("Validate " + valdata.XMLName + " with " + valdata.XSDName)
 	if valCache[valdata.Package+valdata.XSDName] {
 		log.Println("Validation Successful")
 		valCache = map[string]bool{}
 		HandleSuccess(c, Success{Status: true})
 	} else {
 		log.Println("Cfgs[valdata.Package].Host: ", Cfgs[valdata.Package].Host)
-		xsdstr, err := wgetRsrc(Cfgs[valdata.Package].Host + "file/" + valdata.XSDName)
+		//xsdstr, err := wgetRsrc("",Cfgs[valdata.Package].Host + "file/" + valdata.XSDName)
 		check(err)
-		valfunc := func(v bool, e []error) {
+		valfunc := func(v bool, ve string) {
 			if v {
 				log.Println("Validation Successful")
 				valCache[valdata.Package+valdata.XSDName] = true
 				HandleSuccess(c, Success{Status: true})
 			} else {
-				HandleValidationErrors(c, "Validation Errors", e)
+				HandleValidationErrors(c, "Validation Errors", ve)
 			}
 		}
-		xmlsrv.ValidateXML(valdata.XMLString, xsdstr, valfunc)
+		xmlsrv.ValidateXML(valdata.XMLString, Rsrcs[valdata.XSDName], valfunc)
 	}
 }
 func docVerify(c *gin.Context) {
@@ -179,9 +179,9 @@ func redirct(c *gin.Context) {
 	c.Redirect(307, "/")
 }
 func getPath(fname string) string {
-	var p = resources[fname]
+	var p = Rsrcs[fname]
 	if p == "" {
-		for _, r := range resources {
+		for _, r := range Rsrcs {
 			if filepath.Base(r) == fname {
 				return r
 			}
@@ -225,7 +225,7 @@ func tracing(nextRequestID func() string) func(http.Handler) http.Handler {
 		})
 	}
 }
-func wgetCfg(fpath string, urlstr string) error {
+func wgetRsrc(fpath string, urlstr string) error {
 	log.Println("Wget " + urlstr + " Save To: " + fpath)
 	// Create output dir
 	p := filepath.Dir(fpath)
@@ -248,21 +248,7 @@ func wgetCfg(fpath string, urlstr string) error {
 	log.Printf("Downloaded %d byte file.\n", numBytesWritten)
 	return err
 }
-func wgetRsrc(urlstr string) (string, error) {
-	log.Println("Wget " + urlstr)
-	// HTTP GET
-	response, err := http.Get(urlstr)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer response.Body.Close()
-	if response.StatusCode == http.StatusOK {
-		bodyBytes, err2 := ioutil.ReadAll(response.Body)
-		bs := string(bodyBytes)
-		return bs, err2
-	}
-	return "", err
-}
+
 //HandleSuccess ... handle success response
 func HandleSuccess(c *gin.Context, result interface{}) {
 	marshalled, err := json.Marshal(result)
@@ -273,6 +259,7 @@ func HandleSuccess(c *gin.Context, result interface{}) {
 	c.String(http.StatusOK, string(marshalled))
 	return
 }
+
 //HandleError ... handle error response
 func HandleError(c *gin.Context, code int, responseText string, logMessage string, err error) {
 	errorMessage := ""
@@ -283,18 +270,10 @@ func HandleError(c *gin.Context, code int, responseText string, logMessage strin
 	log.Println(logMessage, errorMessage)
 	c.String(code, responseText)
 }
+
 //HandleValidationErrors ... handle error response
-func HandleValidationErrors(c *gin.Context, logMessage string, errors []error) {
-	errs := []ValErr{}
-	for _, errorMessage := range errors {
-		errs = append(errs, ValErr{Message: errorMessage.Error()})
-		return
-	}
-	allerrs, err := json.Marshal(errs)
-	if err != nil {
-		panic(err)
-	}
-	c.String(http.StatusOK, string(allerrs))
+func HandleValidationErrors(c *gin.Context, logMessage string, errors string) {
+	c.String(http.StatusOK, errors)
 }
 func unzip(src string, dest string) ([]string, error) {
 	var filenames []string

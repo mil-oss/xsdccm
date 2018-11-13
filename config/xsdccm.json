@@ -6,5 +6,5 @@
     "port": ":8080",
     "configfile": "config/spdx-xml-cfg.json",
     "configurl": "https://spdx-xml.specchain.org/config",
-    "tmpdir": "spdx-ccm/"
+    "tempdir": "spdx-ccm"
 }

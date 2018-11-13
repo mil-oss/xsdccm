@@ -1,6 +1,7 @@
 package xmlsrv
 
 import (
+	"encoding/json"
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
@@ -10,8 +11,7 @@ import (
 	"os/exec"
 	"time"
 
-	libxml2 "github.com/lestrrat/go-libxml2"
-	"github.com/lestrrat/go-libxml2/xsd"
+	"github.com/terminalstatic/go-xsd-validate"
 )
 
 // ReadStructXML ...
@@ -39,23 +39,37 @@ func WriteStructXML(filepath string, xsdstruct interface{}) string {
 }
 
 // ValidFunc ...
-type ValidFunc func(valid bool, err []error)
+type ValidFunc func(valid bool, xmlerr string)
 
 // ValidateXML ... validate XML against XSD
-func ValidateXML(xmlstr string, xsdstr string, fn ValidFunc) (bool, []error) {
-	log.Println("ValidateXML")
-	var xsddoc, derr = xsd.Parse([]byte(xsdstr))
-	check(derr)
-	doc, err := libxml2.ParseString(xmlstr)
-	check(err)
-	if err := xsddoc.Validate(doc); err != nil {
+func ValidateXML(xmlstr string, xsdfile string, valfn ValidFunc) (bool, string) {
+	log.Println("ValidateXML " + xsdfile)
+	xsdvalidate.Init()
+	defer xsdvalidate.Cleanup()
+	xsdhandler, verr := xsdvalidate.NewXsdHandlerUrl(xsdfile, xsdvalidate.ParsErrDefault)
+	defer xsdhandler.Free()
+	if verr != nil {
 		log.Println("Not Valid")
-		fn(false, err.(xsd.SchemaValidationError).Errors())
-		return false, err.(xsd.SchemaValidationError).Errors()
+		switch verr.(type) {
+		case xsdvalidate.ValidationError:
+			log.Println(verr)
+			log.Printf("Error in line: %d\n", verr.(xsdvalidate.ValidationError).Errors[0].Line)
+			log.Println(verr.(xsdvalidate.ValidationError).Errors[0].Message)
+			valerrs := ValErrs{}
+			for i, e := range verr.(xsdvalidate.ValidationError).Errors {
+				valerrs[i] = ValErr(e)
+			}
+			rs, ferr := json.Marshal(valerrs)
+			check(ferr)
+			valfn(false, string(rs))
+		default:
+			log.Println(verr)
+			valfn(false, verr.(xsdvalidate.Libxml2Error).String())
+		}
 	}
 	log.Println("Valid")
-	fn(true, nil)
-	return true, nil
+	valfn(true, "")
+	return true, ""
 }
 
 // TransformXML ... generate a resource using XSLT
@@ -126,3 +140,15 @@ func checka(e []error) []error {
 	}
 	return e
 }
+
+// ValErr ... Validation Error
+type ValErr struct {
+	Code     int    `json:"code,omitempty"`
+	Message  string `json:"message,omitempty"`
+	Level    int    `json:"level,omitempty"`
+	Line     int    `json:"line,omitempty"`
+	NodeName string `json:"nodename,omitempty"`
+}
+
+// ValErrs ... list of Errors
+type ValErrs []ValErr

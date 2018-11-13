@@ -8,7 +8,8 @@
     "dbloc": "tmp/spdx-sec-ism-iepd/db/spdx-sec-ism.db",
     "tempdir": "tmp/",
     "temppath": "tmp/spdx-sec-ism-iepd/",
-    "resources": [{
+    "resources": [
+        {
             "name": "config",
             "filename": "spdx-sec-ism-cfg.json",
             "src": "config/spdx-sec-ism-cfg.json",
@@ -20,6 +21,13 @@
             "filename": "spdx-xml-ref.xsd",
             "src": "xml/xsd/spdx-xml-ref.xsd",
             "path": "xml/xsd/spdx-xml-ref.xsd",
+            "description": "NIEM Conformant Reference XML Schema for SPDX data"
+        },
+        {
+            "name": "ismxsd",
+            "filename": "ic-ism.xsd",
+            "src": "xml/xsd/ext/ic-xml/ic-ism.xsd",
+            "path": "xml/xsd/ext/ic-xml/ic-ism.xsd",
             "description": "NIEM Conformant Reference XML Schema for SPDX data"
         },
         {
@@ -44,19 +52,12 @@
             "description": "W3C XSLT Schema for XSLT validation"
         },
         {
-            "name": "ismxsd",
-            "filename": "ic-ism.xsd",
-            "src": "xml/xsd/ext/ic-xml/ic-ism.xsd",
-            "path": "xml/xsd/ext/ic-xml/ic-ism.xsd",
-            "description": "IC-ISM Schema for Security Tag validation"
-        }, 
-        {
             "name": "iepxsdxsl",
             "filename": "spdx-sec-ism-iep.xsl",
             "src": "iepd/spdx-sec-ism/xml/xsl/spdx-sec-ism-iep.xsl",
             "path": "xml/xsl/spdx-sec-ism-iep.xsl",
             "description": "XSLT to generate the SPDX Security with ISM Implementation Schema"
-
+        
         },
         {
             "name": "instancexsl",
@@ -64,7 +65,7 @@
             "src": "iepd/spdx-sec-ism/xml/xsl/spdx-sec-ism-instance.xsl",
             "path": "xml/xsl/spdx-sec-ism-instance.xsl",
             "description": "XSLT to generate a SPDX Security with ISM instance using test values"
-
+        
         },
         {
             "name": "gogenxsdxsl",
@@ -72,7 +73,7 @@
             "src": "iepd/spdx-sec-ism/xml/xsl/spdx-sec-ism-go-gen.xsl",
             "path": "xml/xsl/spdx-sec-ism-go-gen.xsl",
             "description": "XSLT to generate a GOLANG Struct for SPDX Security information"
-
+        
         },
         {
             "name": "gotestgenxsl",
@@ -83,11 +84,11 @@
         },
         {
             "name": "testdataxml",
-            "filename": "spdx-sec-ism-test-data.xml",
+            "filename":"spdx-sec-ism-test-data.xml",
             "src": "iepd/spdx-sec-ism/xml/instance/spdx-sec-ism-test-data.xml",
             "path": "xml/instance/spdx-sec-ism-test-data.xml",
             "description": "Test data for SPDX Security information"
-
+        
         },
         {
             "name": "instancexml",
@@ -109,7 +110,7 @@
             "src": "src/spdx-sec-ism/ism-struct.go",
             "path": "src/spdx-sec-ism/ism-struct.go",
             "description": "Golang STRUCT for ISM security attributes"
-
+        
         },
         {
             "name": "structgo",
@@ -117,7 +118,7 @@
             "src": "src/spdx-sec-ism/spdx-sec-ism-struct.go",
             "path": "src/spdx-sec-ism/spdx-sec-ism-struct.go",
             "description": "Auto-generated code structure for marshalling and unmarshalling XML Instances using Golang"
-
+        
         },
         {
             "name": "structtestgo",
@@ -125,7 +126,7 @@
             "src": "src/spdx-sec-ism/spdx-sec-ism-struct_test.go",
             "path": "src/spdx-sec-ism/spdx-sec-ism-struct_test.go",
             "description": "Auto-generated code tests for marshalling and unmarshalling XML Instances using Golang"
-
+       
         },
         {
             "name": "maingo",
@@ -159,9 +160,9 @@
             "name": "provenancereportjson",
             "filename": "spdx-sec-ism-provenance-report.json",
             "src": "iepd/spdx-sec-ism/json/spdx-sec-ism-provenance-report.json",
-            "path": "json/spdx-sec-ism-provenance-report.json",
+            "path": "json/spdx-sec-ism-provenance-report.json", 
             "description": "Report on all generation, verification and validation events"
-
+       
         },
         {
             "name": "resourcesjson",
@@ -197,7 +198,7 @@
             "src": "xml/xsl/xsd-json.xsl",
             "path": "xml/xsl/common/xsd-json.xsl",
             "description": "Common XSLT utility for generating a JSON representation of an XML Schema"
-
+       
         },
         {
             "name": "xmljsonxsl",
@@ -228,7 +229,8 @@
             "description": "Zipped archive of all Resources"
         }
     ],
-    "directories": [{
+    "directories": [
+        {
             "name": "niem",
             "src": "xml/xsd/ext/niem",
             "path": "xml/xsd/ext/niem"
