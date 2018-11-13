@@ -38,37 +38,6 @@ func WriteStructXML(filepath string, xsdstruct interface{}) string {
 	return filepath
 }
 
-// ValidateXML ... validate XML against XSD
-/* func ValidateXML(xmlstr string, xsdfile string, valfn ValidFunc) (bool, string) {
-	log.Println("ValidateXML " + xsdfile)
-	xsdvalidate.Init()
-	defer xsdvalidate.Cleanup()
-	xsdhandler, verr := xsdvalidate.NewXsdHandlerUrl(xsdfile, xsdvalidate.ParsErrDefault)
-	defer xsdhandler.Free()
-	if verr != nil {
-		log.Println("Not Valid")
-		switch verr.(type) {
-		case xsdvalidate.ValidationError:
-			log.Println(verr)
-			log.Printf("Error in line: %d\n", verr.(xsdvalidate.ValidationError).Errors[0].Line)
-			log.Println(verr.(xsdvalidate.ValidationError).Errors[0].Message)
-			valerrs := ValErrs{}
-			for i, e := range verr.(xsdvalidate.ValidationError).Errors {
-				valerrs[i] = ValErr(e)
-			}
-			rs, ferr := json.Marshal(valerrs)
-			check(ferr)
-			valfn(false, string(rs))
-		default:
-			log.Println(verr)
-			valfn(false, verr.(xsdvalidate.Libxml2Error).String())
-		}
-	}
-	log.Println("Valid")
-	valfn(true, "")
-	return true, ""
-} */
-
 // ValidFunc ...
 type ValidFunc func(valid bool, err []error)
 
@@ -91,42 +60,6 @@ func ValidateXML(xmlstr string, xsdpath string, valfn ValidFunc) {
 	return
 }
 
-/* func ValidateXML(xmlstr string, xsdfile string, valfn ValidFunc) {
-	log.Printf("xsdfile: %s", xsdfile)
-	f, err := os.Open(xsdfile)
-	if err != nil {
-		log.Printf("failed to open file: %s", err)
-		return
-	}
-	defer f.Close()
-	buf, err := ioutil.ReadAll(f)
-	if err != nil {
-		log.Printf("failed to read file: %s", err)
-		return
-	}
-	s, err := xsd.Parse(buf)
-	if err != nil {
-		log.Printf("failed to parse XSD: %s", err)
-		return
-	}
-	defer s.Free()
-	d, err := libxml2.ParseString(xmlstr)
-	if err != nil {
-		log.Printf("failed to parse XML: %s", err)
-		return
-	}
-	if err := s.Validate(d); err != nil {
-		for _, e := range err.(xsd.SchemaValidationError).Errors() {
-			log.Println("Not Valid")
-			log.Printf("error: %s", e.Error())
-			valfn(false, err.(xsd.SchemaValidationError).Errors())
-			return
-		}
-	}
-	log.Println("Valid")
-	valfn(true, nil)
-}
-*/
 // TransformXML ... generate a resource using XSLT
 func TransformXML(xmlstr string, xslstr string) ([]byte, error) {
 	log.Println("transformXML")

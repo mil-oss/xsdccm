@@ -3,7 +3,7 @@
         Validation, and Generation</div>
     <div id="scrolltable">
         <div class="accordion__tab" *ngFor="let c of xsdService.Configs">
-            <div class="accordion__tab-title" (click)="xsdService.openTab(c['project'])" *ngIf="!c['implementations']">{{c['project']
+            <div class="accordion__tab-title" (click)="xsdService.openTab(c['project'])" *ngIf="!c['implementations']">{{c['project'] 
                 | uppercase}}</div>
             <div class="accordion__tab-content" *ngIf="xsdService.isOpenTab(c['project']) && !c['implementations']">
                 <table class="table table-striped">

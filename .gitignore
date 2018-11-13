@@ -1,8 +1,10 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/dist
 /tmp
+/src/golang.org/x
+public/xsdccm/*.js
+public/xsdccm/*.html
 
 # dependencies
 /node_modules
@@ -38,6 +40,3 @@ testem.log
 #System Files
 .DS_Store
 Thumbs.db
-public/xsdccm/*.js
-public/xsdccm/*.html
-src/golang.org
