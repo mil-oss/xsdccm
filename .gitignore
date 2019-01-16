@@ -8,6 +8,9 @@ public/xsdccm/*.html
 
 # dependencies
 /node_modules
+/src/github.com
+/src/golang.org
+/src/gopkg.in
 
 # IDEs and editors
 /.idea
