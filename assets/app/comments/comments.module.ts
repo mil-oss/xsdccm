@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CommentComponent } from "./comment/comment.component";
 import { CommentsComponent } from "./comments.component";
-import { CommentService } from "./comment.service";
-import { Comment } from "./comment.model";
+import { CommentService } from "./state/comments.service";
+import { Comment } from "./state/comment.model";
 
 @NgModule({
   declarations:[

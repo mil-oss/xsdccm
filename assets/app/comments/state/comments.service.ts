@@ -5,8 +5,9 @@ import { Headers, Http, Response } from "@angular/http";
 import { Observable } from "rxjs";
 
 import { Comment } from "./comment.model";
-import { ErrorService } from "./../errors/error.service";
-
+import { ErrorService } from "../../errors/error.service";
+import { EntityState, EntityStore, StoreConfig, HashMap, ID,mapInWorker } from '@datorama/akita';
+​
 @Injectable()
 export class CommentService {
   private comments: Comment[] = [];
@@ -15,7 +16,14 @@ export class CommentService {
 
   public editMode:boolean[]=[];
 
-  constructor(private http: Http, private errorService: ErrorService) {}
+  constructor(private http: Http, private errorService: ErrorService,private commentsStore: CommentsStore) {}
+
+  getData() {
+    return this.dataService.pipe(
+      mapInWorker<Comment>(getComments)
+    ).subscribe(comments => this.commentsStore.set(comments))
+  }
+
 
   addComment(message: Comment) {
     const body = JSON.stringify(message);
@@ -113,4 +121,40 @@ export class CommentService {
         return Observable.throw(error);
       });
   }
+
+  updateFilter(filter: VISIBILITY_FILTER) {
+    this.store.updateFilter(filter);
+  }
+
+  toggleOpenTodoState( id: ID ) {
+    this.commentsStore.uiStore.upsert(id, entity => ({
+      isOpen: !entity.isOpen
+    }));
+  }
 }
+
+export interface CommentState extends EntityState<Comment> { }
+​
+@StoreConfig({ name: 'todos' })
+export class CommentStore extends EntityStore<CommentState, Comment> {
+  constructor() {
+    super();
+  }
+}
+export interface EntityState<T> {
+  entities: HashMap<T>;
+  ids: ID[];
+  loading: boolean;
+  error: any;
+}
+​
+/* export class CommentsQuery extends QueryEntity<CommentState, Comment> {
+  constructor(protected store: CommentStore) {
+    super(store);
+  }
+}
+export class CommentsStore extends EntityStore<CommentState, Comment> {
+  constructor() {
+    super( { loading: false} );
+  }
+} */

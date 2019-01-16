@@ -21,6 +21,7 @@ export class CommentsComponent implements OnInit {
                  this.comments=comments;
              }
         );
+        this.commentsQuery.uiQuery.selectEntity(1).subscribe();
     }
 
 }
