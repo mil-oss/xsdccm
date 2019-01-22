@@ -10,7 +10,7 @@ import (
 	"os/exec"
 	"time"
 
-	"github.com/lestrrat/go-libxml2"
+	libxml2 "github.com/lestrrat/go-libxml2"
 	"github.com/lestrrat/go-libxml2/xsd"
 )
 
