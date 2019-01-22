@@ -19,13 +19,14 @@ var (
 
 func main() {
 	readCfgs()
-	xsdweb()
+	//xsdweb()
 }
 
 func readCfgs() {
 	Cfgs = map[string]Cfg{}
 	cfg := ReadConfig(cfgpath)
-	temppath := mkTempDir(cfg.Tempdir) + "/"
+	//temppath := mkTempDir(cfg.Tempdir) + "/"/
+	temppath := cfg.Tempdir + "/"
 	log.Println("Pull Config from " + cfg.Project)
 	wgetRsrc(temppath+cfg.Configfile, cfg.ConfigURL)
 	xc := ReadConfig(temppath + cfg.Configfile)
