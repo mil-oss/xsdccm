@@ -18,13 +18,13 @@ import {
 } from "./xsd.model"
 
 const Config = {
-  "project": "SPDX XML",
-  "title": "SPDX XML Schema Confguration Management",
-  "host": "https://spdx-ccm.specchain.org/",
-  "remotehost":"https://spdx-xml.specchain.org/",
+  "project": "XSDCCM",
+  "title": "XML Schema Collaborative Configuration Management",
+  "host": "http://localhost:8080",
+  "remotehost": "https://xsdccm.specchain.org",
   "port": ":8080",
-  "configfile": "config/spdx-xml-cfg.json",
-  "configurl": "https://spdx-xml.specchain.org/config"
+  "configfile": "config/xsdccm.json",
+  "configurl": "http://localhost:8080/config"
 }
 const httpOptions = {
   headers: new Headers({
@@ -59,8 +59,11 @@ export class XsdService {
   selectedxsd: string
   iepdhost: string
   cfg: any = Config
+  selectedXMLProject: string 
+  selectedCfg: any 
 
   constructor(private http: Http, private errorService: ErrorService) {
+    this.selectedXMLProject="XSDCCM"
     this.configResources()
     //console.log(this.Configs)
     //console.log(this.Resources)
@@ -69,26 +72,43 @@ export class XsdService {
   configResources() {
     this.http.get(Config.configurl).subscribe(
       (response) => {
-        var p = JSON.parse(response["_body"])
-        this.Configs.push(p)
-        this.Configs[p.project] = p
-        this.Resources[p.project] = []
-        for (var r in p.resources) {
-          this.Resources[p.project][p.resources[r].name] = p.host + 'file/' + p.resources[r].name
+        var cfglist = JSON.parse(response["_body"])
+        console.log(cfglist)
+        this.Configs["XSDCCM"] = cfglist["XSDCCM"]
+        for (var pr in cfglist["XSDCCM"].projects) {
+          var proj = cfglist["XSDCCM"].projects[pr]
+          var projname = proj.project
+          console.log("projname: " + projname)
+          var xmlproject = cfglist[projname]
+          this.Configs[projname] = xmlproject
+          console.log("xmlproject: " + xmlproject.title)
+          var resrcs = xmlproject.resources
+          this.Resources[projname]=[]
+          for (var r in resrcs) {
+            this.Resources[projname][resrcs[r].name] = xmlproject.host + 'file/' + resrcs[r].name
+          }
+          var projimp = xmlproject.implementations
+          for (var ip in projimp) {
+            projimp[ip]
+            var sbprojname = projimp[ip].name
+            var sbproj = cfglist[sbprojname]
+            this.Configs[sbprojname] = sbproj
+            console.log("sbprojname: "+sbprojname)
+            var subprojrsrcs = sbproj.resources
+            this.Resources[sbprojname]=[]
+            for (var r in subprojrsrcs) {
+              this.Resources[sbprojname][subprojrsrcs[r].name] = sbproj.host + 'file/' + subprojrsrcs[r].name
+            }
+          }
         }
-        for (var i in p.implementations) {
-          this.http.get(p.implementations[i].srcurl).subscribe(
-            (response) => {
-              var imp = JSON.parse(response["_body"])
-              this.Configs.push(imp)
-              this.Configs[imp.project] = imp
-              this.Resources[imp.project] = []
-              for (var r in imp.resources) {
-                this.Resources[imp.project][imp.resources[r].name] = imp.host + 'file/' + imp.resources[r].name
-              }
-            })
-        }
+        console.log(this.Configs)
+        console.log(this.Resources)
       })
+  }
+
+  selectXMLProject(xmlprojectname: string) {
+    this.selectedXMLProject = xmlprojectname
+    this.selectedCfg=this.Configs[xmlprojectname]
   }
 
   xmlResource(xsdsel: string, resname: string) {
@@ -107,10 +127,10 @@ export class XsdService {
     //console.log("url: " + this.Resources[xsdsel][resname])
     return this.http.get(this.Resources[xsdsel][resname]).pipe(
       map(
-      (response: Response) => {
-        this.xmldata[xsdsel][resname] = response["_body"]
-        return this.xmldata[xsdsel][resname]
-      })
+        (response: Response) => {
+          this.xmldata[xsdsel][resname] = response["_body"]
+          return this.xmldata[xsdsel][resname]
+        })
     )
   }
 
@@ -129,14 +149,14 @@ export class XsdService {
     //console.log("iepdJsonResource " + xsdsel + " - " + resname)
     return this.http.get(this.Resources[xsdsel][resname]).pipe(
       map(
-      (response: Response) => {
-        if (!this.jsondata[xsdsel]) {
-          this.jsondata[xsdsel] = []
-        }
-        this.jsondata[xsdsel][resname] = JSON.parse(response["_body"])
-        return this.jsondata[xsdsel][resname]
-      })
-      )
+        (response: Response) => {
+          if (!this.jsondata[xsdsel]) {
+            this.jsondata[xsdsel] = []
+          }
+          this.jsondata[xsdsel][resname] = JSON.parse(response["_body"])
+          return this.jsondata[xsdsel][resname]
+        })
+    )
   }
 
   validateXml(xmlstrng: string, xsdname: string) {
@@ -149,7 +169,7 @@ export class XsdService {
           // var b=response['_body']
           var vresp = JSON.parse(response['_body'])
           //var vresp = response.json
-         // console.log(vresp)
+          // console.log(vresp)
           if (vresp['status']) {
             this.seldocvalid = vresp['status']
             this.validating = false
@@ -162,17 +182,17 @@ export class XsdService {
             return this.seldocvalid
           }
         })
-        )
+    )
   }
   verifyStr(cfg: any, name: string, str: string) {
     var digest = crypto.createHash('sha256').update(str, 'utf8').digest('hex')
     return this.http.post(cfg['host'].concat('verify'), { id: name, digest: digest }).pipe(
       map(
-      (response) => {
-        var vresp = JSON.parse(response['_body'])
-        this.seldocverified = vresp.status
-      })
-      )
+        (response) => {
+          var vresp = JSON.parse(response['_body'])
+          this.seldocverified = vresp.status
+        })
+    )
   }
   toArray(n) {
     var a = []
@@ -296,10 +316,7 @@ export class XsdService {
       (response: Response) => {
         return response.text()
       }
-    ).catch((error: Response) => {
-      this.errorService.handleError(error.json())
-      return Observable.throw(error.json())
-    })
+    )
   }
   selectProject(cfg: any) {
     //console.log("selectProject " + cfg["project"])

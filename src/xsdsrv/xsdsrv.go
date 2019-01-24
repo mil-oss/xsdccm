@@ -36,7 +36,7 @@ var (
 	valCache   = map[string]bool{}
 )
 
-func xsdweb() {
+func xsdweb(Configs map[string]Cfg) {
 	crs := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
 		Debug:          true,
@@ -44,19 +44,27 @@ func xsdweb() {
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 	router.Use(static.Serve("/", static.LocalFile("public/xsdccm", true)))
-	router.Use(static.Serve("/xsdccm", static.LocalFile("public/xsdccm", true)))
-	router.Use(static.Serve("/xsdccm/home", static.LocalFile("public/xsdccm", true)))
-	router.Use(static.Serve("/xsdccm/xsd", static.LocalFile("public/xsdccm", true)))
-	router.Use(static.Serve("/xsdccm/doc", static.LocalFile("public/xsdccm", true)))
-	router.Use(static.Serve("/xsdccm/xmldata", static.LocalFile("public/xsdccm", true)))
-	router.Use(static.Serve("/xsdccm/provrpt", static.LocalFile("public/xsdccm", true)))
+	router.Use(static.Serve("/home", static.LocalFile("public/xsdccm", true)))
+	router.Use(static.Serve("/xsd", static.LocalFile("public/xsdccm", true)))
+	router.Use(static.Serve("/doc", static.LocalFile("public/xsdccm", true)))
+	router.Use(static.Serve("/xmldata", static.LocalFile("public/xsdccm", true)))
+	router.Use(static.Serve("/provrpt", static.LocalFile("public/xsdccm", true)))
 	router.LoadHTMLGlob("public/xsdccm/*.html")
+	router.GET("/config", func(c *gin.Context) {
+		marshalled, err := json.Marshal(Cfgs)
+		if err != nil {
+			HandleError(c, 500, "Internal Server Error", "Error marshalling response JSON", err)
+			return
+		}
+		c.String(http.StatusOK, string(marshalled))
+		return
+	})
 	router.POST("/validate", func(context *gin.Context) {
 		validate(context)
 	})
 	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
 	router.NoRoute(func(c *gin.Context) {
-		c.Request.URL.Path = "/xsdccm"
+		c.Request.URL.Path = "/"
 		router.HandleContext(c)
 	})
 	flag.StringVar(&listenAddr, "listen-addr", Cfgs["spdx-xml"].Port, "server listen address")
@@ -101,7 +109,7 @@ func xsdweb() {
 
 //Index ...
 func Index(c *gin.Context) {
-	c.Request.URL.Path = "/xsdccm"
+	c.Request.URL.Path = "/"
 	router.HandleContext(c)
 	//c.HTML(200, "index.html", gin.H{})
 }
@@ -225,27 +233,30 @@ func tracing(nextRequestID func() string) func(http.Handler) http.Handler {
 	}
 }
 func wgetRsrc(fpath string, urlstr string) error {
-	log.Println("Wget " + urlstr + " Save To: " + fpath)
-	// Create output dir
-	p := filepath.Dir(fpath)
-	os.MkdirAll(p, os.ModePerm)
-	newFile, err := os.Create(fpath)
-	if err != nil {
-		log.Fatal(err)
+	if loadon {
+		log.Println("Wget " + urlstr + " Save To: " + fpath)
+		// Create output dir
+		p := filepath.Dir(fpath)
+		os.MkdirAll(p, os.ModePerm)
+		newFile, err := os.Create(fpath)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer newFile.Close()
+		// HTTP GET
+		response, err := http.Get(urlstr)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer response.Body.Close()
+		numBytesWritten, err := io.Copy(newFile, response.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
+		log.Printf("Downloaded %d byte file.\n", numBytesWritten)
+		return err
 	}
-	defer newFile.Close()
-	// HTTP GET
-	response, err := http.Get(urlstr)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer response.Body.Close()
-	numBytesWritten, err := io.Copy(newFile, response.Body)
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Printf("Downloaded %d byte file.\n", numBytesWritten)
-	return err
+	return nil
 }
 
 //HandleSuccess ... handle success response

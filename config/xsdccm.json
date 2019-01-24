@@ -1,10 +1,25 @@
 {
-    "project": "SPDX XML",
-    "title": "SPDX XML Schema Confguration Management",
-    "host": "https://spdx-ccm.specchain.org/",
-    "remotehost":"https://spdx-xml.specchain.org/",
+    "project": "XSDCCM",
+    "title": "XML Schema Collaborative Configuration Management",
+    "host": "http://localhost:8080/",
     "port": ":8080",
-    "configfile": "config/spdx-xml-cfg.json",
-    "configurl": "https://spdx-xml.specchain.org/config",
-    "tempdir": "spdx-ccm"
+    "configfile": "config/xsdccm-cfg.json",
+    "configurl": "https://xsdccm.specchain.org/config",
+    "tempdir": "tmp",
+    "projects": [{
+            "project": "ic-xml",
+            "title": "IC XML Schema Collaborative Configuration Management",
+            "host": "https://icxml.specchain.org",
+            "configfile":"config/ic-xml-cfg.json",
+            "configurl":"https://icxml.specchain.org/config"
+        },
+        {
+            "project": "spdx-xml",
+            "title": "SPDX XML Schema Collaborative Configuration Management",
+            "host":"https://spdx-xml.specchain.org",
+            "configfile":"config/spdx-xml-cfg.json",
+            "configurl":"https://spdx-xml.specchain.org/config"
+
+        }
+    ]
 }
