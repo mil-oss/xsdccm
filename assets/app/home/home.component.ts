@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from "@angular/core";
 import { XsdService } from "./../xsdccm/xsd.service";
 
@@ -13,14 +14,13 @@ export class HomeComponent {
   configs: any = []
 
   constructor(public xsdService: XsdService) {
-
   }
 
   fName(path) {
     return path.substr(path.lastIndexOf('/') + 1)
-    }
-
-    ngOnInit() {
-
-    } 
   }
+
+  ngOnInit() {
+
+  }
+}

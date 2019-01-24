@@ -1,9 +1,10 @@
-<div class="col-md-8 col-md-offset" style="width:100%; margin-top:10px;">
-    <div style="width:100%; text-align:left; font-size:14px; text-align:left;">Resources</div>
 
-    <div class="accordion__tab" *ngFor="let c of xsdService.Configs">
-        <div class="accordion__tab-title" (click)="xsdService.openTab(c['project'])">{{c['project'] | uppercase}}</div>
-        <div class="accordion__tab-content" *ngIf="xsdService.isOpenTab(c['project'])">
+
+<div class="col-md-8 col-md-offset" style="width:100%; margin-top:10px;" *ngIf="xsdService.Configs['XSDCCM']">
+    <div style="width:100%; text-align:left; font-size:14px; text-align:left;">Projects</div>
+    <div class="accordion__tab" *ngFor="let p of xsdService.Configs['XSDCCM'].projects">
+        <div class="accordion__tab-title" (click)="xsdService.openTab(p['project'])">{{p['project'] | uppercase}}</div>
+        <div class="accordion__tab-content" *ngIf="xsdService.isOpenTab(p['project'])">
             <table class="table table-striped">
                 <thead>
                     <tr class="ctrtxt">
@@ -13,8 +14,8 @@
                     </tr>
                 </thead>
                 <tbody class="f12">
-                    <tr *ngFor="let d of c['resources']">
-                        <td style="width:200px;font-size:12px;"><a href="{{c['host']}}file/{{d.name}}" target=_blank>{{fName(d.path)}}</a></td>
+                    <tr *ngFor="let d of xsdService.Configs[p['project']].resources">
+                        <td style="width:200px;font-size:12px;"><a href="{{p['host']}}file/{{d.name}}" target=_blank>{{fName(d.path)}}</a></td>
                         <!-- <td class="w200">{{d.url}}</td> -->
                         <td style="width:300px;font-size:12px;">{{d.description}}</td>
                     </tr>
@@ -22,12 +23,8 @@
             </table>
         </div>
     </div>
+</div>
 
-
-    <div *ngFor="let c of configs">
-    
-    </div>
-    <div class="col-md-8 col-md-offset" style="width:100%; min-width:300px; margin-top:10px;">
-        <div style="float:right"><i>-  -  -  -  -  -  -  -  -</i></div>
-    </div>
+<div class="col-md-8 col-md-offset" style="width:100%; min-width:300px; margin-top:10px;">
+    <div style="float:right"><i>- - - - - - - - -</i></div>
 </div>

@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core"
+import { Injectable,OnInit } from "@angular/core"
 import { Observable } from "rxjs/Observable"
 import { map } from 'rxjs/operators';
 import { Headers, Http, Response, ResponseContentType } from "@angular/http"
@@ -58,30 +58,34 @@ export class XsdService {
   txtFilter: string
   selectedxsd: string
   iepdhost: string
-  cfg: any = Config
   selectedXMLProject: string 
   selectedCfg: any 
+  xsdccmCfg: any =Config
 
   constructor(private http: Http, private errorService: ErrorService) {
-    this.selectedXMLProject="XSDCCM"
+    this.selectedXMLProject = "XSDCCM"
     this.configResources()
-    //console.log(this.Configs)
-    //console.log(this.Resources)
+    console.log(this.Configs)
+    console.log(this.Resources)
+  }
+
+  ngOnInit() {
+
   }
 
   configResources() {
     this.http.get(Config.configurl).subscribe(
       (response) => {
         var cfglist = JSON.parse(response["_body"])
-        console.log(cfglist)
+        //console.log(cfglist)
         this.Configs["XSDCCM"] = cfglist["XSDCCM"]
         for (var pr in cfglist["XSDCCM"].projects) {
           var proj = cfglist["XSDCCM"].projects[pr]
           var projname = proj.project
-          console.log("projname: " + projname)
+          //console.log("projname: " + projname)
           var xmlproject = cfglist[projname]
           this.Configs[projname] = xmlproject
-          console.log("xmlproject: " + xmlproject.title)
+          //console.log("xmlproject: " + xmlproject.title)
           var resrcs = xmlproject.resources
           this.Resources[projname]=[]
           for (var r in resrcs) {
@@ -93,7 +97,7 @@ export class XsdService {
             var sbprojname = projimp[ip].name
             var sbproj = cfglist[sbprojname]
             this.Configs[sbprojname] = sbproj
-            console.log("sbprojname: "+sbprojname)
+            //console.log("sbprojname: "+sbprojname)
             var subprojrsrcs = sbproj.resources
             this.Resources[sbprojname]=[]
             for (var r in subprojrsrcs) {
@@ -101,14 +105,20 @@ export class XsdService {
             }
           }
         }
-        console.log(this.Configs)
-        console.log(this.Resources)
+        //console.log(this.Configs)
+        //console.log(this.Resources)
+        this.selectedCfg=this.Configs[this.selectedXMLProject]
       })
+  }
+
+  getCfg(cname: string) {
+    return this.Configs[cname]
   }
 
   selectXMLProject(xmlprojectname: string) {
     this.selectedXMLProject = xmlprojectname
-    this.selectedCfg=this.Configs[xmlprojectname]
+    this.selectedCfg = this.Configs[xmlprojectname]
+    this.selectedCfg=this.Configs[this.selectedXMLProject]
   }
 
   xmlResource(xsdsel: string, resname: string) {

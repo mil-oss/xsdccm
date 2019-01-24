@@ -23,7 +23,7 @@ var (
 func main() {
 	loadon = false
 	readCfgs()
-	xsdweb(Cfgs)
+	xsdweb()
 }
 
 func readCfgs() {

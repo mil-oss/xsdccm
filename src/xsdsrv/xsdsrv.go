@@ -36,20 +36,13 @@ var (
 	valCache   = map[string]bool{}
 )
 
-func xsdweb(Configs map[string]Cfg) {
+func xsdweb() {
 	crs := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
 		Debug:          true,
 	})
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
-	router.Use(static.Serve("/", static.LocalFile("public/xsdccm", true)))
-	router.Use(static.Serve("/home", static.LocalFile("public/xsdccm", true)))
-	router.Use(static.Serve("/xsd", static.LocalFile("public/xsdccm", true)))
-	router.Use(static.Serve("/doc", static.LocalFile("public/xsdccm", true)))
-	router.Use(static.Serve("/xmldata", static.LocalFile("public/xsdccm", true)))
-	router.Use(static.Serve("/provrpt", static.LocalFile("public/xsdccm", true)))
-	router.LoadHTMLGlob("public/xsdccm/*.html")
 	router.GET("/config", func(c *gin.Context) {
 		marshalled, err := json.Marshal(Cfgs)
 		if err != nil {
@@ -59,15 +52,35 @@ func xsdweb(Configs map[string]Cfg) {
 		c.String(http.StatusOK, string(marshalled))
 		return
 	})
+
+	router.Use(static.Serve("/", static.LocalFile("public/xsdccm", true)))
+	router.Use(static.Serve("/home", static.LocalFile("public/xsdccm", true)))
+	router.Use(static.Serve("/xsd", static.LocalFile("public/xsdccm", true)))
+	router.Use(static.Serve("/doc", static.LocalFile("public/xsdccm", true)))
+	router.Use(static.Serve("/xmldata", static.LocalFile("public/xsdccm", true)))
+	router.Use(static.Serve("/provrpt", static.LocalFile("public/xsdccm", true)))
+	/* for i := range Cfgs["XSDCCM"].Projects {
+		var p = "/xsdccm/" + Cfgs["XSDCCM"].Projects[i].Project
+		router.Use(static.Serve(p+"/", static.LocalFile("public/xsdccm", true)))
+		router.Use(static.Serve(p+"/home", static.LocalFile("public/xsdccm", true)))
+		router.Use(static.Serve(p+"/xsd", static.LocalFile("public/xsdccm", true)))
+		router.Use(static.Serve(p+"/doc", static.LocalFile("public/xsdccm", true)))
+		router.Use(static.Serve(p+"/xmldata", static.LocalFile("public/xsdccm", true)))
+		router.Use(static.Serve(p+"/provrpt", static.LocalFile("public/xsdccm", true)))
+	} */
+
+	/* router.NoRoute(func(c *gin.Context) {
+		c.Request.URL.Path = "/"
+		router.HandleContext(c)
+	}) */
+
+	router.LoadHTMLGlob("public/xsdccm/*.html")
 	router.POST("/validate", func(context *gin.Context) {
 		validate(context)
 	})
 	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
-	router.NoRoute(func(c *gin.Context) {
-		c.Request.URL.Path = "/"
-		router.HandleContext(c)
-	})
-	flag.StringVar(&listenAddr, "listen-addr", Cfgs["spdx-xml"].Port, "server listen address")
+
+	flag.StringVar(&listenAddr, "listen-addr", Cfgs["XSDCCM"].Port, "server listen address")
 	flag.Parse()
 	logger.Println("Starting HTTP Server. .. ")
 	nextRequestID := func() string {

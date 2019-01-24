@@ -9,6 +9,7 @@ import { ProvrptComponent } from "./provrpt/provrpt.component";
 
 
 const APP_ROUTES: Routes = [
+  { path: '**', component: HomeComponent },
   { path: "", redirectTo: "home", pathMatch: "full" },
   { path: "home", component: HomeComponent },
   { path: "provrpt", component: ProvrptComponent },
