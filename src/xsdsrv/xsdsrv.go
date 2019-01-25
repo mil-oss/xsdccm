@@ -69,10 +69,10 @@ func xsdweb() {
 		router.Use(static.Serve(p+"/provrpt", static.LocalFile("public/xsdccm", true)))
 	} */
 
-	/* router.NoRoute(func(c *gin.Context) {
+	router.NoRoute(func(c *gin.Context) {
 		c.Request.URL.Path = "/"
 		router.HandleContext(c)
-	}) */
+	})
 
 	router.LoadHTMLGlob("public/xsdccm/*.html")
 	router.POST("/validate", func(context *gin.Context) {

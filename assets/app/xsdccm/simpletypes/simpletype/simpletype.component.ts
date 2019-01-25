@@ -24,7 +24,6 @@ export class SimpletypeComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(p => {
-      //console.log(p.name);
       if (this.xsdService.xsd) {
         this.stype = this.xsdService.selSimpleType(p.name);
         if (this.stype[this.xsdService.selectedxsd] && this.stype[this.xsdService.selectedxsd].enumerations) {

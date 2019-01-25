@@ -3,7 +3,7 @@
 <div class="col-md-8 col-md-offset" style="width:100%; margin-top:10px;" *ngIf="xsdService.Configs['XSDCCM']">
     <div style="width:100%; text-align:left; font-size:14px; text-align:left;">Projects</div>
     <div class="accordion__tab" *ngFor="let p of xsdService.Configs['XSDCCM'].projects">
-        <div class="accordion__tab-title" (click)="xsdService.openTab(p['project'])">{{p['project'] | uppercase}}</div>
+        <div class="accordion__tab-title" (click)="xsdService.selectProject(xsdService.Configs[p['project']])" [ngClass]="{selected : xsdService.isProjSel(p['project'])}">{{p['project'] | uppercase}}</div>
         <div class="accordion__tab-content" *ngIf="xsdService.isOpenTab(p['project'])">
             <table class="table table-striped">
                 <thead>

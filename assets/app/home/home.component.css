@@ -232,7 +232,6 @@ body {
 }
 
 .accordion__tab-title {
-    background: white;
     border: thin solid lightgray;
     border-radius: 2px;
     box-shadow: 2px 2px 2px #b7c1fa;

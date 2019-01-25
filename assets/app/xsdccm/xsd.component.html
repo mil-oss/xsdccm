@@ -4,18 +4,23 @@
             <input type="text" class="gridflx srchbox" [(ngModel)]="xsdService.txtFilter" />
             <img src="/img/ic_search_black_24dp_1x.png" alt="srchicon">
         </div>
-        <div class="accordion__tab" *ngFor="let c of xsdService.Configs">
-            <div class="accordion__tab-title" (click)="xsdService.selectProject(c)" [ngClass]="{selected : xsdService.isProjSel(c['project'])}">{{c['project'] | uppercase}}</div>
-            <div class="accordion__tab-content" *ngIf="xsdService.isOpenTab(c['project'])">
-                <div class="menuCol">
-                    <app-simpletypes></app-simpletypes>
-                    <app-complextypes></app-complextypes>
-                    <app-elements></app-elements>
+        <div class="accordion__tab" *ngFor="let p of xsdService.Configs['XSDCCM'].projects">
+            <div class="accordion__tab-title" (click)="xsdService.selectProject(xsdService.Configs[p['project']])" [ngClass]="{selected : xsdService.isProjSel(p['project'])}">{{p['project']  | uppercase}}</div>
+            <div class="accordion__tab-content" *ngIf="xsdService.isOpenTab(p['project'])">
+                <div class="accordion__tab" *ngFor="let i of xsdService.Configs[p['project']].implementations">
+                    <div class="accordion__tab-title" (click)="xsdService.selectProject(xsdService.Configs[i['name']])" [ngClass]="{selected : xsdService.isProjSel(i['name'])}">{{i['name'] | uppercase}}</div>
+                    <div class="accordion__tab-content" *ngIf="xsdService.isOpenTab(i['name'])">
+                        <div class="menuCol">
+                            <app-simpletypes></app-simpletypes>
+                            <app-complextypes></app-complextypes>
+                            <app-elements></app-elements>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="content">
-        <router-outlet></router-outlet>
-    </div>
+            <router-outlet></router-outlet>
+        </div>
 </div>

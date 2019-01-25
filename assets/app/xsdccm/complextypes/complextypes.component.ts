@@ -1,6 +1,7 @@
-import { XsdService } from "./../xsd.service";
+
 import { Component, OnInit } from "@angular/core";
-import { Router,ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { XsdService } from "./../xsd.service";
 import { XsdComplexType } from "../xsd.model";
 @Component({
   selector: "app-complextypes",
@@ -8,11 +9,14 @@ import { XsdComplexType } from "../xsd.model";
   styleUrls: ["./../xsd.component.css"],
 })
 export class ComplextypesComponent implements OnInit {
-  ctypes: XsdComplexType[];
+  ctypes: XsdComplexType[][];
+  tabview: string;
+  activeTabs: string[];
 
   constructor(public xsdService: XsdService, private router: Router,private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.ctypes = this.xsdService.complextypes;
   }
 
 

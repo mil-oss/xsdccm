@@ -25,8 +25,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './assets/spdx.html',
-            template: './assets/icxml.html'
+            template: './assets/index.html'
         })
     ]
 };

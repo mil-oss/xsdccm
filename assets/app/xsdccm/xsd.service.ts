@@ -63,7 +63,6 @@ export class XsdService {
   xsdccmCfg: any =Config
 
   constructor(private http: Http, private errorService: ErrorService) {
-    this.selectedXMLProject = "XSDCCM"
     this.configResources()
     console.log(this.Configs)
     console.log(this.Resources)
@@ -105,9 +104,6 @@ export class XsdService {
             }
           }
         }
-        //console.log(this.Configs)
-        //console.log(this.Resources)
-        this.selectedCfg=this.Configs[this.selectedXMLProject]
       })
   }
 
@@ -115,10 +111,68 @@ export class XsdService {
     return this.Configs[cname]
   }
 
-  selectXMLProject(xmlprojectname: string) {
-    this.selectedXMLProject = xmlprojectname
-    this.selectedCfg = this.Configs[xmlprojectname]
-    this.selectedCfg=this.Configs[this.selectedXMLProject]
+  selectProject(cfg: any) {
+    console.log(cfg)
+    this.openTab(cfg["project"])
+    if (this.isOpenTab(cfg["project"])) {
+      this.selectedcfg = cfg
+      this.selectedxsd = cfg["project"]
+      console.log(this.selectedxsd)
+      if (this.Configs[this.selectedxsd]["resources"]) {
+        if (!this.jsondata[this.selectedxsd]) {
+          this.jsondata[this.selectedxsd] = []
+          if (this.jsonResource(this.selectedxsd, "refxsdjson")) {
+            this.getComponents(this.jsondata[this.selectedxsd]["refxsdjson"])
+            return this.jsondata[this.selectedxsd]["refxsdjson"]
+          } else {
+            this.iepdJsonResource(this.selectedxsd, "refxsdjson").subscribe(
+              (rxj => {
+                this.jsondata[this.selectedxsd]["refxsdjson"] = rxj
+                this.getComponents(rxj)
+                return rxj
+              })
+            )
+          }
+        }
+      } else {
+        if (!this.jsondata[this.selectedxsd]) {
+          this.jsondata[this.selectedxsd] = []
+        }
+        if (this.jsonResource(this.selectedxsd, "iepxsdjson")) {
+          this.getComponents(this.jsondata[this.selectedxsd]["iepxsdjson"])
+          return this.jsondata[this.selectedxsd]["iepxsdjson"]
+        } else {
+          this.iepdJsonResource(this.selectedxsd, "iepxsdjson").subscribe(
+            (ixj => {
+              this.jsondata[this.selectedxsd]["iepxsdjson"] = ixj
+              this.getComponents(ixj)
+              return ixj
+            })
+          )
+        }
+      }
+    }
+  }
+  isProjSel(n) {
+    if (this.selectedxsd === n) {
+      return true
+    }
+  }
+  openTab(tab) {
+    //console.log(tab)
+    this.tabview = tab
+    if (this.isOpenTab(tab)) {
+      this.activeTabs.splice(this.activeTabs.indexOf(tab), 1)
+    } else {
+      this.activeTabs.push(tab)
+    }
+  }
+  isOpenTab(tab) {
+    if (this.activeTabs.indexOf(tab) > -1) {
+      return true
+    } else {
+      return false
+    }
   }
 
   xmlResource(xsdsel: string, resname: string) {
@@ -328,68 +382,6 @@ export class XsdService {
       }
     )
   }
-  selectProject(cfg: any) {
-    //console.log("selectProject " + cfg["project"])
-    this.openTab(cfg["project"])
-    if (this.isOpenTab(cfg["project"])) {
-      this.selectedcfg = cfg
-      this.selectedxsd = cfg["project"]
-      if (this.Configs[this.selectedxsd]["implementations"]) {
-        if (!this.jsondata[this.selectedxsd]) {
-          this.jsondata[this.selectedxsd] = []
-          if (this.jsonResource(this.selectedxsd, "refxsdjson")) {
-            this.getComponents(this.jsondata[this.selectedxsd]["refxsdjson"])
-            return this.jsondata[this.selectedxsd]["refxsdjson"]
-          } else {
-            this.iepdJsonResource(this.selectedxsd, "refxsdjson").subscribe(
-              (rxj => {
-                this.jsondata[this.selectedxsd]["refxsdjson"] = rxj
-                this.getComponents(rxj)
-                return rxj
-              })
-            )
-          }
-        }
-      } else {
-        if (!this.jsondata[this.selectedxsd]) {
-          this.jsondata[this.selectedxsd] = []
-        }
-        if (this.jsonResource(this.selectedxsd, "iepxsdjson")) {
-          this.getComponents(this.jsondata[this.selectedxsd]["iepxsdjson"])
-          return this.jsondata[this.selectedxsd]["iepxsdjson"]
-        } else {
-          this.iepdJsonResource(this.selectedxsd, "iepxsdjson").subscribe(
-            (ixj => {
-              this.jsondata[this.selectedxsd]["iepxsdjson"] = ixj
-              this.getComponents(ixj)
-              return ixj
-            })
-          )
-        }
-      }
-    }
-  }
-  isProjSel(n) {
-    if (this.selectedxsd === n) {
-      return true
-    }
-  }
-  openTab(tab) {
-    //console.log(tab)
-    this.tabview = tab
-    if (this.isOpenTab(tab)) {
-      this.activeTabs.splice(this.activeTabs.indexOf(tab), 1)
-    } else {
-      this.activeTabs.push(tab)
-    }
-  }
-  isOpenTab(tab) {
-    if (this.activeTabs.indexOf(tab) > -1) {
-      return true
-    } else {
-      return false
-    }
-  }
   selElement(nodename: string) {
     this.editMode = false
     if (this.xsd) {
@@ -409,10 +401,8 @@ export class XsdService {
     if (this.xsd) {
       for (var n in this.xsd[this.selectedxsd].simpletypes) {
         if (this.xsd[this.selectedxsd].simpletypes[n].name === nodename) {
-          //console.log("Sel: " + nodename)
           this.nodeSelected = this.xsd[this.selectedxsd].simpletypes[n]
           this.getNodeAttributes()
-          //this.router.navigate([{ outlets: { xsd: [ 'simpletype', nodename ] }}]) 
           return this.xsd[this.selectedxsd].simpletypes[n]
         }
       }

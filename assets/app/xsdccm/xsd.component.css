@@ -143,7 +143,7 @@ body {
     color: black;
     padding: 4px;
     width: auto;
-    max-width: 800px;
+    max-width: 600px;
     flex: 1;
     max-height: 640px;
     border: thin blue solid;

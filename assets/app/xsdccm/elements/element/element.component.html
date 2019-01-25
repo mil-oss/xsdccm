@@ -28,9 +28,7 @@
       <div *ngIf="editel()">
         <div contenteditable=true [textContent]="editDoc" (input)="editDoc=$event.target.textContent" class="docedit"></div>
       </div>
-      <div *ngIf="elmnt.appinfo.Element.xpath">
-        <i>xpath</i> = {{elmnt.appinfo.Element.xpath}}
-      </div>
+     
       <div *ngIf="editel()">
         <b>Comments:</b>
       </div>
