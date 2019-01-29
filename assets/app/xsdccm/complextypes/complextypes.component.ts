@@ -9,7 +9,7 @@ import { XsdComplexType } from "../xsd.model";
   styleUrls: ["./../xsd.component.css"],
 })
 export class ComplextypesComponent implements OnInit {
-  ctypes: XsdComplexType[][];
+  ctypes: XsdComplexType[];
   tabview: string;
   activeTabs: string[];
 
@@ -24,7 +24,7 @@ export class ComplextypesComponent implements OnInit {
     var txt = this.xsdService.txtFilter;
     var result = [];
     var mlist = this.xsdService.complextypes[this.xsdService.selectedxsd];
-    if (txt === "" || typeof txt=== "undefined") {
+    if (txt === "" || typeof txt === "undefined") {
       return mlist;
     } else {
       for (var key in mlist) {
@@ -35,14 +35,14 @@ export class ComplextypesComponent implements OnInit {
               }
             }
           }
-        }
+      }
         return result;
       }
     }
   
     selectCtype(node: XsdComplexType) {
-      this.xsdService.selComplexType(node.name);
-      this.router.navigate(['xsd/complextype', node.name]);
+      this.xsdService.selComplexType(node.typename);
+      this.router.navigate(['xsd/complextype', node.typename]);
     };
   
   }

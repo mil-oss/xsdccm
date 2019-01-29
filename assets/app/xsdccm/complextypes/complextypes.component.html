@@ -3,7 +3,7 @@
     <div class="accordion__tab-content" *ngIf="xsdService.isOpenTab(xsdService.selectedxsd+'ctypes')">
         <div class="menulist">
             <div *ngFor="let c of ctvaluefilter()">
-                <button class="menulisting" (click)="selectCtype(c)" [ngClass]="{selected : xsdService.isSel(c)}">{{c.name}}</button>
+                <button class="menulisting" (click)="selectCtype(c)" [ngClass]="{selected : xsdService.isSel(c)}">{{c.typename}}</button>
             </div>
         </div>
     </div>

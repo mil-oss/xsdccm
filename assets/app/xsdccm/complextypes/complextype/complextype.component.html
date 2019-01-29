@@ -5,15 +5,15 @@
     <a *ngIf="editct()" (click)="cancel()" class="spc">Cancel</a>
   </div>
   <div class="nodevw">
-    <b>{{ctype.name}}</b>
+    <b>{{ctype.typename}}</b>
     <div>
       <i>xsdnode</i> = {{ctype.xsdnode}}</div>
     <div *ngIf="ctype.datatype" routerLinkActive="active">
       <i>datatype</i> =
       <a [routerLink]="['/xsd/simpletype',ctype.datatype]">{{ctype.datatype}}</a>
     </div>
-    <div *ngIf="!editct()">
-      <i>label</i> = {{ctype.appinfo.ComplexType.name}}</div>
+    <div *ngIf="!editct() && ctype.appinfo.ComplexType">
+      <i>label</i> = {{ctype.appinfo.ComplexType.typename}}</div>
     <div *ngIf="editct()">
       <i>label</i> =
       <input style="height:20px;width:555px;" [(ngModel)]="ctype.appinfo.ComplexType.name" type="text" value="{{ctype.appinfo.ComplexType.name}}"

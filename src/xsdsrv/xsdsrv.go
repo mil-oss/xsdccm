@@ -80,7 +80,7 @@ func xsdweb() {
 	})
 	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
 
-	flag.StringVar(&listenAddr, "listen-addr", Cfgs["XSDCCM"].Port, "server listen address")
+	flag.StringVar(&listenAddr, "listen-addr", Cfgs[project].Port, "server listen address")
 	flag.Parse()
 	logger.Println("Starting HTTP Server. .. ")
 	nextRequestID := func() string {

@@ -1,6 +1,7 @@
 
 export class Config {
     public project: string;
+    public xmlproject: string;
     public title: string;
     public pckg: string;
     public root: string;
@@ -40,6 +41,7 @@ export class SimpleType {
 
 export class ComplexType {
     public name: string;
+    public typename: string;
     public comment: string;
 }
 
@@ -90,6 +92,7 @@ export class XsdSimpleType {
 export class XsdComplexType {
     public xsdnode?: string;
     public name?: string;
+    public typename?: string;
     public datatype?: string;
     public documentation?: string;
     public sequence?: XsdElement[];

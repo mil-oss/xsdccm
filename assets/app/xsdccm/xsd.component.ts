@@ -54,4 +54,3 @@ export class XsdComponent implements OnInit {
     };
   };
 }
-

@@ -46,13 +46,15 @@ export class ComplextypeComponent implements OnInit {
     if (this.xsdService.nodeSelected && this.xsdService.nodeSelected.xsdnode === 'complexType') {
       this.ctype = this.xsdService.nodeSelected;
       this.ctsequence = [];
-      for (var s in this.xsdService.nodeSelected.sequence) {
-        this.ctsequence.push(this.xsdService.nodeSelected.sequence[s]);
+      if (this.ctype.sequence) {
+        for (var s in this.ctype.sequence) {
+          this.ctsequence.push(this.xsdService.nodeSelected.sequence[s]);
+        }
+        //console.log(this.ctsequence);
+        return true;
+      } else {
+        return false;
       }
-      //console.log(this.ctsequence);
-      return true;
-    } else {
-      return false;
     }
   }
 
@@ -62,14 +64,14 @@ export class ComplextypeComponent implements OnInit {
 
   doedit() {
     this.editDoc = this.ctype.documentation;
-    this.editLabel = this.ctype.appinfo.ComplexType.name;
+    this.editLabel = this.ctype.appinfo.ComplexType.typename;
     this.editComment = this.ctype.appinfo.ComplexType.comment;
     this.xsdService.editMode = true;
   }
 
   submit() {
     this.ctype.documentation = this.editDoc;
-    this.ctype.appinfo.ComplexType.name = this.editLabel;
+    this.ctype.appinfo.ComplexType.typename = this.editLabel;
     this.ctype.appinfo.ComplexType.comment = this.editComment;
     this.xsdService.editMode = false;
   }

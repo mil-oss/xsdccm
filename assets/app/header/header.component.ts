@@ -12,8 +12,9 @@ export class HeaderComponent implements OnInit {
   constructor(public xsdService: XsdService, private router: Router) { }
 
   tabSelected = "home"
+  
   ngOnInit() {
-
+  
   }
 
   isLoggedIn() {

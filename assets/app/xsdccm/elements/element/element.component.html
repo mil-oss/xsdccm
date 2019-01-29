@@ -15,7 +15,7 @@
         <i>type</i> =
         <a [routerLink]="['/xsd/complextype',elmnt.type]">{{elmnt.type}}</a>
       </div>
-      <div *ngIf="!editel()">
+      <div *ngIf="!editel() && elmnt.appinfo.Element">
         <i>label</i> = {{elmnt.appinfo.Element.name}}</div>
       <div *ngIf="editel()">
         <i>label</i> =

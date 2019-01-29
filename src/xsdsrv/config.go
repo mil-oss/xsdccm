@@ -21,7 +21,6 @@ type Cfg struct {
 	Temppath        string     `json:"temppath,omitempty"`
 	Resources       []Resource `json:"resources,omitempty"`
 	Directories     []Resource `json:"directories,omitempty"`
-	Projects        []Cfg      `json:"projects,omitempty"`
 	Implementations []Resource `json:"implementations,omitempty"`
 }
 

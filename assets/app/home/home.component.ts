@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from "@angular/core";
 import { XsdService } from "./../xsdccm/xsd.service";
 

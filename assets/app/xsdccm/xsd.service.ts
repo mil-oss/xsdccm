@@ -1,4 +1,4 @@
-import { Injectable,OnInit } from "@angular/core"
+import { Injectable, OnInit } from "@angular/core"
 import { Observable } from "rxjs/Observable"
 import { map } from 'rxjs/operators';
 import { Headers, Http, Response, ResponseContentType } from "@angular/http"
@@ -18,10 +18,10 @@ import {
 } from "./xsd.model"
 
 const Config = {
-  "project": "XSDCCM",
+  "project": "ic-xml",
   "title": "XML Schema Collaborative Configuration Management",
   "host": "http://localhost:8080",
-  "remotehost": "https://xsdccm.specchain.org",
+  "remotehost": "https://icxml.specchain.org",
   "port": ":8080",
   "configfile": "config/xsdccm.json",
   "configurl": "http://localhost:8080/config"
@@ -57,15 +57,14 @@ export class XsdService {
   tabview: string
   txtFilter: string
   selectedxsd: string
-  iepdhost: string
-  selectedXMLProject: string 
-  selectedCfg: any 
-  xsdccmCfg: any =Config
+  projname: string
+  selectedCfg: any
+  xsdccmCfg: any = Config
 
   constructor(private http: Http, private errorService: ErrorService) {
     this.configResources()
-    console.log(this.Configs)
-    console.log(this.Resources)
+    //console.log(this.Configs)
+    //console.log(this.Resources)
   }
 
   ngOnInit() {
@@ -75,33 +74,29 @@ export class XsdService {
   configResources() {
     this.http.get(Config.configurl).subscribe(
       (response) => {
-        var cfglist = JSON.parse(response["_body"])
-        //console.log(cfglist)
-        this.Configs["XSDCCM"] = cfglist["XSDCCM"]
-        for (var pr in cfglist["XSDCCM"].projects) {
-          var proj = cfglist["XSDCCM"].projects[pr]
-          var projname = proj.project
-          //console.log("projname: " + projname)
-          var xmlproject = cfglist[projname]
-          this.Configs[projname] = xmlproject
-          //console.log("xmlproject: " + xmlproject.title)
-          var resrcs = xmlproject.resources
-          this.Resources[projname]=[]
-          for (var r in resrcs) {
-            this.Resources[projname][resrcs[r].name] = xmlproject.host + 'file/' + resrcs[r].name
-          }
-          var projimp = xmlproject.implementations
-          for (var ip in projimp) {
-            projimp[ip]
-            var sbprojname = projimp[ip].name
-            var sbproj = cfglist[sbprojname]
-            this.Configs[sbprojname] = sbproj
-            //console.log("sbprojname: "+sbprojname)
-            var subprojrsrcs = sbproj.resources
-            this.Resources[sbprojname]=[]
-            for (var r in subprojrsrcs) {
-              this.Resources[sbprojname][subprojrsrcs[r].name] = sbproj.host + 'file/' + subprojrsrcs[r].name
-            }
+        var configlist = JSON.parse(response["_body"])
+        //console.log(configlist)
+        this.projname = this.xsdccmCfg.project
+        //console.log("projname: " + this.projname)
+        this.Configs[this.projname] = configlist[this.projname]
+        this.Configs.push(configlist[this.projname])
+        //console.log("xmlproject: " + configlist[this.projname].title)
+        var resrcs = configlist[this.projname].resources
+        this.Resources[this.projname] = []
+        for (var r in resrcs) {
+          this.Resources[this.projname][resrcs[r].name] = configlist[this.projname].host + configlist[this.projname].project + '/file/' + resrcs[r].name
+        }
+        var projimp = configlist[this.projname].implementations
+        for (var ip in projimp) {
+          projimp[ip]
+          var sbprojname = projimp[ip].name
+          var sbproj = configlist[sbprojname]
+          this.Configs[sbprojname] = sbproj
+          this.Configs.push(sbproj)
+          var subprojrsrcs = sbproj.resources
+          this.Resources[sbprojname] = []
+          for (var r in subprojrsrcs) {
+            this.Resources[sbprojname][subprojrsrcs[r].name] = sbproj.host + sbprojname + '/file/' + subprojrsrcs[r].name
           }
         }
       })
@@ -112,29 +107,14 @@ export class XsdService {
   }
 
   selectProject(cfg: any) {
-    console.log(cfg)
+    //console.log(cfg)
     this.openTab(cfg["project"])
     if (this.isOpenTab(cfg["project"])) {
       this.selectedcfg = cfg
       this.selectedxsd = cfg["project"]
-      console.log(this.selectedxsd)
-      if (this.Configs[this.selectedxsd]["resources"]) {
-        if (!this.jsondata[this.selectedxsd]) {
-          this.jsondata[this.selectedxsd] = []
-          if (this.jsonResource(this.selectedxsd, "refxsdjson")) {
-            this.getComponents(this.jsondata[this.selectedxsd]["refxsdjson"])
-            return this.jsondata[this.selectedxsd]["refxsdjson"]
-          } else {
-            this.iepdJsonResource(this.selectedxsd, "refxsdjson").subscribe(
-              (rxj => {
-                this.jsondata[this.selectedxsd]["refxsdjson"] = rxj
-                this.getComponents(rxj)
-                return rxj
-              })
-            )
-          }
-        }
-      } else {
+      //console.log(this.selectedxsd)
+      //console.log(this.Resources[this.selectedxsd]['iepxsdjson'])
+      if (this.Resources[this.selectedxsd]['iepxsdjson']) {
         if (!this.jsondata[this.selectedxsd]) {
           this.jsondata[this.selectedxsd] = []
         }
@@ -143,8 +123,24 @@ export class XsdService {
           return this.jsondata[this.selectedxsd]["iepxsdjson"]
         } else {
           this.iepdJsonResource(this.selectedxsd, "iepxsdjson").subscribe(
+            (rxj => {
+              this.jsondata[this.selectedxsd]["iepxsdjson"] = rxj
+              this.getComponents(rxj)
+              return rxj
+            })
+          )
+        }
+      } else if (this.Resources[this.selectedxsd]['refxsdjson']) {
+        if (!this.jsondata[this.selectedxsd]) {
+          this.jsondata[this.selectedxsd] = []
+        }
+        if (this.jsonResource(this.selectedxsd, "refxsdjson")) {
+          this.getComponents(this.jsondata[this.selectedxsd]["refxsdjson"])
+          return this.jsondata[this.selectedxsd]["refxsdjson"]
+        } else {
+          this.iepdJsonResource(this.selectedxsd, "refxsdjson").subscribe(
             (ixj => {
-              this.jsondata[this.selectedxsd]["iepxsdjson"] = ixj
+              this.jsondata[this.selectedxsd]["refxsdjson"] = ixj
               this.getComponents(ixj)
               return ixj
             })
@@ -153,11 +149,13 @@ export class XsdService {
       }
     }
   }
+
   isProjSel(n) {
     if (this.selectedxsd === n) {
       return true
     }
   }
+
   openTab(tab) {
     //console.log(tab)
     this.tabview = tab
@@ -167,6 +165,7 @@ export class XsdService {
       this.activeTabs.push(tab)
     }
   }
+
   isOpenTab(tab) {
     if (this.activeTabs.indexOf(tab) > -1) {
       return true
@@ -187,8 +186,8 @@ export class XsdService {
   }
 
   iepdXMLResource(xsdsel: string, resname: string) {
-    //console.log("iepdXMLResource " + xsdsel + " - " + resname)
-    //console.log("url: " + this.Resources[xsdsel][resname])
+    console.log("iepdXMLResource " + xsdsel + " - " + resname)
+    console.log("url: " + this.Resources[xsdsel][resname])
     return this.http.get(this.Resources[xsdsel][resname]).pipe(
       map(
         (response: Response) => {
@@ -210,7 +209,8 @@ export class XsdService {
   }
 
   iepdJsonResource(xsdsel: string, resname: string) {
-    //console.log("iepdJsonResource " + xsdsel + " - " + resname)
+    console.log("iepdJsonResource " + xsdsel + " - " + resname)
+    console.log(this.Resources[xsdsel][resname])
     return this.http.get(this.Resources[xsdsel][resname]).pipe(
       map(
         (response: Response) => {
@@ -224,10 +224,10 @@ export class XsdService {
   }
 
   validateXml(xmlstrng: string, xsdname: string) {
-    //console.log("validateXml")
+    console.log("validateXml")
     this.validating = true
     var valdata = { package: this.selectedxsd, xmlstr: xmlstrng, xsdname: xsdname }
-    return this.http.post(this.cfg.host.concat('validate'), valdata).pipe(
+    return this.http.post(this.xsdccmCfg.host.concat('/validate'), valdata).pipe(
       map(
         (response: Response) => {
           // var b=response['_body']
@@ -248,6 +248,7 @@ export class XsdService {
         })
     )
   }
+
   verifyStr(cfg: any, name: string, str: string) {
     var digest = crypto.createHash('sha256').update(str, 'utf8').digest('hex')
     return this.http.post(cfg['host'].concat('verify'), { id: name, digest: digest }).pipe(
@@ -258,6 +259,7 @@ export class XsdService {
         })
     )
   }
+
   toArray(n) {
     var a = []
     for (var i in n) {
@@ -265,6 +267,7 @@ export class XsdService {
     }
     return a
   }
+
   getComponents(xsdjsondata: object) {
     this.simpletypes[this.selectedxsd] = []
     this.complextypes[this.selectedxsd] = []
@@ -367,6 +370,7 @@ export class XsdService {
     //console.log(this.xsd)
     return this.xsd[this.selectedxsd]
   }
+
   nameList(narray: any[]) {
     let nl: string[] = []
     for (var n in narray) {
@@ -374,6 +378,7 @@ export class XsdService {
     }
     return nl
   }
+
   downloadDocument(url: string, name: string, callback) {
     const headers = new Headers({ responseType: ResponseContentType.Text })
     return this.http.get(url, { headers: headers, responseType: ResponseContentType.Text }).map(
@@ -382,6 +387,7 @@ export class XsdService {
       }
     )
   }
+
   selElement(nodename: string) {
     this.editMode = false
     if (this.xsd) {
@@ -396,6 +402,7 @@ export class XsdService {
       }
     }
   }
+
   selSimpleType(nodename: string) {
     this.editMode = false
     if (this.xsd) {
@@ -408,11 +415,12 @@ export class XsdService {
       }
     }
   }
+
   selComplexType(nodename: string) {
     this.editMode = false
     if (this.xsd) {
       for (var n in this.xsd[this.selectedxsd].complextypes)
-        if (this.xsd[this.selectedxsd].complextypes[n].name === nodename) {
+        if (this.xsd[this.selectedxsd].complextypes[n].typename === nodename) {
           //console.log("Sel: " + nodename)
           this.nodeSelected = this.xsd[this.selectedxsd].complextypes[n]
           this.getNodeAttributes()
@@ -421,17 +429,21 @@ export class XsdService {
         }
     }
   }
+
   isSel(n) {
     if (this.nodeSelected === n) {
       return true
     }
   }
+
   editNode(n) {
     this.editMode = true
   }
+
   saveChange(n) {
     this.editMode = false
   }
+
   getNodeAttributes() {
     this.nodeattributes = []
     for (var a in this.nodeSelected) {
