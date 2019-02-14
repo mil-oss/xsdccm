@@ -9,7 +9,7 @@ import { XsdComplexType } from "../xsd.model";
   styleUrls: ["./../xsd.component.css"],
 })
 export class ComplextypesComponent implements OnInit {
-  ctypes: XsdComplexType[];
+  ctypes: XsdComplexType[][];
   tabview: string;
   activeTabs: string[];
 

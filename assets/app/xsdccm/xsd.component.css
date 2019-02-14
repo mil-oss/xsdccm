@@ -48,6 +48,10 @@ body {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
+    max-height: 640px;
+    border: thin blue solid;
+    overflow-x: auto;
+    overflow-y: auto;
 }
 
 .hdr {
@@ -66,10 +70,10 @@ body {
 }
 
 .menuCol {
-    max-width: 285px;
+    width: 285px;
     top: 30px;
     border: thin solid blue;
-    max-height: 400px;
+    max-height: 640px;
     overflow-y: auto;
     overflow-x: hidden;
 }

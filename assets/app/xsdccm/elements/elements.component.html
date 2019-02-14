@@ -1,6 +1,6 @@
 <div class="accordion__tab">
-    <div class="accordion__tab-title" (click)="xsdService.openTab(xsdService.selectedXMLProject+xsdService.selectedxsd+'elements')">Elements</div>
-    <div class="accordion__tab-content" *ngIf="xsdService.isOpenTab(xsdService.selectedXMLProject+xsdService.selectedxsd+'elements')">
+    <div class="accordion__tab-title" (click)="xsdService.openTab(xsdService.selectedxsd+'elements')">Elements</div>
+    <div class="accordion__tab-content" *ngIf="xsdService.isOpenTab(xsdService.selectedxsd+'elements')">
         <div class="menulist">
             <div *ngFor="let e of elvaluefilter()">
                 <button class="menulisting" (click)="selectEl(e)" [ngClass]="{selected : xsdService.isSel(e)}">{{e.name}}</button> 

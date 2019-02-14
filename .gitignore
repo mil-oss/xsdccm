@@ -2,15 +2,12 @@
 
 # compiled output
 /tmp
-/src/golang.org/x
 public/xsdccm/*.js
 public/xsdccm/*.html
 
 # dependencies
 /node_modules
-/src/github.com
-/src/golang.org
-/src/gopkg.in
+/src/*
 
 # IDEs and editors
 /.idea
