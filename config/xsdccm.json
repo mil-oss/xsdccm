@@ -1,7 +1,7 @@
 {
     "project":"ic-xml",
     "title":"IC-XML Information Exchange Package Documentation (IEPD)",
-    "host":"https://localhost:8080/",
+    "host":"https://icxml-ccm.specchain.org/",
     "port":":8080",
     "dbloc": "tmp/ic-xml/db/ic-xml.db",
     "configfile": "config/ic-xml-cfg.json",

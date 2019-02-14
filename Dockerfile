@@ -14,6 +14,7 @@ ADD pkg /go/pkg
 ADD src /go/src
 ADD public /go/src/xsdsrv/public
 ADD  config /go/src/xsdsrv/config
+ADD  tmp /go/src/xsdsrv/tmp
 WORKDIR /go/src/xsdsrv
 
 RUN addgroup -g 1000 -S xsduser && \
@@ -21,6 +22,7 @@ RUN addgroup -g 1000 -S xsduser && \
 
 RUN chmod 777 /go/src/xsdsrv/public
 RUN chown -Rf xsduser /go/src/xsdsrv/config
+RUN chown -Rf xsduser /go/src/xsdsrv/tmp
 #build the binary with debug information removed
 RUN go build -ldflags '-w -s' -a -installsuffix cgo -o xsdsrv
 

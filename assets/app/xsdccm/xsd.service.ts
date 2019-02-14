@@ -20,11 +20,11 @@ import {
 const Config = {
   "project": "ic-xml",
   "title": "XML Schema Collaborative Configuration Management",
-  "host": "http://localhost:8080",
+  "host": "https://icxml-ccm.specchain.org",
   "remotehost": "https://icxml.specchain.org",
   "port": ":8080",
   "configfile": "config/xsdccm.json",
-  "configurl": "http://localhost:8080/config"
+  "configurl": "https://icxml-ccm.specchain.org/config"
 }
 const httpOptions = {
   headers: new Headers({
