@@ -8,6 +8,8 @@ public/xsdccm/*.html
 # dependencies
 /node_modules
 /src/*
+/pkg/*
+/bin/*
 
 # IDEs and editors
 /.idea
