@@ -1,0 +1,16 @@
+version: "3"
+services:
+
+  spdx-xsdccm:
+    build: ./dist/spdx
+    ports:
+      - '8585:8080'
+    volumes:
+      - ./dist/spdx/xsdsrv/config:/go/src/xsdsrv/config
+    
+  icxml-xsdccm:
+    build: ./dist/spdx
+    ports:
+      - '9090:8080'
+    volumes:
+      - ./dist/icxml/xsdsrv/config:/go/src/xsdsrv/config

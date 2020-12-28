@@ -1,0 +1,55 @@
+{
+    "project":"ic-xml",
+    "title":"IC-XML Information Exchange Package Documentation (IEPD)",
+    "headertxt":"Ion Channel’s Software EVidence Archive (SEVA) establishes compatibility with all XML defined standards by using National Information Exchange Model (NIEM) design rules to integrate XML schema for SPDX, CyloneDX, and IC-TDF to enable security markings and create trusted reports suitable for automated transfer through cross-domain gateways, and trust-less encrypted distribution.",
+    "host":"https://icxml-ccm.specchain.org/",
+    "port":":8080",
+    "dbloc": "tmp/ic-xml/db/ic-xml.db",
+    "configfile": "config/ic-xml-cfg.json",
+    "reflink": "https://icxml.specchain.org/ic-xml/file/refxsd",
+    "testlink": "https://icxml.specchain.org/ic-xml/file/testdataxml",
+    "configurl": "https://icxml.specchain.org/config",
+    "tempdir":"tmp/",
+    "temppath":"tmp/ic-xml/",
+    "resources": [
+        {
+            "name": "refxsd",
+            "filename": "ic-niem-ref.xsd",
+            "src": "xml/xsd/ic-niem-ref.xsd",
+            "path": "xml/xsd/ic-niem-ref.xsd",
+            "description": "NIEM Conformant Reference XML Schema for IC-XML data"
+        },
+        {
+            "name": "refxsdjson",
+            "filename": "ic-niem-ref-xsd.json",
+            "src": "json/ic-niem-ref-xsd.json",
+            "path": "json/ic-niem-ref-xsd.json",
+            "description": "JSON Representation of Reference XML Schema for IC-XML data"
+        },
+        {
+            "name": "testdataxml",
+            "filename": "ic-xml-test-data.xml",
+            "src": "xml/instance/IC-Testdata.xml",
+            "path": "xml/instance/IC-Testdata.xml",
+            "description": "Test values for all IC-XML data items"
+        }
+    ],
+    "implementations": [
+        {
+            "title": "IC TDF IEPD",
+            "name": "ic-tdf",
+            "src": "config/ic-tdf-cfg.json",
+            "srcurl": "https://icxml.specchain.org/ic-tdf/file/config",
+            "path": "config/ic-tdf-cfg.json",
+            "description": "IC-TDF XML Information Exchange Package"
+        },
+        {
+            "title": "IC BOE IEPD",
+            "name": "ic-boe",
+            "src": "config/ic-boe-cfg.json",
+            "srcurl": "https://icxml.specchain.org/ic-boe/file/config",
+            "path": "config/ic-boe-cfg.json",
+            "description": "IC-BOE XML Information Exchange Package"
+        }
+    ]
+}

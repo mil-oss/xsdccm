@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {
     "start": "./xsdsrv",
-    "build": "del-cli public/xsdccm/js/app && webpack --config webpack.config.dev.js --progress --profile --watch",
-    "build:prod": "del-cli public/xsdccm/js/app && ngc -p tsconfig.aot.json && ngc -p tsconfig.aot.json && webpack --config webpack.config.prod.js --progress --profile --bail && del-cli 'assets/app/**/*.js' 'assets/app/**/*.ngsummary.json' 'assets/app/**/*.ngstyle.*'"
+    "build": "del-cli public/xsdccm/*.js && webpack --config webpack.config.dev.js --progress --profile --watch",
+    "build:prod": "del-cli public/xsdccm/*.js && ngc -p tsconfig.aot.json && ngc -p tsconfig.aot.json && webpack --config webpack.config.prod.js --progress --profile --bail && del-cli 'assets/app/**/*.js' 'assets/app/**/*.ngsummary.json' 'assets/app/**/*.ngstyle.*'",
+    "build:spdx": "del-cli dist/spdx/xsdsrv/public/xsdccm/*.js && ngc -p tsconfig.aot.json && ngc -p tsconfig.aot.json && webpack --config dist/spdx/webpack.config.prod.js --progress --profile --bail && del-cli 'assets/app/**/*.js' 'assets/app/**/*.ngsummary.json' 'assets/app/**/*.ngstyle.*'",
+    "build:icxml": "del-cli dist/icxml/xsdsrv/public/xsdccm/*.js && ngc -p tsconfig.aot.json && ngc -p tsconfig.aot.json && webpack --config dist/icxml/webpack.config.prod.js --progress --profile --bail && del-cli 'assets/app/**/*.js' 'assets/app/**/*.ngsummary.json' 'assets/app/**/*.ngstyle.*'"
   },
   "dependencies": {
     "@angular/animations": "^7.2.15",
@@ -50,7 +52,7 @@
     "typescript": "3.2.1",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.8",
-    "webpack-dev-server": "^3.8.0",
+    "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2"
   }
 }

@@ -2,6 +2,7 @@
 
 # compiled output
 /tmp
+/dist
 public/xsdccm/*.js
 public/xsdccm/*.html
 
@@ -18,6 +19,7 @@ public/xsdccm/*.html
 .c9/
 *.launch
 .settings/
+.history/
 
 # IDE - VSCode
 .vscode/*

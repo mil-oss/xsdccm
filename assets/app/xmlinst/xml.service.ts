@@ -108,18 +108,18 @@ export class XmlService {
   //{name,ism}
   getInstance(jobj) {
     this.xmldata.Instances[jobj.name] = {}
-    this.http.get(this.xsdService.xsdccmCfg.Remotehost + "test_instance.xml").subscribe(
+    this.http.get(this.xsdService.xsdcfg.Remotehost + "test_instance.xml").subscribe(
       (response) => {
         this.xmldata.Instances[jobj.name] = { name: jobj.name, file: "test_instance.xml", content: response['_body'] };
       });
-    this.http.get(this.xsdService.xsdccmCfg.Remotehost + "test_instance.json").subscribe(
+    this.http.get(this.xsdService.xsdcfg.Remotehost + "test_instance.json").subscribe(
       (response) => {
         var jdta = JSON.parse(response['_body']);
         this.xmldata.Instances[jobj.name].json = jdta;
       });
   }
   getTestData(params) {
-    this.http.get(this.xsdService.xsdccmCfg.Remotehost + "test_data.xml").subscribe(
+    this.http.get(this.xsdService.xsdcfg.Remotehost + "test_data.xml").subscribe(
       (response) => {
         this.xmldata.Tests[params.name] = { name: params.name, file: "test_data.xml", content: response["_body"] };
       });
