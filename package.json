@@ -23,7 +23,7 @@
     "@angular/router": "^7.2.15",
     "@angular/upgrade": "^7.2.15",
     "bcryptjs": "^2.4.3",
-    "body-parser": "~1.18.3",
+    "body-parser": "~2.3.0",
     "cookie-parser": "^1.4.4",
     "core-js": "^2.6.9",
     "debug": "~4.1.0",
@@ -52,7 +52,7 @@
     "typescript": "3.2.1",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.8",
-    "webpack-dev-server": "^3.11.0",
+    "webpack-dev-server": "^6.0.0",
     "webpack-merge": "^4.2.2"
   }
 }
