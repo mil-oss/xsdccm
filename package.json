@@ -52,7 +52,7 @@
     "typescript": "3.2.1",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.8",
-    "webpack-dev-server": "^3.11.0",
+    "webpack-dev-server": "^6.1.0",
     "webpack-merge": "^4.2.2"
   }
 }
